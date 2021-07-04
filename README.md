@@ -3,6 +3,8 @@
 
 Web3 app to mint and manage Ethereum ERC-721 tokens claiming ownership of an audio file's hashed audio fingerprint.
 
+![design](./__meta/rlp-records-design.png)
+
 ## Claiming Music Ownership
 * Musician creates a mastered track ("To Publish")
 * Application determines audio fingerprint
