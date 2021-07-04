@@ -1,4 +1,4 @@
-# RLP Records - create your own record label
+# RLP Records - create and publish your musical works with on-chain ownership
 Web3 app to mint and manage Ethereum ERC-721 tokens claiming ownership of an audio file's hashed audio fingerprint.
 
 ## Claiming Music Ownership
