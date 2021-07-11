@@ -4,7 +4,7 @@ import Navigation from "./components/Navigation";
 const Web3App = () => {
   return (
     <div className="Web3App">
-      <Navigation name={"RLP Records"} />
+      <Navigation brand={"RLP Records"} />
       <p> Record Stacks Go Here </p>
     </div>
   );
