@@ -6,19 +6,19 @@ const Navigation = ({brand}) => {
 	 const acc = useETHAccounts();
 
 	 return (
-			<nav class="">
-				 <div class="container mx-auto">
+			<nav className="">
+				 <div className="container mx-auto">
 
-						<ul class="navbar-nav">
-							 <li class="nav-item">
+						<ul className="navbar-nav">
+							 <li className="nav-item">
 									<a href="/">{brand}</a>
 							 </li>
 
-							 <li class="nav-item">
-									<a href="#">New</a>
+							 <li className="nav-item">
+									<a href="#">New Record</a>
 							 </li>
 
-							 <li class="nav-item">
+							 <li className="nav-item">
 									<p>{acc}</p>
 							 </li>
 						</ul>
