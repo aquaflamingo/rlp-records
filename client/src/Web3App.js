@@ -5,13 +5,13 @@ import RecordStack from "./components/RecordStack";
 import { useRecordLabel } from "./hooks/useRecordLabel";
 
 const Web3App = () => {
-	 const labelId = useRecordLabel();
+  const labelId = useRecordLabel();
 
   return (
     <div className="Web3App">
       <Navigation brand={"RLP Records"} />
-			 <Sidebar labelId={labelId}/>
-			 <RecordStack labelId={labelId}/>
+      <Sidebar labelId={labelId} />
+      <RecordStack labelId={labelId} />
     </div>
   );
 };
