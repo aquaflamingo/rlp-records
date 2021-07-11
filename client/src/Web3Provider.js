@@ -1,13 +1,9 @@
 
 import { Web3ReactProvider } from '@web3-react/core'
-import { Web3Provider as EthersWeb3Provider } from '@ethersproject/providers'
-//
-// TODO ENV
-const infuraProjectId = '95202223388e49f48b423ea50a70e336';
-
+import { Web3Provider as EthersJsWeb3Provider} from '@ethersproject/providers'
 
 const getLibrary = (provider) => {
-  const lib = new EthersWeb3Provider(provider)
+  const lib = new EthersJsWeb3Provider(provider)
   lib.pollingInterval = 1000
   return lib
 }
