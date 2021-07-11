@@ -1,48 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import { Web3Provider as EthersJsProvider} from '@ethersproject/providers'
+import React, { useState, useEffect } from "react";
+import Navigation from "./components/Navigation";
+import Sidebar from "./components/Sidebar";
+import RecordStack from "./components/RecordStack";
+import { useRecordLabel } from "./hooks/useRecordLabel";
 
 const Web3App = () => {
-	 const { active, connector } = useWeb3React()
-	 const [ ethersjsInstance, setEthersJs ] = useState(null)
-	 const [ account, setAccount ] = useState('')
+	 const labelId = useRecordLabel();
 
-	 useEffect(() => {
-			console.log("Web3App: fetching provider")
-			connector?.getProvider().then(provider => {
-				 console.log("Web3App: provider obtained ", provider)
-				 const instance = new EthersJsProvider(provider)
-				 console.log("Web3App: setting ethers js instance ", instance)
-				 setEthersJs(instance)
-			})
-	 }, [active, connector])
+  return (
+    <div className="Web3App">
+      <Navigation brand={"RLP Records"} />
+			 <Sidebar labelId={labelId}/>
+			 <RecordStack labelId={labelId}/>
+    </div>
+  );
+};
 
-	 useEffect(() => {
-			if (ethersjsInstance === null) {
-				 console.log("Web3App: ethersjs is null")
-				 return
-			}
-			console.log("Web3App: Attempting to list accounts for etherjs")
-
-			// TODO await
-			ethersjsInstance.listAccounts().then((accounts) =>  {
-				 console.log("Web3App: successfully obtained accounts ", accounts)
-				 setAccount(accounts[0])
-			}).catch((err)=> {
-				 debugger
-				 console.log("Web3App: failed to list accounts")
-				 console.error(err)
-			})
-	 }, [ethersjsInstance])
-
-	 return (
-			<div className="Web3App">
-				 <p>
-						Web3 Provider injection was
-						{ethersjsInstance ? ` Successful - Your account is ${account}` : " Not successful" }
-				 </p>
-			</div>
-	 )
-}
-
-export default Web3App
+export default Web3App;
