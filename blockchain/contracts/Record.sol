@@ -13,6 +13,8 @@ contract Record is ERC721, ERC721URIStorage, Ownable {
 
     Counters.Counter private _tokenIdCounter;
 
+	 // @TODO:
+	 // - RecordLP - label sets the token symbol and title
     constructor() ERC721("Record", "RCRD") {}
 
     function safeMint(address to) public onlyOwner {
