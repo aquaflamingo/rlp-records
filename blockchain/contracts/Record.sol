@@ -11,8 +11,9 @@ contract Record is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
-
-		// https://forum.openzeppelin.com/t/function-settokenuri-in-erc721-is-gone-with-pragma-0-8-0/5978/24
+    
+	 // @TODO:
+	 // - RecordLP - label sets the token symbol and title
     constructor() ERC721("Record", "REC") {}
 
     function safeMint(address to) public onlyOwner {
