@@ -7,6 +7,6 @@ describe("Token contract", function () {
 
     await record.deployed();
     expect(await record.name()).to.equal("Record");
-    expect(await record.symbol()).to.equal("RCRD");
+    expect(await record.symbol()).to.equal("RLP");
   });
 });

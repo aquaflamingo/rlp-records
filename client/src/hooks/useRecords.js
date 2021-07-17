@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useRecordRepository } from "../hooks/useRepository";
 import { REC_HASH_RATE } from "../model/Record";
 
-// Squad is a record label records
 export const useRecords = (labelId) => {
   const [records, setRecords] = useState(null);
   const repo = useRecordRepository();
@@ -20,4 +19,30 @@ export const useRecords = (labelId) => {
   }, [labelId, repo]);
 
   return records;
+};
+
+export const useCreateRecord = () => {
+  const [result, setResult] = useState({
+    data: null,
+    error: null,
+    isLoading: false,
+  });
+
+  const repo = useRecordRepository();
+
+  // You POST method here
+  const request = (labelId, record) => {
+    setResult((prev) => ({ ...prev, isLoading: true }));
+
+    repo
+      .createRecord({ labelId, record })
+      .then((res) => {
+        setResult({ data: res.data, isLoading: false, error: null });
+      })
+      .catch((error) => {
+        setResult({ data: null, isLoading: false, error });
+      });
+  };
+
+  return [result, request];
 };

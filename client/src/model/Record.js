@@ -4,7 +4,7 @@ import { RLP_RECORDS } from "./RecordLabel";
 
 // Endof Stubs
 
-const RECORD_STATES = {
+export const RECORD_STATES = {
   // Uploaded, processed, no NFT record, not published
   DRAFT: "DRAFT",
   // Uploaded, processed, has NFT record, not published
