@@ -29,7 +29,7 @@ const RecordList = ({ records }) => {
 
 const RecordStack = ({ labelId }) => {
   const records = useRecords(labelId);
-  console.log("records ", records);
+  console.log("RecordStack: ", records);
 
   return (
     <div className="row">
