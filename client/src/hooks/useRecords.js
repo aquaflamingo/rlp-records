@@ -22,20 +22,27 @@ export const useRecords = (labelId) => {
 };
 
 export const useCreateRecord = () => {
-		const [result, setResult] = useState({data: null, error: null, isLoading: false});
-	 
-	  const repo = useRecordRepository();
+  const [result, setResult] = useState({
+    data: null,
+    error: null,
+    isLoading: false,
+  });
 
-    // You POST method here
-	 const request = (labelId, record) => {
-         setResult(prev => ({...prev, isLoading: true}));
-			   
-				 repo.createRecord({labelId, record}).then(res => {
-            setResult({data: res.data, isLoading: false, error: null});
-         }).catch((error) => {
-            setResult({data: null, isLoading: false, error});
-         })
-    }
+  const repo = useRecordRepository();
 
-    return [result, request];
+  // You POST method here
+  const request = (labelId, record) => {
+    setResult((prev) => ({ ...prev, isLoading: true }));
+
+    repo
+      .createRecord({ labelId, record })
+      .then((res) => {
+        setResult({ data: res.data, isLoading: false, error: null });
+      })
+      .catch((error) => {
+        setResult({ data: null, isLoading: false, error });
+      });
+  };
+
+  return [result, request];
 };

@@ -1,16 +1,16 @@
-import { Record,RECORD_STATES, REC_HASH_RATE } from "../model/Record";
+import { Record, RECORD_STATES, REC_HASH_RATE } from "../model/Record";
 import { RLP_RECORDS } from "../model/RecordLabel";
 
 // RecordRepository is the data access interface for record
 class RecordRepository {
-	 constructor() {
-			// Setup default records
-			this.records = {
-				 [RLP_RECORDS.id]: [REC_HASH_RATE]
-			}
+  constructor() {
+    // Setup default records
+    this.records = {
+      [RLP_RECORDS.id]: [REC_HASH_RATE],
+    };
 
-			console.log("RecordRepository: ", this.records)
-	 }
+    console.log("RecordRepository: ", this.records);
+  }
 
   // Returns all records associated with the label
   listRecords(labelId) {
@@ -21,28 +21,32 @@ class RecordRepository {
     });
   }
 
-	 createRecord({ labelId, record }) {
-			console.log("RecordRepository: creating new record, label: ", labelId, " record: ", record)
+  createRecord({ labelId, record }) {
+    console.log(
+      "RecordRepository: creating new record, label: ",
+      labelId,
+      " record: ",
+      record
+    );
 
-			const rec = Record({
-				 state: RECORD_STATES.DRAFT,
-				 labelId: labelId,
-				 title: record.title,
-				 artist: record.artist
-			})
+    const rec = Record({
+      state: RECORD_STATES.DRAFT,
+      labelId: labelId,
+      title: record.title,
+      artist: record.artist,
+    });
 
-			// TODO fingerprint
-			 this.records[labelId].push(rec)
+    // TODO fingerprint
+    this.records[labelId].push(rec);
 
     return new Promise((resolve, reject) => {
-
-			 resolve({data: {msg: "done"}});
+      resolve({ data: { msg: "done" } });
     });
-	 }
+  }
 
   // FIXME - temporary
   findRecords(labelId) {
-		 // Use default
+    // Use default
     return this.records[labelId];
   }
 }
