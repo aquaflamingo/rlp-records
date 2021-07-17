@@ -92,7 +92,7 @@ const RecordKitForm = ({ labelId }) => {
 
   return (
     <div>
-      <div class="submit-result">
+      <div className="submit-result">
         {isLoading ? "Loading..." : ""}
         {data ? data.msg : ""}
         {error ? error : ""}
