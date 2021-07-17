@@ -1,14 +1,15 @@
 import { Record, RECORD_STATES, REC_HASH_RATE } from "../model/Record";
 import { RLP_RECORDS } from "../model/RecordLabel";
 
+const MOCK_DATA_STORE = {
+  [RLP_RECORDS.id]: [REC_HASH_RATE],
+};
+
 // RecordRepository is the data access interface for record
 class RecordRepository {
   constructor() {
     // Setup default records
-    this.records = {
-      [RLP_RECORDS.id]: [REC_HASH_RATE],
-    };
-
+    this.records = MOCK_DATA_STORE;
     console.log("RecordRepository: ", this.records);
   }
 
