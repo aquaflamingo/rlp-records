@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useRecords } from "../hooks/useRecords";
 
 const RecordSlot = ({ record }) => {
@@ -12,29 +12,44 @@ const RecordSlot = ({ record }) => {
   );
 };
 
-const RecordList = ({ records }) => {
-  const hasItems = records && records.length > 0;
+const RecordList = ({ items }) => {
+  const hasItems = items && items.length > 0;
   let slots = [];
 
   if (hasItems) {
-    slots = records.map((r, index) => <RecordSlot key={index} record={r} />);
+    slots = items.map((r, index) => <RecordSlot key={index} record={r} />);
   }
 
   return (
     <div className="record-list">
-      {hasItems ? slots : <p> No Records found for this label</p>}
+      {hasItems ? slots : <p> No items found for this label</p>}
+    </div>
+  );
+};
+
+const RefreshableList = ({ refresh, items }) => {
+  return (
+    <div className="record-list">
+      <RecordList items={items} />
+      <button onClick={refresh}>Refresh</button>
     </div>
   );
 };
 
 const RecordStack = ({ labelId }) => {
+  const [version, setVersion] = useState(0);
+
+  const refresh = useCallback(() => {
+    setVersion((s) => s + 1);
+  }, []);
+
   const records = useRecords(labelId);
-  console.log("RecordStack: ", records);
+  console.log("RecordStack: records ", records);
 
   return (
     <div className="row">
       <h2>Record Stack</h2>
-      <RecordList records={records} />
+      <RefreshableList refresh={refresh} items={records} />
     </div>
   );
 };
