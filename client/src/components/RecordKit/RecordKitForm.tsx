@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useCreateRecord } from "../../hooks/useRecords";
+import { useCreateRecord } from "../../hooks/useRecords.ts";
 
 const useRecordKitForm = ({ initialValues, onSubmit }) => {
   const [values, setValues] = useState(initialValues || {});

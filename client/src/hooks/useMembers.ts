@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRecordLabelRepository } from "../hooks/useRepository";
+import { useRecordLabelRepository } from "../hooks/useRepository.ts";
 
 export const useMembers = (labelId) => {
   const [members, setMembers] = useState(null);

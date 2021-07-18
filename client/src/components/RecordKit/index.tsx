@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import RecordKitForm from "./RecordKitForm";
+import RecordKitForm from "./RecordKitForm.tsx";
 
 const RecordKit = ({ labelId }) => {
   return (

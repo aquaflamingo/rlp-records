@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useMembers } from "../hooks/useMembers";
+import { useMembers } from "../hooks/useMembers.ts";
 
 const MemberSlot = ({ member }) => {
   return (

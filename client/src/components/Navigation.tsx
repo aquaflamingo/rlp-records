@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useETHAccounts } from "../hooks/useEthers";
+import { useETHAccounts } from "../hooks/useEthers.ts";
 
 const Navigation = ({ brand }) => {
   const acc = useETHAccounts();
