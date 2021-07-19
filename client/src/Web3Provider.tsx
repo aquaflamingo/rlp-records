@@ -7,7 +7,7 @@ const getLibrary = (provider) : EthersJsWeb3Provider => {
   return lib;
 };
 
-const Web3Provider = ({ children }) : Web3ReactProvider => {
+const Web3Provider = ({ children }) => {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>{children}</Web3ReactProvider>
   );

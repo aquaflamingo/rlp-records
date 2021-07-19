@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useRecordRepository } from "../hooks/useRepository.ts";
+import { useRecordRepository } from "../hooks/useRepository";
 import { REC_HASH_RATE } from "../model/Record";
 
 export const useRecords = (labelId) : Array<Record> => {
