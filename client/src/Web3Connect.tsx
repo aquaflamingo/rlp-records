@@ -4,7 +4,7 @@ import { injectedConnector } from "./connectors";
 // Web3Connect is responsible for rendering the initial connect button
 // to initiate Web3 connection using the Web3React hook to communicate with
 // the Web3Provider.
-const Web3Connect = ({ children }) => {
+const Web3Connect = ({ children }) : JSX.Element => {
   const { active, activate } = useWeb3React();
 
   // Attempts to activate the Web3 connection using the injectedConnector

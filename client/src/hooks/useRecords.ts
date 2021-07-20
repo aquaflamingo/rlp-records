@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useRecordRepository } from "../hooks/useRepository";
 import { REC_HASH_RATE } from "../model/Record";
 
-export const useRecords = (labelId) => {
+export const useRecords = (labelId) : Array<Record> => {
   const [records, setRecords] = useState(null);
   const repo = useRecordRepository();
 
@@ -21,7 +21,21 @@ export const useRecords = (labelId) => {
   return records;
 };
 
-export const useCreateRecord = () => {
+type CreateRecordResult = {
+	 data : any;
+	 error : any;
+	 isLoading : boolean;
+};
+
+interface IRecordDraft {
+	 title : string;
+	 artist : string;
+	 audio : File;
+}
+
+type CreateRecordRequest = (labelId : string, values : IDraftRecord) => void;
+
+export const useCreateRecord : Array<CreateRecordResult, CreateRecordRequest> = () => {
   const [result, setResult] = useState({
     data: null,
     error: null,
@@ -30,7 +44,6 @@ export const useCreateRecord = () => {
 
   const repo = useRecordRepository();
 
-  // You POST method here
   const request = (labelId, record) => {
     setResult((prev) => ({ ...prev, isLoading: true }));
 

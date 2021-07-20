@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 
 import { useETHAccounts } from "../hooks/useEthers";
 
-const Navigation = ({ brand }) => {
+interface INavigationProps {
+	 brand : string
+}
+
+const Navigation = ({ brand } : INavigationProps) => {
   const acc = useETHAccounts();
 
   return (
