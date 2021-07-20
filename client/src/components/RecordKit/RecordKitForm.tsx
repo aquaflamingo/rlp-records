@@ -2,15 +2,15 @@ import React, { useRef, useState, useEffect } from "react";
 import { useCreateRecord } from "../../hooks/useRecords";
 import useInputForm  from "../../hooks/useInputForm";
 
-interface IRecordKitFormProps {
+type RecordKitFormProps = {
 	 labelId : string
 }
 
-const RecordKitForm = ({ labelId } : IRecordKitFormProps) => {
+const RecordKitForm = ({ labelId } : RecordKitFormProps) => {
   const [record, setRecord] = useState(null);
   const [{ data, isLoading, error }, createRecord] = useCreateRecord();
 
-  const onUpload = ({ values, errors }) => {
+	const onUpload = ({ values, errors }) : void => {
     console.log("RecordKitForm.onUpload: ", values, errors);
     createRecord(labelId, values);
   };
