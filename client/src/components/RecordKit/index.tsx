@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import RecordKitForm from "./RecordKitForm";
 
-type RecordKitProps = {
+interface IRecordKitProps {
 	 labelId : string
 }
 
-const RecordKit = ({ labelId } : RecordKitProps) => {
+const RecordKit = ({ labelId } : IRecordKitProps) => {
   return (
     <div className="create-record">
       <h2>Record Kit</h2>
