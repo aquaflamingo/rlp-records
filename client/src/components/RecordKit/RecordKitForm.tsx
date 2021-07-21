@@ -10,7 +10,7 @@ const RecordKitForm = ({ labelId } : RecordKitFormProps) => {
   const [record, setRecord] = useState(null);
   const [{ data, isLoading, error }, createRecord] = useCreateRecord();
 
-	const onUpload = ({ values, errors }) : void => {
+	const onUpload = ({ values, errors } : any) : void => {
     console.log("RecordKitForm.onUpload: ", values, errors);
     createRecord(labelId, values);
   };

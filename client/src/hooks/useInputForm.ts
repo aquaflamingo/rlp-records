@@ -25,7 +25,7 @@ const useInputForm = ({ initialValues, onSubmit } : IInputFormProps) => {
     formRendered.current = false;
   }, [initialValues]);
 
-	const handleBlur = (event : React.ChangeEvent<HTMLInputElement>) => {
+	const handleBlur = (event : FormEventHandler<HTMLFormElement>) => {
     const { target } = event;
     const { name } = target;
     setTouched({ ...touched, [name]: true });
@@ -33,7 +33,7 @@ const useInputForm = ({ initialValues, onSubmit } : IInputFormProps) => {
   };
 
   // Set any errors if applicable
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (event: FormEventHandler<HTMLFormElement>) => {
     const { target } = event;
     const { name, value } = target;
     event.persist();
@@ -41,7 +41,7 @@ const useInputForm = ({ initialValues, onSubmit } : IInputFormProps) => {
   };
 
   // Combines the file values from upload field to the values
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: FormEventHandler<HTMLFormElement>) => {
     const { target } = event;
     const { name, files } = target;
     event.persist();
@@ -51,7 +51,7 @@ const useInputForm = ({ initialValues, onSubmit } : IInputFormProps) => {
   };
 
   // Set any errors if applicable and submit with onSubmit
-	const handleSubmit = (event : React.ChangeEvent<HTMLInputElement>) => {
+	const handleSubmit = (event : FormEventHandler<HTMLFormElement>) => {
     if (event) event.preventDefault();
     setErrors({ ...errors });
     onSubmit({ values, errors });
