@@ -1,7 +1,8 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useRecords } from "../hooks/useRecords.ts";
+import { useRecords } from "../hooks/useRecords";
+import { Record } from "../model/Record";
 
-const RecordSlot = ({ record }) => {
+const RecordSlot = (record : Record) => {
   return (
     <div className="record">
       <h3>{record.title}</h3>
