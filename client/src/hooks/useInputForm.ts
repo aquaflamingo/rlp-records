@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 
-type InputFormProps = {
+interface IInputFormProps {
 	 initialValues: any;
 	 onSubmit: (submitResult : any) => void;
 }
