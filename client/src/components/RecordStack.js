@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useRecords } from "../hooks/useRecords.ts";
+import { useRecords } from "../hooks/useRecords";
 
 const RecordSlot = ({ record }) => {
   return (
