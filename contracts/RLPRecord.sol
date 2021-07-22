@@ -1,31 +1,34 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract Record is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
+contract RLPRecord is ERC721URIStorage, ERC721Enumerable, Ownable {
     using Counters for Counters.Counter;
-
     Counters.Counter private _tokenIdCounter;
     
-	 // @TODO:
-	 // - RecordLP - label sets the token symbol and title
-    constructor() ERC721("Record", "REC") {}
+    constructor() ERC721("RLPRecord", "RLP") {}
 
-    function safeMint(address to) public onlyOwner {
-        _safeMint(to, _tokenIdCounter.current());
+		function mintToken(address to, string memory uri) public onlyOwner returns (uint256) {
+			 // Initial id would be zero, increment to one.
         _tokenIdCounter.increment();
-    }
+
+			  uint256 newRecordId = _tokenIdCounter.current();
+
+        _safeMint(to, newRecordId);
+        _setTokenURI(newRecordId, uri);
+
+				return newRecordId;
+		}
 
     function _baseURI() internal pure override returns (string memory) {
         return "ipfs://";
     }
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+	 function _beforeTokenTransfer(address from, address to, uint256 tokenId)
         internal
         override(ERC721, ERC721Enumerable)
     {
@@ -45,7 +48,7 @@ contract Record is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         return super.tokenURI(tokenId);
     }
 
-    function supportsInterface(bytes4 interfaceId)
+  function supportsInterface(bytes4 interfaceId)
         public
         view
         override(ERC721, ERC721Enumerable)
