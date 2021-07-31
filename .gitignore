@@ -3,3 +3,9 @@ node_modules
 #Hardhat files
 cache
 artifacts
+webclient/contracts/
+webclient/src/contracts/
+
+hardhatAccounts.json
+deployments/localhost
+webclient/contracts
