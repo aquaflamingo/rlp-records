@@ -1,13 +1,20 @@
+require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-waffle");
+
+// ethers.getContract helper
+require("hardhat-deploy-ethers");
+require("hardhat-deploy");
+
+const hardhatAccounts = require("./hardhatAccounts")
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async () => {
-  const accounts = await ethers.getSigners();
+	 const accounts = await ethers.getSigners();
 
-  for (const account of accounts) {
-    console.log(account.address);
-  }
+	 for (const account of accounts) {
+			console.log(account.address);
+	 }
 });
 
 // task("recordInfo", "Prints the URI of a token")
@@ -56,10 +63,19 @@ task("records", "Prints the list of records for an account")
 
 const HH_NETWORK_ID = 31337
 
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
 module.exports = {
-  solidity: "0.8.4",
+	 solidity: "0.8.4",
+	 networks: {
+			hardhat: {
+				 accounts: hardhatAccounts.accounts 
+			}
+	 },
+	 namedAccounts: {
+			deployer: 0,
+			tokenOwner: 0,
+	 },
+	 paths: {
+			sources: 'contracts',
+	 },
 };
 
