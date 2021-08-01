@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useRecords } from "../hooks/useRecords";
 import  useMint  from "../hooks/useMint";
 
-const RecordSlot = ({ record, onMint }) => {
+const RecordSlot = ({ record }) => {
 	 const mintRequest = useMint()
 
 	 const mintFn = () => {
@@ -25,7 +25,6 @@ const RecordSlot = ({ record, onMint }) => {
 };
 
 const RecordList = ({ items }) => {
-
   const hasItems = items && items.length > 0;
   let slots = [];
 
