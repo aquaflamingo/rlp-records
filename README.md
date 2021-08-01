@@ -3,34 +3,68 @@
 
 Web3 app to mint and manage Ethereum ERC-721 tokens claiming ownership of an audio file's hashed audio fingerprint.
 
-![design](./__meta/rlp-records-design.png)
+## Design
+* [Design](./docs/design.md)
 
-## Claiming Music Ownership
-* Musician creates a mastered track ("To Publish")
-* Application determines audio fingerprint
-* Hash that finger print
-* Store hashed audio finger print and meta data (title, artist name, record label, if any) as a file on IPFS
-		* Potential to extend the platform and create your own record label 
-* Mint NFT token with pointer to that URI 
-* A musician or publisher who owns the account has now published and claims ownership of that track
+## Build & Run
+### IPFS
+* TODO
 
-## Web Interface
-The contract is front end agnostic. Music files can actually be stored off chain and distributed by major digital music providers (e.g. iTunes, Beatport, TraxSource, etc)
+### Blockchain
+```bash
+# Install deps
+yarn 
+```
 
-* Allow user to upload music, draft and mint an ownership token for their music
-* Allow user to play their tracks (music stored off-chain on server)
-* Allow musicians to create their own record label that "owns" all the music
-	 * Technically it would just be a name at the start
-* Allow users to publish their music to digital music stores 
+Compile contracts via:
+```
+npx hardhat compile
+```
 
-### Proof of Concept
-* Audio fingerprint engine
-* NFT contracts and IPFS data storage
-* Mint record via web app
+Deploy via:
+```
+npx hardhat run scripts/deploy.js --network localhost
+```
 
-### v0
-* Sign up
-* Create a record label
-* See tracks that you own
-	 * Would require a self-custody wallet 
-* Mint a record -> stores on IPFS
+#### Tasks
+See `hardhat.config.js`
+
+List accounts:
+```bash
+npx hardhat accounts
+```
+
+Get record information:
+```bash
+npx hardhat recordInfo --tokenId id 
+```
+
+Get owned records:
+```bash
+npx hardhat records --account account
+```
+
+### Web Client
+```bash
+# Go into webclient
+cd webclient
+
+# Install deps
+yarn
+```
+
+Start via:
+```
+yarn start
+
+# Running on localhost:3000
+```
+
+* Setup custom MetaMask network:
+	 * Name: `hardhat`
+	 * RPC: http://127.0.0.1:8545
+	 * ChainId: 31337
+
+* Import Hardhat Accounts in `hardhatAccounts.json` into MetaMask
+	 * This is so that you can interact with the RLP contract which is `Ownable` by the deployer via Hardhat (e.g. `ethers.getSigners(0)`)
+
