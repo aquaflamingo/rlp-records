@@ -1,14 +1,11 @@
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-waffle");
-
-// ethers.getContract helper
 require("hardhat-deploy-ethers");
 require("hardhat-deploy");
-
 const hardhatAccounts = require("./hardhatAccounts")
 
-// This is a sample Hardhat task. To learn how to create your own go to
-// https://hardhat.org/guides/create-task.html
+const HH_NETWORK_ID = 31337
+
 task("accounts", "Prints the list of accounts", async () => {
 	 const accounts = await ethers.getSigners();
 
@@ -17,51 +14,47 @@ task("accounts", "Prints the list of accounts", async () => {
 	 }
 });
 
-// task("recordInfo", "Prints the URI of a token")
-// 	 .addParam("tokenId", "The token id to check for")
-// 	 .setAction(async () => {
-// 			// First signer is assumed owner 
-// 			const owner = await ethers.getSigners(0);
-// 			const RLPRecord = await ethers.getContractFactory("RLPRecord");
-// 			const rlpRecordContract = new ethers.Contract(RLPRecord, RLPRecord.interface);
 
-// 			// const rlpRecordContract = await ethers.getContract("RLPRecord", owner);
+task("mintRecord", "Mint a record for an account")
+	 .addParam("account", "The account to check records for")
+	 .addParam("uri", "The URI to storage record publishing information")
+	 .setAction(async ({account, uri}) => {
+			const accs = await getNamedAccounts();
+			const owner = accs.tokenOwner
 
-// 			// Get Deployed Instance
-// 			await rlpRecordContract.deployed();
+			const rlpRecordContract = await ethers.getContract("RLPRecord");
+			const tx = await rlpRecordContract.mintToken(account, uri)
 
-// 			const uri = await rlpRecordContract.tokenURI(tokenId)
-
-// 			console.log("URI for ", tokenId, "is ", uri)
-// 	 });
+			console.log("Minted record ", tx.hash)
+	 });
 
 task("records", "Prints the list of records for an account")
 	 .addParam("account", "The account to check records for")
-	 .setAction(async () => {
-			// First signer is assumed owner 
-			const owner = await ethers.getSigners(0);
-			// TODO - cannot find contract RLPRecord
-			const rlpRecordContract = await ethers.getContract("RLPRecord");
+	 .setAction(async ({account}) => {
+			const accs = await getNamedAccounts();
+			const owner = accs.tokenOwner
 
-			// Get Deployed Instance
-			await rlpRecordContract.deployed();
+			const rlpRecordContract = await ethers.getContract("RLPRecord");
 
 			const erc721Count = await rlpRecordContract.balanceOf(account)
 
-			console.log("The account ", account, "has ", erc721Count, " records")
+			console.log(account, "has", erc721Count.toString(), "RLPRecords.")
 
 			const erc721s = []
 
-			for (let i = 0; i < erc721Count; i++) {
-				 let t = await erc721s.tokenOfOwnerByIndex(account, i)
+			console.log("Iterating through tokens")
 
-				 erc721s.push(t)
+			for (let i = 0; i < erc721Count; i++) {
+				 console.log("Record", i)
+
+				 let tokenId = await rlpRecordContract.tokenOfOwnerByIndex(account, i)
+				 let meta = await rlpRecordContract.tokenURI(tokenId.toString())
+
+				 erc721s.push({ tokenId: tokenId.toString(), meta: meta})
 			}
 
-			console.log(t);
+			console.log("Records are", erc721s)
 	 });
-
-const HH_NETWORK_ID = 31337
 
 module.exports = {
 	 solidity: "0.8.4",
@@ -73,9 +66,6 @@ module.exports = {
 	 namedAccounts: {
 			deployer: 0,
 			tokenOwner: 0,
-	 },
-	 paths: {
-			sources: 'contracts',
-	 },
+	 }
 };
 
