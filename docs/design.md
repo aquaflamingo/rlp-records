@@ -1,6 +1,6 @@
 # Design
 
-![design](./__meta/rlp-records-design.png)
+![design](./rlp-records-design.png)
 
 ## Claiming Music Ownership
 * Musician creates a mastered track ("To Publish")

@@ -17,13 +17,14 @@ yarn
 ```
 
 Compile contracts via:
-```
+```bash
 npx hardhat compile
 ```
 
 Deploy via:
-```
-npx hardhat run scripts/deploy.js --network localhost
+```bash
+# Deploy compiled contracts to the localhost hardhat RPC and write the contract results to webclient folder to access
+npx hardhat deploy --network localhost --export webclient/src/contracts/index.json
 ```
 
 #### Tasks
@@ -31,17 +32,19 @@ See `hardhat.config.js`
 
 List accounts:
 ```bash
-npx hardhat accounts
+npx hardhat --network localhost accounts
 ```
+
+WIP:
 
 Get record information:
 ```bash
-npx hardhat recordInfo --tokenId id 
+npx hardhat recordInfo --network localhost --tokenId id 
 ```
 
 Get owned records:
 ```bash
-npx hardhat records --account account
+npx hardhat records --network localhost --account account
 ```
 
 ### Web Client
@@ -66,5 +69,5 @@ yarn start
 	 * ChainId: 31337
 
 * Import Hardhat Accounts in `hardhatAccounts.json` into MetaMask
-	 * This is so that you can interact with the RLP contract which is `Ownable` by the deployer via Hardhat (e.g. `ethers.getSigners(0)`)
+	 * This is so that you can interact with the RLP contract which is `Ownable` by the deployer via Hardhat (e.g. `ethers.getSigners(0)`), see also `namedAccounts`
 
