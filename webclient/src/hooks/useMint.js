@@ -17,8 +17,7 @@ const useContract = () => {
 	 const rlpRecordContract = new ethers.Contract(
 				 RLPRecord.address,
 				 RLPRecord.abi,
-				 // RLPRecord is ownable, 
-				 // needs to be owner to interact
+				 // RLPRecord is ownable needs to be owner to interact
 				 ethersjsInstance.getSigner(0)
 			 );
 
@@ -32,8 +31,8 @@ const useContract = () => {
 
 const useMint = () => {
 	 // Get RLPRecord Contract Instance
-	 // Call Mint on It
-	 // Return Minted NFT address
+	 // mintToken
+	 // Return minted NFT id
 
 	 const contract = useContract();
 	 const ethersjsInstance = useEthersJs();
@@ -45,13 +44,7 @@ const useMint = () => {
 			const fakeOwner = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
 			const fakeIpfsMetadataURI = "ipfs://0xdeadbeef"
 
-			console.log("What is contract")
-			console.log(contract)
-
-
-			// TODO add mintToken with metadata 
 			const tx = await contract.mintToken(fakeOwner, fakeIpfsMetadataURI)
-
         // The transaction receipt contains events emitted while processing the transaction.
         const receipt = await tx.wait()
         for (const event of receipt.events) {
