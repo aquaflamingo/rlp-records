@@ -2,8 +2,9 @@ import React, { useEffect, useState, useCallback } from "react";
 import { ethers } from "ethers";
 import { useEthersJs, useHardhat } from "./useEthers";
 
-import RLPRecord from "../contracts/RLPRecord.json"
-import contractAddresses from "../contracts/contractAddresses.json"
+import Artifacts from "../contracts"
+
+const RLPRecord = Artifacts.contracts.RLPRecord
 
 const useContract = () => {
 	 const ethersjsInstance = useEthersJs();
@@ -14,8 +15,10 @@ const useContract = () => {
 				 return;
 
 	 const rlpRecordContract = new ethers.Contract(
-				 contractAddresses.RLPRecord,
+				 RLPRecord.address,
 				 RLPRecord.abi,
+				 // RLPRecord is ownable, 
+				 // needs to be owner to interact
 				 ethersjsInstance.getSigner(0)
 			 );
 
@@ -36,8 +39,6 @@ const useMint = () => {
 	 const ethersjsInstance = useEthersJs();
 
 	 const mintRequest = useCallback(async () => {
-			console.log("Inside Mint Request")
-
 			if (ethersjsInstance === null)
 				 return;
 
