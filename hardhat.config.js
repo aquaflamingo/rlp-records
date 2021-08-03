@@ -10,8 +10,51 @@ task("accounts", "Prints the list of accounts", async () => {
   }
 });
 
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
+// task("recordInfo", "Prints the URI of a token")
+// 	 .addParam("tokenId", "The token id to check for")
+// 	 .setAction(async () => {
+// 			// First signer is assumed owner 
+// 			const owner = await ethers.getSigners(0);
+// 			const RLPRecord = await ethers.getContractFactory("RLPRecord");
+// 			const rlpRecordContract = new ethers.Contract(RLPRecord, RLPRecord.interface);
+
+// 			// const rlpRecordContract = await ethers.getContract("RLPRecord", owner);
+
+// 			// Get Deployed Instance
+// 			await rlpRecordContract.deployed();
+
+// 			const uri = await rlpRecordContract.tokenURI(tokenId)
+
+// 			console.log("URI for ", tokenId, "is ", uri)
+// 	 });
+
+task("records", "Prints the list of records for an account")
+	 .addParam("account", "The account to check records for")
+	 .setAction(async () => {
+			// First signer is assumed owner 
+			const owner = await ethers.getSigners(0);
+			// TODO - cannot find contract RLPRecord
+			const rlpRecordContract = await ethers.getContract("RLPRecord");
+
+			// Get Deployed Instance
+			await rlpRecordContract.deployed();
+
+			const erc721Count = await rlpRecordContract.balanceOf(account)
+
+			console.log("The account ", account, "has ", erc721Count, " records")
+
+			const erc721s = []
+
+			for (let i = 0; i < erc721Count; i++) {
+				 let t = await erc721s.tokenOfOwnerByIndex(account, i)
+
+				 erc721s.push(t)
+			}
+
+			console.log(t);
+	 });
+
+const HH_NETWORK_ID = 31337
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
