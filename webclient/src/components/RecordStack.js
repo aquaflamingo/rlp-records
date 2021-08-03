@@ -5,10 +5,9 @@ import  useMint  from "../hooks/useMint";
 const RecordSlot = ({ record }) => {
 	 const mintRequest = useMint()
 
-	 const mintFn = () => {
-			console.log("mintFn called")
-			const result = mintRequest()
-			console.log("Result of mintRequest ", result)
+	 const mintFn = async () => {
+			const result = await mintRequest()
+			console.log("Minting result ", result)
 	 }
 
   return (
