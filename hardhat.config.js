@@ -24,8 +24,13 @@ task("mintRecord", "Mint a record for an account")
 
 			const rlpRecordContract = await ethers.getContract("RLPRecord");
 			const tx = await rlpRecordContract.mintToken(account, uri)
+			const reciept = await tx.wait()
 
 			console.log("Minted record ", tx.hash)
+
+			const mintEvent = reciept.events[0]
+
+			console.log("Record id", mintEvent.args.tokenId.toString())
 	 });
 
 task("records", "Prints the list of records for an account")
