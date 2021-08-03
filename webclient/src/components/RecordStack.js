@@ -2,22 +2,38 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useRecords } from "../hooks/useRecords";
 import  useMint  from "../hooks/useMint";
 
-const RecordSlot = ({ record }) => {
+const MintButton = ({onMint}) => {
 	 const mintRequest = useMint()
 
 	 const mintFn = async () => {
 			const result = await mintRequest()
-			console.log("Minting result ", result)
+			onMint(result)
+			console.log("Record was minted with id:",result)
+	 }
+
+	 return(
+			 <button onClick={mintFn}>Mint</button>
+	 )
+}
+
+const RecordSlot = ({ record }) => {
+	 const [rec, setRecord] = useState(record)
+
+	 const handleMint = (mintId) => {
+			// TODO handle better
+			rec.nftAddress = mintId
+			rec.state = "MINTED"
+			setRecord(rec)
 	 }
 
   return (
     <div className="record">
-      <h3>{record.title}</h3>
-      <h4>{record.artist}</h4>
-      <em>{record.state}</em>
-      {record.hasNFT() && <p>Address: {record.nftAddress}</p>}
-			 { !record.hasNFT() &&
-			 <button onClick={mintFn}>Mint</button>
+      <h3>{rec.title}</h3>
+      <h4>{rec.artist}</h4>
+      <em>{rec.state}</em>
+      {rec.hasNFT() && <p>Address: {rec.nftAddress}</p>}
+			 { !rec.hasNFT() &&
+					<MintButton onMint={handleMint} />
 			 }
     </div>
   );
