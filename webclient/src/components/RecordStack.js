@@ -21,7 +21,7 @@ const RecordSlot = ({ record }) => {
 
 	 const handleMint = (mintId) => {
 			// TODO handle better
-			rec.nftAddress = mintId
+			rec.erc721Id = mintId
 			rec.state = "MINTED"
 			setRecord(rec)
 	 }
@@ -31,7 +31,7 @@ const RecordSlot = ({ record }) => {
       <h3>{rec.title}</h3>
       <h4>{rec.artist}</h4>
       <em>{rec.state}</em>
-      {rec.hasNFT() && <p>Address: {rec.nftAddress}</p>}
+      {rec.hasNFT() && <p>Address: {rec.erc721Id}</p>}
 			 { !rec.hasNFT() &&
 					<MintButton onMint={handleMint} />
 			 }
