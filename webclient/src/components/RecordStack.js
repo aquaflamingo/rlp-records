@@ -2,13 +2,20 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useRecords } from "../hooks/useRecords";
 import  useMint  from "../hooks/useMint";
 
-const MintButton = ({onMint}) => {
+// Build fingerprint file
+// Store fingerprint file in IPFS
+// 	--> Get content asset id
+// Store metadata as JSON
+// 	--> Get Asset URI
+// 	Mint token to that URI
+//
+const MintButton = ({mintable, onMint}) => {
 	 const mintRequest = useMint()
 
 	 const mintFn = async () => {
-			const result = await mintRequest()
+			const result = await mintRequest(mintable)
 			onMint(result)
-			console.log("Record was minted with id:",result)
+			console.log("Record was minted", result)
 	 }
 
 	 return(
@@ -31,9 +38,9 @@ const RecordSlot = ({ record }) => {
       <h3>{rec.title}</h3>
       <h4>{rec.artist}</h4>
       <em>{rec.state}</em>
-      {rec.hasNFT() && <p>Address: {rec.erc721Id}</p>}
+      {rec.hasNFT() && <p>Id: {rec.erc721Id}</p>}
 			 { !rec.hasNFT() &&
-					<MintButton onMint={handleMint} />
+					<MintButton mintable={rec} onMint={handleMint} />
 			 }
     </div>
   );
