@@ -39,7 +39,10 @@ const useMint = (record) => {
 			if (ethersjsInstance === null || uploadRequest === null)
 				 return;
 
-			const uploadResult = await uploadResult({
+			console.log("Mint request received...")
+			console.log("Starting upload...")
+
+			const uploadResult = await uploadRequest({
 				 // track_name.fingerprint
 				 basename: createFingerprintFileName(record.title),
 				 // binary stream
@@ -52,14 +55,19 @@ const useMint = (record) => {
 				 }
 			})
 
+			console.log("Upload completed. URI: ", uploadResult.assetURI, "Metadata URI:", uploadResult.metadataURI)
+			console.log("Minting token...")
+
 			const tx = await contract.mintToken(toAddress, uploadResult.metadataURI)
         // The transaction receipt contains events emitted while processing the transaction.
         const receipt = await tx.wait()
+			  console.log("Token mint requested, received response. Filtering events...")
         for (const event of receipt.events) {
             if (event.event !== 'Transfer') {
                 console.log('ignoring unknown event type ', event.event)
                 continue
             }
+			  console.log("Token mint requested, received response. Filtering events...")
 				 
 					 // return nft id, assetURI and metadata
             return {

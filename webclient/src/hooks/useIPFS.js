@@ -1,5 +1,6 @@
+import React, { useEffect, useState, useCallback } from "react";
 import { create as CreateIPFSClient } from "ipfs-http-client"
-import config from "../configuration"
+import config from "../config"
 
 const IPFS_ADD_OPTIONS = {
   cidVersion: 1,
@@ -11,7 +12,8 @@ export const useIPFS = () => {
 
 	 useEffect(()=>{
 			setIPFSClient(CreateIPFSClient(config.IPFS_HTTP_API_URL))
-	 }, [ipfsClient])
+			console.log("IPFS Client is Online")
+	 }, [])
 
 	 return ipfsClient;
 }
@@ -21,10 +23,11 @@ export const useIPFSContentUpload = () => {
 
 	 const upload = useCallback(async (data) => {
 				const ipfsPath = '/nft/' + data.basename
-        const { cid: assetCid } = await ipfs.add({ path: ipfsPath, data.content }, IPFS_ADD_OPTIONS)
+
+        const { cid: assetCid } = await ipfs.add({ path: ipfsPath, content: data.content }, IPFS_ADD_OPTIONS)
 
         // Create the NFT metadata JSON
-        const assetURI = ensureIPFSPrefix(assetCid) + '/' + basename
+      const assetURI = ensureIPFSPrefix(assetCid) + '/' + basename
 			const metadata = {...data.metadata, uri: assetURI}
 
         // add the metadata to IPFS
