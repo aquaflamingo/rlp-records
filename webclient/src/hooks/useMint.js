@@ -41,7 +41,7 @@ const useMint = (record) => {
 
 			const uploadResult = await uploadResult({
 				 // track_name.fingerprint
-				 basename: createFingerprintFileName(record.title)
+				 basename: createFingerprintFileName(record.title),
 				 // binary stream
 				 content: buildFingerprint(record.audio),
 				 metadata: {
