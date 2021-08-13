@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { ethers } from "ethers";
 import { useEthersJs, useHardhat } from "./useEthers";
+import { useIPFSContentUpload } from "./useIPFS";
+import { createFingerprintFileName, buildFingerprint } from "./../helpers/Record";
 
 import Artifacts from "../contracts"
 
 const RLPRecord = Artifacts.contracts.RLPRecord
 
-const useContract = () => {
+const useRLPRecordContract = () => {
 	 const ethersjsInstance = useEthersJs();
 	 const [contract, setContract] = useState([]);
 
@@ -28,23 +30,29 @@ const useContract = () => {
 	 return contract;
 }
 
-
-const useMint = () => {
-	 // Get RLPRecord Contract Instance
-	 // mintToken
-	 // Return minted NFT id
-
-	 const contract = useContract();
+const useMint = (record) => {
+	 const contract = useRLPRecordContract();
 	 const ethersjsInstance = useEthersJs();
+	 const uploadRequest = useIPFSContentUpload()
 
-	 const mintRequest = useCallback(async () => {
-			if (ethersjsInstance === null)
+	 const mintRequest = useCallback(async ({toAddress}) => {
+			if (ethersjsInstance === null || uploadRequest === null)
 				 return;
 
-			const fakeOwner = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
-			const fakeIpfsMetadataURI = "ipfs://0xdeadbeef"
+			const uploadResult = await uploadResult({
+				 // track_name.fingerprint
+				 basename: createFingerprintFileName(record.title)
+				 // binary stream
+				 content: buildFingerprint(record.audio),
+				 metadata: {
+						title: record.title, 
+						artist: record.artist, 
+						labelId: record.labelId,
+						released: new Date().getFullYear()
+				 }
+			})
 
-			const tx = await contract.mintToken(fakeOwner, fakeIpfsMetadataURI)
+			const tx = await contract.mintToken(toAddress, uploadResult.metadataURI)
         // The transaction receipt contains events emitted while processing the transaction.
         const receipt = await tx.wait()
         for (const event of receipt.events) {
@@ -53,10 +61,14 @@ const useMint = () => {
                 continue
             }
 				 
-					 // return nft id
-            return event.args.tokenId.toString()
+					 // return nft id, assetURI and metadata
+            return {
+							 id: event.args.tokenId.toString(),
+							 assetURI: uploadResult.metadataURI,
+							 metadataURI: uploadResult.assetURI
+						}
         }
-	 }, [ethersjsInstance]);
+	 }, [ethersjsInstance, uploadRequest]);
 
 	 return mintRequest;
 };
