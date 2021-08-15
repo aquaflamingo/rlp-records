@@ -31,6 +31,7 @@ class RecordRepository {
     );
 
     const rec = Record({
+      id: Math.floor(Math.random()*100000000),
       state: RECORD_STATES.DRAFT,
       labelId: labelId,
       title: record.title,
