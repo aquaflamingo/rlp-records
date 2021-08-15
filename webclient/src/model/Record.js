@@ -16,7 +16,7 @@ export const RECORD_STATES = {
 
 // Record is an entity that represents an musical audio work
 // TODO - has attached audio
-export const Record = ({ erc721, state, labelId, title, artist }) => {
+export const Record = ({ erc721, state, labelId, title, artist, id}) => {
   const isPublished = () => 
     state == RECORD_STATES.PUBLISHED;
   const isMinted = () =>
@@ -29,7 +29,7 @@ export const Record = ({ erc721, state, labelId, title, artist }) => {
   return {
     title: title,
     artist: artist,
-    id: artist,
+    id: id,
 		 state: state,
     labelId: labelId,
 

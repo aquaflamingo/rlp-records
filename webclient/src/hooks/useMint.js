@@ -32,19 +32,18 @@ const useRLPRecordContract = () => {
   return contract;
 };
 
-const useMint = (record) => {
+const useMint = (account) => {
   const contract = useRLPRecordContract();
   const ethersjsInstance = useEthersJs();
   const uploadRequest = useIPFSContentUpload();
 
   const mintRequest = useCallback(
-    async ({ toAddress }) => {
+    async (record) => {
       if (ethersjsInstance === null || uploadRequest === null) return;
-
-      if (!toAddress) throw "invalid toAddress: " + toAddress;
 
       console.log("Mint request received...");
       console.log("Starting upload...");
+      console.log(record);
 
       const uploadResult = await uploadRequest({
         // track_name.fingerprint
@@ -73,7 +72,7 @@ const useMint = (record) => {
       // each tokenURI.
       const tokenMetadata = removeIPFSPrefix(uploadResult.metadataURI);
 
-      const tx = await contract.mintToken(toAddress, tokenMetadata);
+      const tx = await contract.mintToken(account, tokenMetadata);
       // The transaction receipt contains events emitted while processing the transaction.
       const receipt = await tx.wait();
       console.log(
