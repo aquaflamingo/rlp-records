@@ -50,7 +50,7 @@ const useMint = (record) => {
         // track_name.fingerprint
         basename: createFingerprintFileName(record.title),
         // binary stream
-        content: buildFingerprint(record.audio),
+        content: record.fingerprint,
         metadata: {
           title: record.title,
           artist: record.artist,
