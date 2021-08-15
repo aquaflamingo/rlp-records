@@ -47,7 +47,6 @@ export const Record = ({ erc721Id, state, labelId, title, artist }) => {
   };
 };
 
-
 export const REC_HASH_RATE = Record({
   erc721Id: "",
   state: RECORD_STATES.DRAFT,
