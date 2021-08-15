@@ -15,7 +15,7 @@ export const RECORD_STATES = {
 
 // Record is an entity that represents an musical audio work
 // TODO - has attached audio
-export const Record = ({ nftAddress, state, labelId, title, artist }) => {
+export const Record = ({ erc721Id, state, labelId, title, artist }) => {
   const isPublished = () => {
     state == RECORD_STATES.PUBLISHED;
   };
@@ -30,7 +30,7 @@ export const Record = ({ nftAddress, state, labelId, title, artist }) => {
   };
 
   return {
-    nftAddress: nftAddress,
+    erc721Id: erc721Id,
     state: state,
     labelId: labelId,
     // Functions
@@ -48,7 +48,7 @@ export const Record = ({ nftAddress, state, labelId, title, artist }) => {
 };
 
 export const REC_HASH_RATE = Record({
-  nftAddress: "",
+  erc721Id: "",
   state: RECORD_STATES.DRAFT,
   labelId: RLP_RECORDS.id,
   title: "Hash Rate (Original Tech Mix)",

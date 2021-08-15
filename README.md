@@ -8,7 +8,21 @@ Web3 app to mint and manage Ethereum ERC-721 tokens claiming ownership of an aud
 
 ## Build & Run
 ### IPFS
-* TODO
+Start IPFS locally in offline mode
+```bash
+ipfs daemon --offline
+```
+
+Alternatively try to use [`local-ipfs`](https://github.com/aquaflamingo/local-ipfs)
+
+Remove all local IPFS content via:
+```
+# Removes pinned content
+ipfs pin ls --type recursive | cut -d' ' -f1 | xargs -n1 ipfs pin rm
+
+# Garbage collect
+ipfs repo gc
+```
 
 ### Blockchain
 ```bash

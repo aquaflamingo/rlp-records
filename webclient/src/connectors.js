@@ -5,6 +5,6 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 export const injectedConnector = new InjectedConnector({
   supportedChainIds: [
     1337, // Local RPC
-	  31337, // Local Hardhat
+    31337, // Local Hardhat
   ],
 });

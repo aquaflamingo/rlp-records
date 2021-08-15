@@ -1,0 +1,18 @@
+version: "3"
+services:
+  # TODO: CORS errors, trying to configure errors
+  ipfs:
+    # Requires local IPFS to be built and submitted to local registry
+    # See: https://github.com/aquaflamingo/local-ipfs
+    image: localhost:5000/local_ipfs
+    ports:
+      # 4001 – Communication with other nodes
+      - '4001:4001'
+      - '4001:4001/udp'
+      # 8080 – Gateway server
+      - '8080:8080'
+      # 5001 – API server
+      - '5001:5001'
+    volumes:
+      - ./tmp/staging:/export
+      - ./tmp/data:/data
