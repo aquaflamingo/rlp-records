@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useRecords } from "../hooks/useRecords";
-import  useMint  from "../hooks/useMint";
+import { useRecords } from "../../hooks/useRecords";
+import  useMint  from "../../hooks/useMint";
 
 // Build fingerprint file
 // Store fingerprint file in IPFS
