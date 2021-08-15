@@ -16,18 +16,14 @@ export const RECORD_STATES = {
 // Record is an entity that represents an musical audio work
 // TODO - has attached audio
 export const Record = ({ erc721Id, state, labelId, title, artist }) => {
-  const isPublished = () => {
+  const isPublished = () => 
     state == RECORD_STATES.PUBLISHED;
-  };
-  const isMinted = () => {
+  const isMinted = () =>
     state == RECORD_STATES.MINTED;
-  };
-  const isDraft = () => {
+  const isDraft = () => 
     state == RECORD_STATES.DRAFT;
-  };
-  const hasNFT = () => {
+  const hasNFT = () =>
     state == RECORD_STATES.MINTED || state == RECORD_STATES.PUBLISHED;
-  };
 
   return {
     erc721Id: erc721Id,
