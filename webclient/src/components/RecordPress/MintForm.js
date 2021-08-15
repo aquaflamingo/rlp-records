@@ -19,7 +19,7 @@ const RecordDropdown = ({records, value, onChange}) => {
 			<div>
 				 { 
 						hasRecords && 
-							 <select value={value} onChange={onChange}>
+							 <select name="recordId" value={value} onChange={onChange}>
 									{ options }
 							 </select>
 				 }
@@ -43,7 +43,8 @@ const MintForm = ({ labelId, draftedRecords }) => {
 			mint(record)
 	 }
 
-	 // TODO initial values are messed up
+	 // TODO initial values are messed up, 
+	 // Handle change does not seem to work
 	 let initialValues = {
 			recordId: "1"
 	 };
