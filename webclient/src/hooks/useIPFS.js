@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { create as CreateIPFSClient } from "ipfs-http-client"
 import config from "../config"
+import { ensureIPFSPrefix } from "../helpers/IPFS"
 
 const IPFS_ADD_OPTIONS = {
   cidVersion: 1,
@@ -46,15 +47,3 @@ export const useIPFSContentUpload = () => {
 }
 
 
-const ensureIPFSPrefix = (cidOrURI) => {
-    let uri = cidOrURI.toString()
-    if (!uri.startsWith('ipfs://')) {
-        uri = 'ipfs://' + cidOrURI
-    }
-
-    if (uri.startsWith('ipfs://ipfs/')) {
-      uri = uri.replace('ipfs://ipfs/', 'ipfs://')
-    }
-
-    return uri
-}
