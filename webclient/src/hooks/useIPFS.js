@@ -22,12 +22,14 @@ export const useIPFSContentUpload = () => {
 	 const ipfs = useIPFS()
 
 	 const upload = useCallback(async (data) => {
+			console.log("useIPFSContentUpload called with:", data)
+
 				const ipfsPath = '/nft/' + data.basename
 
         const { cid: assetCid } = await ipfs.add({ path: ipfsPath, content: data.content }, IPFS_ADD_OPTIONS)
 
         // Create the NFT metadata JSON
-      const assetURI = ensureIPFSPrefix(assetCid) + '/' + basename
+      const assetURI = ensureIPFSPrefix(assetCid) + '/' + data.basename
 			const metadata = {...data.metadata, uri: assetURI}
 
         // add the metadata to IPFS
