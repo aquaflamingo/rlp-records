@@ -2,7 +2,6 @@ import React, { useCallback, useState, useEffect } from "react";
 import RecordList from "../RecordList";
 import { useRecords } from "../../hooks/useRecords";
 import useMint from "../../hooks/useMint";
-import RecordMintForm from "../../RecordKit";
 
 //
 const MintButton = ({ mintable, onMint }) => {
@@ -29,13 +28,14 @@ const RecordStack = ({ labelId }) => {
 	 const records = useRecords(labelId);
 	 let published, minted, drafted = []
 
-	 console.log("RecordStack:", records); 
 
 	 if(records) {
 			published = records.filter(rec => rec.isPublished())
 			minted = records.filter(rec => rec.isMinted())
-			drafted = records.filter(rec => rec.isDraft())
 	 }
+
+	 console.log("RecordStack: published", published); 
+	 console.log("RecordStack: minted", minted); 
 
 	 return (
 			<div className="row">
