@@ -14,7 +14,8 @@ const MintButton = ({mintable, onMint}) => {
 	 const tmpToAddress = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
 
 	 const mintFn = async () => {
-			const result = await mintRequest(tmpToAddress)
+			// TODO how to refactor this up so it makes sense
+			const result = await mintRequest({toAddress: tmpToAddress})
 			onMint(result)
 			console.log("Record was minted", result)
 	 }

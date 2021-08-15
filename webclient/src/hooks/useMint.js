@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { useEthersJs, useHardhat } from "./useEthers";
 import { useIPFSContentUpload } from "./useIPFS";
 import { createFingerprintFileName, buildFingerprint } from "./../helpers/Record";
+import { removeIPFSPrefix } from "./../helpers/IPFS";
 
 import Artifacts from "../contracts"
 
@@ -39,6 +40,9 @@ const useMint = (record) => {
 			if (ethersjsInstance === null || uploadRequest === null)
 				 return;
 
+			if (!toAddress)
+				 throw "invalid toAddress: " + toAddress
+
 			console.log("Mint request received...")
 			console.log("Starting upload...")
 
@@ -58,7 +62,13 @@ const useMint = (record) => {
 			console.log("Upload completed. URI: ", uploadResult.assetURI, "Metadata URI:", uploadResult.metadataURI)
 			console.log("Minting token...")
 
-			const tx = await contract.mintToken(toAddress, uploadResult.metadataURI)
+			// Strip the IPFS prefix which is appended to the metadataURI.
+			//
+			// The RLPRecord contract appends the base prefix ipfs:// to 
+			// each tokenURI.
+			const tokenMetadata = removeIPFSPrefix(uploadResult.metadataURI)
+
+			const tx = await contract.mintToken(toAddress, tokenMetadata)
         // The transaction receipt contains events emitted while processing the transaction.
         const receipt = await tx.wait()
 			  console.log("Token mint requested, received response. Filtering events...")
@@ -67,13 +77,16 @@ const useMint = (record) => {
                 console.log('ignoring unknown event type ', event.event)
                 continue
             }
-			  console.log("Token mint requested, received response. Filtering events...")
+
+					 const tokenId = event.args.tokenId.toString()
+					 console.log("Token mint succeeded.")
+					 console.log("id:", tokenId, "assetURI:", uploadResult.assetURI, "metadataURI", uploadResult.metadataURI)
 				 
 					 // return nft id, assetURI and metadata
             return {
-							 id: event.args.tokenId.toString(),
-							 assetURI: uploadResult.metadataURI,
-							 metadataURI: uploadResult.assetURI
+							 id: tokenId,
+							 assetURI: uploadResult.assetURI,
+							 metadataURI: uploadResult.metadataURI
 						}
         }
 	 }, [ethersjsInstance, uploadRequest]);
