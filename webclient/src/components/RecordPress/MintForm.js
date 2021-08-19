@@ -5,15 +5,18 @@ import  useMint  from "../../hooks/useMint";
 import  { useETHAccounts }  from "../../hooks/useEthers";
 
 const RecordDropdown = ({records, value, onChange}) => {
-	 let options = []
+	 // Use default dropdown menu value
+	 let options = [
+			<option key="0" disabled value=""> -- Select -- </option>
+	 ]
 
 	 const hasRecords = records && records.length > 0
 
 	 if (hasRecords) {
-			options = records.map(r=><option value={r.id} key={r.id}>{r.title}</option>)
+			options.push(records.map(r=><option value={r.id} key={r.id}>{r.title}</option>))
 	 }
 
-	 console.log("RecordDropdown rendered:", value)
+	 options.flat()
 
 	 return (
 			<div>
@@ -28,14 +31,12 @@ const RecordDropdown = ({records, value, onChange}) => {
 }
 
 const MintForm = ({ labelId, draftedRecords }) => {
-	 // TODO: selected account
 	 const accounts = useETHAccounts()
 	 const mint = useMint(accounts[0])
 
 	 let hasRecords = draftedRecords && draftedRecords.length > 0
 
 	 const onMint = async ({ values, errors }) => {
-			// TODO 
 			console.log("MintForm.onMint: ", values, errors);
 			const record = draftedRecords.find(r=>r.id === values.recordId)
 
@@ -43,11 +44,8 @@ const MintForm = ({ labelId, draftedRecords }) => {
 			mint(record)
 	 }
 
-	 // TODO initial values are messed up, 
-	 // Handle change does not seem to work
-	 let initialValues = {
-			recordId: "1"
-	 };
+	 // Default value is empty
+	 let initialValues = { recordId: ""};
 
 	 const {
 			values,
@@ -60,13 +58,6 @@ const MintForm = ({ labelId, draftedRecords }) => {
 			initialValues,
 			onSubmit: onMint,
 	 });
-
-	 // TODO initialValues does not appear to accept default values
-	 console.log("Initial vals")
-	 console.log(initialValues)
-
-	 console.log("current vals vals")
-	 console.log(values)
 
 	 return (
 			<div>
