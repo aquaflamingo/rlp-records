@@ -43,7 +43,6 @@ const useMint = (account) => {
 
       console.log("Mint request received...");
       console.log("Starting upload...");
-      console.log(record);
 
       const uploadResult = await uploadRequest({
         // track_name.fingerprint
@@ -76,8 +75,11 @@ const useMint = (account) => {
       // The transaction receipt contains events emitted while processing the transaction.
       const receipt = await tx.wait();
       console.log(
-        "Token mint requested, received response. Filtering events..."
+        "Token mint requested, received response.",
+				 "Filtering ",receipt.events.length, "events..."
       );
+
+			 console.log(receipt.events)
       for (const event of receipt.events) {
         if (event.event !== "Transfer") {
           console.log("ignoring unknown event type ", event.event);
@@ -86,20 +88,21 @@ const useMint = (account) => {
 
         const tokenId = event.args.tokenId.toString();
         console.log("Token mint succeeded.");
+
         console.log(
           "id:",
           tokenId,
           "assetURI:",
           uploadResult.assetURI,
-          "metadataURI",
+					 "metadataURI:",
           uploadResult.metadataURI
         );
 
-        // return nft id, assetURI and metadata
+        // return nft id, asset and metadata
         return {
           id: tokenId,
-          assetURI: uploadResult.assetURI,
-          metadataURI: uploadResult.metadataURI,
+					 asset: { uri: uploadResult.assetURI, cid: removeIPFSPrefix(uploadResult.assetURI)},
+					 metadata: { uri: uploadResult.metadataURI, cid: removeIPFSPrefix(uploadResult.metadataURI)}
         };
       }
     },

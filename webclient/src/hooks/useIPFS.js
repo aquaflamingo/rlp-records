@@ -25,10 +25,8 @@ export const useIPFSContentUpload = () => {
   const upload = useCallback(async (data) => {
     console.log("useIPFSContentUpload called with:", data);
 
-    const ipfsPath = "/nft/" + data.basename;
-
     const { cid: assetCid } = await ipfs.add(
-      { path: ipfsPath, content: data.content },
+      { path: "/nft/" + data.basename, content: data.content },
       IPFS_ADD_OPTIONS
     );
 
