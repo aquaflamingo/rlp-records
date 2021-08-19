@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { BasicRecordSlot } from "./RecordSlot"
+import { BasicRecordSlot } from "./RecordSlot";
 
 const RecordList = ({ items }) => {
   const hasItems = items && items.length > 0;
