@@ -12,9 +12,9 @@ export const RLP_RECORDS = RecordLabel({
 });
 
 const RecordLabelSchema = new mongoose.Schema({
-	 name: String,
-	 established: String, 
-	 members: [Member.schema],
+  name: String,
+  established: String,
+  members: [Member.schema],
 });
 
-export const RecordLabel = mongoose.model("RecordLabel", RecordLabelSchema)
+export const RecordLabel = mongoose.model("RecordLabel", RecordLabelSchema);

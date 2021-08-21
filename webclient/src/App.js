@@ -7,13 +7,13 @@ import DatabaseProvider from "./DatabaseProvider";
 const App = () => {
   return (
     <div className="App">
-			 <DatabaseProvider>
-				 <Web3Provider>
-					 <Web3Connect>
-						 <Web3App />
-					 </Web3Connect>
-				 </Web3Provider>
-			 </DatabaseProvider>
+      <DatabaseProvider>
+        <Web3Provider>
+          <Web3Connect>
+            <Web3App />
+          </Web3Connect>
+        </Web3Provider>
+      </DatabaseProvider>
     </div>
   );
 };

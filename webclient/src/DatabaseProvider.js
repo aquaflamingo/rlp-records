@@ -1,10 +1,8 @@
-import db from "./db"
+import db from "./db";
 
 const DatabaseProvider = ({ children }) => {
-	 // How to connect to DB?
-  return (
-		 <div>{children}</div>
-  );
+  // How to connect to DB?
+  return <div>{children}</div>;
 };
 
 export default DatabaseProvider;

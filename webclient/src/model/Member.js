@@ -1,8 +1,7 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const MemberSchema = new mongoose.Schema({
-	 name: String
-})
+  name: String,
+});
 
-export const Member = mongoose.model("Member", MemberSchema)
-
+export const Member = mongoose.model("Member", MemberSchema);

@@ -4,30 +4,30 @@ import { buildFingerprint } from "../helpers/Record";
 // Endof Stubs
 
 const RecordSchema = new mongoose.Schema({
-	 title: String,
-	 artist: String,
-	 id: String, 
-	 state: String,
-	 label: RecordLabel.schema,
-	 token: RLPRecordToken.schema,
-	 fingerprint: Buffer,
+  title: String,
+  artist: String,
+  id: String,
+  state: String,
+  label: RecordLabel.schema,
+  token: RLPRecordToken.schema,
+  fingerprint: Buffer,
 });
 
 RecordSchema.methods.isPublished = () => {
-	 return this.state == "PUBLISHED"
-}
+  return this.state == "PUBLISHED";
+};
 
 RecordSchema.methods.isMinted = () => {
-	 return this.state == "MINTED"
-}
+  return this.state == "MINTED";
+};
 
 RecordSchema.methods.isDraft = () => {
-	 return this.state == "DRAFT"
-}
+  return this.state == "DRAFT";
+};
 
 RecordSchema.methods.hasNFT = () => {
-	 return this.token !== undefined
-}
+  return this.token !== undefined;
+};
 
 export const RECORD_STATES = {
   // Uploaded, processed, no NFT record, not published
@@ -38,7 +38,7 @@ export const RECORD_STATES = {
   PUBLISHED: "PUBLISHED",
 };
 
-export const Record = mongoose.model("Record", RecordSchema)
+export const Record = mongoose.model("Record", RecordSchema);
 
 export const REC_HASH_RATE = Record({
   erc721: { id: "", metadataURI: "" },
