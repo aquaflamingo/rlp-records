@@ -1,6 +1,10 @@
 version: "3"
 services:
-  # TODO: CORS errors, trying to configure errors
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: rlprecords
+      MONGO_INITDB_ROOT_PASSWORD: hunter2
   ipfs:
     # Requires local IPFS to be built and submitted to local registry
     # See: https://github.com/aquaflamingo/local-ipfs
