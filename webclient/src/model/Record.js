@@ -1,9 +1,33 @@
-// FIXME: Temporary
-// Stubs
 import { RLP_RECORDS } from "./RecordLabel";
 import { buildFingerprint } from "../helpers/Record";
 
 // Endof Stubs
+
+const RecordSchema = new mongoose.Schema({
+	 title: String,
+	 artist: String,
+	 id: String, 
+	 state: String,
+	 label: RecordLabel.schema,
+	 token: RLPRecordToken.schema,
+	 fingerprint: Buffer,
+});
+
+RecordSchema.methods.isPublished = () => {
+	 return this.state == "PUBLISHED"
+}
+
+RecordSchema.methods.isMinted = () => {
+	 return this.state == "MINTED"
+}
+
+RecordSchema.methods.isDraft = () => {
+	 return this.state == "DRAFT"
+}
+
+RecordSchema.methods.hasNFT = () => {
+	 return this.token !== undefined
+}
 
 export const RECORD_STATES = {
   // Uploaded, processed, no NFT record, not published
@@ -14,34 +38,7 @@ export const RECORD_STATES = {
   PUBLISHED: "PUBLISHED",
 };
 
-// Record is an entity that represents an musical audio work
-// TODO - has attached audio
-export const Record = ({ erc721, state, labelId, title, artist, id }) => {
-  const isPublished = () => state == RECORD_STATES.PUBLISHED;
-  const isMinted = () => state == RECORD_STATES.MINTED;
-  const isDraft = () => state == RECORD_STATES.DRAFT;
-  const hasNFT = () =>
-    state == RECORD_STATES.MINTED || state == RECORD_STATES.PUBLISHED;
-
-  return {
-    title: title,
-    artist: artist,
-    id: id,
-    state: state,
-    labelId: labelId,
-
-    // Blockchain
-    erc721: erc721,
-    // endof Blockchain
-
-    // Functions
-    isDraft: isDraft,
-    isPublished: isPublished,
-    isMinted: isMinted,
-    hasNFT: hasNFT,
-    // endof Functions
-  };
-};
+export const Record = mongoose.model("Record", RecordSchema)
 
 export const REC_HASH_RATE = Record({
   erc721: { id: "", metadataURI: "" },

@@ -1,15 +1,5 @@
 import { Member } from "./Member";
 
-// RecordLabel is a entity that publishes and owns music
-export const RecordLabel = ({ id, name, members, established }) => {
-  return {
-    id: id,
-    name: name,
-    established: established,
-    members: members,
-  };
-};
-
 export const RLP_RECORDS = RecordLabel({
   id: 1,
   name: "RLP Records",
@@ -20,3 +10,11 @@ export const RLP_RECORDS = RecordLabel({
   ],
   established: 2021,
 });
+
+const RecordLabelSchema = new mongoose.Schema({
+	 name: String,
+	 established: String, 
+	 members: [Member.schema],
+});
+
+export const RecordLabel = mongoose.model("RecordLabel", RecordLabelSchema)
