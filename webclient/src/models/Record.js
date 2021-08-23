@@ -1,15 +1,24 @@
+import mongoose from "mongoose";
 import { RLP_RECORDS } from "./Fixture";
 import { buildFingerprint } from "../helpers/Record";
 
-// Endof Stubs
+export const RECORD_STATES = {
+  // Uploaded, processed, no NFT record, not published
+  DRAFT: "DRAFT",
+  // Uploaded, processed, has NFT record, not published
+  MINTED: "MINTED",
+  // Uploaded, processed, has NFT record, is published
+  PUBLISHED: "PUBLISHED",
+};
 
-const RecordSchema = new mongoose.Schema({
+
+export const RecordSchema = new mongoose.Schema({
   title: String,
   artist: String,
   id: String,
-  state: String,
-  label: RecordLabel.schema,
-  token: RLPRecordToken.schema,
+	 state: {type: String, enum: RECORD_STATES},
+	 label: {type: mongoose.Schema.Types.ObjectId, ref: 'RecordLabel'},
+	 token: {type: mongoose.Schema.Types.ObjectId, ref: 'Token'},
   fingerprint: Buffer,
 });
 
@@ -29,14 +38,7 @@ RecordSchema.methods.hasNFT = () => {
   return this.token !== undefined;
 };
 
-export const RECORD_STATES = {
-  // Uploaded, processed, no NFT record, not published
-  DRAFT: "DRAFT",
-  // Uploaded, processed, has NFT record, not published
-  MINTED: "MINTED",
-  // Uploaded, processed, has NFT record, is published
-  PUBLISHED: "PUBLISHED",
-};
+const Record = mongoose.model("Record", RecordSchema);
 
-export const Record = mongoose.model("Record", RecordSchema);
+export default Record;
 

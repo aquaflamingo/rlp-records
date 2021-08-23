@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 
-const MemberSchema = new mongoose.Schema({
+export const MemberSchema = new mongoose.Schema({
   name: String,
 });
 
-export const Member = mongoose.model("Member", MemberSchema);
+const Member = mongoose.model("Member", MemberSchema);
+
+export default Member;

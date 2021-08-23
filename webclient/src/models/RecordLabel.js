@@ -1,9 +1,11 @@
-	 import  Member  from "./Member";
+import mongoose from "mongoose";
 
-const RecordLabelSchema = new mongoose.Schema({
+export const RecordLabelSchema = new mongoose.Schema({
   name: String,
   established: String,
-  members: [Member.schema],
+	 members: { type: mongoose.Schema.Types.ObjectId, ref: "Member" },
 });
 
-export const RecordLabel = mongoose.model("RecordLabel", RecordLabelSchema);
+const RecordLabel = mongoose.model("RecordLabel", RecordLabelSchema);
+
+export default RecordLabel

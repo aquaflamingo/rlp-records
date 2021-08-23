@@ -1,14 +1,16 @@
 import mongoose from "mongoose";
-import { Record } from "./Record";
+import {RecordSchema} from "./Record";
 
-const RLPRecordTokenSchema = new mongoose.Schema({
-  Record: Record.schema,
+export const RLPRecordTokenSchema = new mongoose.Schema({
+	 Record: {type: mongoose.Schema.Types.ObjectId, ref: "Record",
   tokenId: String,
   metadataURI: String,
   assetURI: String,
 });
 
-export const RLPRecordToken = mongoose.model(
+const RLPRecordToken = mongoose.model(
   "RLPRecordToken",
   RLPRecordTokenSchema
 );
+
+export default RLPRecordToken
