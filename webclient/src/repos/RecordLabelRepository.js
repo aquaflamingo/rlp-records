@@ -1,4 +1,5 @@
-import { RLP_RECORDS, RecordLabel } from "../model/RecordLabel";
+import RecordLabel  from "../models/RecordLabel";
+import { RLP_RECORDS  } from "../models/Fixture";
 
 const MOCK_DATA_STORE = {
   [RLP_RECORDS.id]: [RLP_RECORDS],

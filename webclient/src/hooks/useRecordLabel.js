@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { RLP_RECORDS } from "../model/RecordLabel";
+import { RLP_RECORDS } from "../models/Fixture";
 
 // Squad is a record label records
 export const useRecordLabel = () => {

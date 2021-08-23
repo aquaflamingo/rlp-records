@@ -1,4 +1,4 @@
-import { RLP_RECORDS } from "./RecordLabel";
+import { RLP_RECORDS } from "./Fixture";
 import { buildFingerprint } from "../helpers/Record";
 
 // Endof Stubs
@@ -40,14 +40,3 @@ export const RECORD_STATES = {
 
 export const Record = mongoose.model("Record", RecordSchema);
 
-export const REC_HASH_RATE = Record({
-  erc721: { id: "", metadataURI: "" },
-  state: RECORD_STATES.DRAFT,
-  labelId: RLP_RECORDS.id,
-  title: "Hash Rate (Original Tech Mix)",
-  artist: "Vitalik Vibes",
-  audio: "",
-  // TODO how to build fingerprint from audio
-  fingerprint: buildFingerprint(""),
-  id: "1",
-});
