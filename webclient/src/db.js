@@ -1,18 +1,26 @@
-import "mongoose" from "mongoose"
-import { MONGO_DB_URI } from "./config.js"
+import mongoose from "mongoose"
+import config from "./config.js"
 
-mongoose.connect(MONGO_DB_URI, 
-	 {
-			useNewUrlParser: true, 
-			useUnifiedTopology: true
+const connect = () => {
+	 mongoose.connect(config.MONGO_DB_URI, 
+			{
+				 useNewUrlParser: true, 
+				 useUnifiedTopology: true
+			});
+
+	 const db = mongoose.connection
+
+	 db.on('error', console.error.bind(console, 'connection error:'));
+
+	 db.once('open', function() {
+			console.log("MongoDB connected")
 	 });
 
+	 return dbInstance
+}
 
-const db = db.on('error', console.error.bind(console, 'connection error:'));
+const Database = {}
+Database.connect = connect;
 
-db.once('open', function() {
-	 console.log("MongoDB connected")
-});
-
-export default db;
+export default Database;
 
