@@ -19,6 +19,7 @@
 		 "CONTRACT_EXPORT": "../lib/contracts/index.json"
 	},
 	"scripts": {
+		 "start:node": "npx hardhat node --no-deploy",
 		 "compile": "npx hardhat compile",
 		 "deploy": "npx hardhat deploy --network localhost --export $npm_package_config_CONTRACT_EXPORT",
 		 "listAccounts": "npx hardhat --network localhost accounts",

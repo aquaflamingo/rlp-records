@@ -7,6 +7,6 @@ webclient/contracts/
 webclient/src/contracts/
 
 hardhatAccounts.json
-deployments/localhost
+*/deployments/localhost
 webclient/contracts
 TODO.md
