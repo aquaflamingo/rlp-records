@@ -8,7 +8,7 @@ import {
 } from "./../helpers/Record";
 import { removeIPFSPrefix } from "./../helpers/IPFS";
 
-import Artifacts from "../contracts";
+import Artifacts from "rlp-record-contracts";
 
 const RLPRecord = Artifacts.contracts.RLPRecord;
 
