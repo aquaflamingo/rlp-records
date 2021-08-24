@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Navigation from "./components/Navigation";
-import Sidebar from "./components/Sidebar";
-import RecordStack from "./components/RecordStack";
-import RecordKit from "./components/RecordKit/";
-import RecordPress from "./components/RecordPress/";
-import { useRecordLabel } from "./hooks/useRecordLabel";
+import Navigation from "../Navigation";
+import Sidebar from "../Sidebar";
+import RecordStack from "../RecordStack";
+import RecordKit from "../RecordKit/";
+import RecordPress from "../RecordPress/";
+import { useRecordLabel } from "../../hooks/useRecordLabel";
 
 const Web3App = () => {
   const labelId = useRecordLabel();

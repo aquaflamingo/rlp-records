@@ -1,12 +1,13 @@
 import mongoose from "mongoose"
 import config from "./config.js"
 
+// TODO cannot be used client side
 const connect = () => {
 	 mongoose.connect(config.MONGO_DB_URI, 
 			{
 				 useNewUrlParser: true, 
 				 useUnifiedTopology: true
-			});
+			}, ()=>{});
 
 	 const db = mongoose.connection
 
