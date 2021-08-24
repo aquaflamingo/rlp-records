@@ -1,0 +1,14 @@
+{
+  "name": "rlp-records-server",
+  "version": "0.1",
+  "main": "index.js",
+	"type": "module",
+  "license": "MIT",
+	"scripts": {
+		 "start": "node ./index.js"
+	},
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.13.8"
+  }
+}

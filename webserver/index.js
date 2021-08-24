@@ -1,4 +1,5 @@
 import express from "express"
+import db from "./db.js"
 
 // const express = require('express');
 const app = express();
