@@ -1,0 +1,9 @@
+{
+  "name": "rlp-records-models",
+  "version": "0.1",
+	"type": "module",
+  "license": "MIT",
+  "dependencies": {
+    "mongoose": "^5.13.8"
+  }
+}
