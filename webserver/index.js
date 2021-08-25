@@ -1,8 +1,9 @@
 import express from "express"
 import db from "./db.js"
+import config from "./config.js"
 
 const app = express();
-const port = 3000
+const port = config.PORT
 
 app.get('/',(req,res)=>{
 	 res.send("status: OK")
