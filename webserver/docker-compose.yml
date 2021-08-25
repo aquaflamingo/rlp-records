@@ -4,6 +4,9 @@ services:
     ports: 
       - "27017:27017"
     image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: rlprecords
-      MONGO_INITDB_ROOT_PASSWORD: hunter2
+    volumes:
+      - /var/tmp/rlprecordsdb:/data/db
+      # TODO
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: rlprecords
+    #   MONGO_INITDB_ROOT_PASSWORD: hunter2

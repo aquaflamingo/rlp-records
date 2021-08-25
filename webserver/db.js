@@ -1,19 +1,24 @@
 import mongoose from "mongoose"
 import config from "./config.js"
 
-mongoose.connect(config.MONGO_DB_URI, 
-	 {
-			useNewUrlParser: true, 
-			useUnifiedTopology: true
-	 }, ()=>{});
+// TODO
+export async function connect() {
+	 console.log("What is mongo uri", config)
 
-const db = mongoose.connection
+	 await mongoose.connect(config.MONGO_DB_URI, 
+			{
+				 useNewUrlParser: true, 
+				 useUnifiedTopology: true
+			}, ()=>{});
 
-db.on('error', console.error.bind(console, 'connection error:'));
+	 const db = mongoose.connection
 
-db.once('open', function() {
-	 console.log("MongoDB connected")
-});
+	 db.on('error', console.error.bind(console, 'connection error:'));
 
-export default db;
+	 db.once('open', function() {
+			console.log("MongoDB connected")
+	 });
+
+	 return db;
+}
 

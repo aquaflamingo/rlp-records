@@ -1,5 +1,5 @@
 {
-  "name": "rlprecords-contracts",
+  "name": "@rlprecords/contracts",
   "version": "0.1",
   "main": "index.json",
   "license": "MIT"
