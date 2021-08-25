@@ -1,5 +1,5 @@
 {
-  "name": "rlprecords-deployments",
+  "name": "@rlprecords/deployments",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {

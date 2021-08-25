@@ -1,5 +1,5 @@
 {
-  "name": "rlprecords-webclient",
+  "name": "@rlprecords/webclient",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

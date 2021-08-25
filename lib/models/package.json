@@ -1,5 +1,5 @@
 {
-  "name": "rlprecords-models",
+  "name": "@rlprecords/models",
   "version": "0.1",
 	"type": "module",
   "license": "MIT",
