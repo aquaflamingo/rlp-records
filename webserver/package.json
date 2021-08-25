@@ -1,5 +1,5 @@
 {
-  "name": "rlp-records-server",
+  "name": "rlprecords-server",
   "version": "0.1",
   "main": "index.js",
 	"type": "module",
