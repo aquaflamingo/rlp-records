@@ -1,4 +1,3 @@
-import RecordLabel  from "../models/RecordLabel";
 import { RLP_RECORDS  } from "../models/Fixture";
 
 const MOCK_DATA_STORE = {

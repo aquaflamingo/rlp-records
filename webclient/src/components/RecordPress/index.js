@@ -13,7 +13,7 @@ const RecordPress = ({ labelId }) => {
 
   let drafted = [];
   if (records) {
-    drafted = records.filter((rec) => rec.isDraft());
+    drafted = records.filter((rec) => rec.isDraft);
   }
 
   console.log("RecordPress: drafted", drafted);

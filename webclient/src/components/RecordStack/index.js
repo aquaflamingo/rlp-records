@@ -31,8 +31,8 @@ const RecordStack = ({ labelId }) => {
     drafted = [];
 
   if (records) {
-    published = records.filter((rec) => rec.isPublished());
-    minted = records.filter((rec) => rec.isMinted());
+    published = records.filter((rec) => rec.isPublished);
+    minted = records.filter((rec) => rec.isMinted);
   }
 
   console.log("RecordStack: published", published);
