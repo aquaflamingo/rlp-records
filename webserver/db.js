@@ -3,8 +3,6 @@ import config from "./config.js"
 
 // TODO
 export async function connect() {
-	 console.log("What is mongo uri", config)
-
 	 await mongoose.connect(config.MONGO_DB_URI, 
 			{
 				 useNewUrlParser: true, 

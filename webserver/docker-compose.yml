@@ -1,12 +1,14 @@
 version: "3"
 services:
-  mongo:
-    ports: 
-      - "27017:27017"
-    image: mongo
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
     volumes:
-      - /var/tmp/rlprecordsdb:/data/db
-      # TODO
-    # environment:
-    #   MONGO_INITDB_ROOT_USERNAME: rlprecords
-    #   MONGO_INITDB_ROOT_PASSWORD: hunter2
+      - mongodb:/data/db
+
+volumes:
+  mongodb:
