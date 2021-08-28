@@ -9,7 +9,7 @@ class RecordLabel(models.Model):
 
 class Member(models.Model):
     name = models.CharField(max_length=200)
-    recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE)
+    recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE, null=True)
 
 class Record(models.Model):
     class RecordState(models.TextChoices):
@@ -22,8 +22,8 @@ class Record(models.Model):
     state = models.CharField(choices=RecordState.choices, max_length=200)
 
     # Audio
-    audio_hash = models.CharField(max_length=200)
-    fingerprint = models.BinaryField()
+    audio_hash = models.CharField(max_length=200, null=True)
+    fingerprint = models.BinaryField(null=True)
 
     recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE)
-    token = models.ForeignKey(ERC721, on_delete=models.CASCADE)
+    token = models.ForeignKey(ERC721, on_delete=models.CASCADE, null=True)
