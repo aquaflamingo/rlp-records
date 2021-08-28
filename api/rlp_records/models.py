@@ -1,5 +1,16 @@
 from django.db import models
 
+class ERC721(models.Model):
+    tokenId = models.CharField(max_length=200)
+    metadataURI = models.CharField(max_length=200)
+
+class RecordLabel(models.Model):
+    name = models.CharField(max_length=200)
+
+class Member(models.Model):
+    name = models.CharField(max_length=200)
+    label = models.ForeignKey(RecordLabel, on_delete=models.CASCADE)
+
 class Record(models.Model):
     class RecordState(models.TextChoices):
         DRAFT = 'DRAFT'
@@ -8,20 +19,11 @@ class Record(models.Model):
 
     title = models.CharField(max_length=200)
     artist = models.CharField(max_length=200)
-    state = models.CharField(choices=RecordState.choices)
-    label = #TODO ref
-    token = #TODO ref
-    fingerprint = #TODO buffer
+    state = models.CharField(choices=RecordState.choices, max_length=200)
 
+    # Audio
+    audioHash = models.CharField(max_length=200)
+    fingerprint = models.BinaryField()
 
-class RecordLabel(models.Model):
-    name = models.CharField(max_length=200)
-    # TODO date
-    established = models.CharField(max_length=4)
-
-class Member(models.Model):
-    name = models.CharField(max_length=200)
-
-class RLPRecordToken(models.Model):
-    # TODO
-
+    label = models.ForeignKey(RecordLabel, on_delete=models.CASCADE)
+    token = models.ForeignKey(ERC721, on_delete=models.CASCADE)
