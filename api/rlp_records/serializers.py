@@ -4,7 +4,7 @@ from rlp_records.models import Record, Member, RecordLabel, ERC721
 class RecordLabelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RecordLabel
-        fields = ('name')
+        fields = ('name', 'member_set')
 
 class RecordSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -26,4 +26,4 @@ class ERC721Serializer(serializers.HyperlinkedModelSerializer):
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Member
-        fields = ('name')
+        fields = ('name', 'recordlabel')
