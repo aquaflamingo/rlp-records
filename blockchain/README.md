@@ -38,7 +38,7 @@ npx hardhat compile
 Deploy via:
 ```bash
 # Deploy compiled contracts to the localhost hardhat RPC and write the contract results to webclient folder to access
-npx hardhat deploy --network localhost --export webclient/src/contracts/index.json
+npx hardhat deploy --network localhost --export lib/contracts/index.json
 ```
 
 #### Tasks
@@ -60,28 +60,4 @@ Get owned records:
 ```bash
 npx hardhat records --network localhost --account account
 ```
-
-### Web Client
-```bash
-# Go into webclient
-cd webclient
-
-# Install deps
-yarn
-```
-
-Start via:
-```
-yarn start
-
-# Running on localhost:3000
-```
-
-* Setup custom MetaMask network:
-	 * Name: `hardhat`
-	 * RPC: http://127.0.0.1:8545
-	 * ChainId: 31337
-
-* Import Hardhat Accounts in `hardhatAccounts.json` into MetaMask
-	 * This is so that you can interact with the RLP contract which is `Ownable` by the deployer via Hardhat (e.g. `ethers.getSigners(0)`), see also `namedAccounts`
 

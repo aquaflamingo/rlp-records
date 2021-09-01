@@ -7,7 +7,7 @@ export const BasicRecordSlot = ({ record }) => {
       <h3>{rec.title}</h3>
       <p>{rec.artist}</p>
       <em>{rec.state}</em>
-      {rec.hasNFT() && <p>RLP{rec.erc721Id}</p>}
+      {rec.hasNft && <p>RLP{rec.erc721Id}</p>}
     </div>
   );
 };

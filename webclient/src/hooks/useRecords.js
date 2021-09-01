@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useRecordRepository } from "../hooks/useRepository";
-import { REC_HASH_RATE } from "../model/Record";
+import { REC_HASH_RATE } from "../models/Fixture";
 
 export const useRecords = (labelId) => {
   const [records, setRecords] = useState(null);

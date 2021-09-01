@@ -1,5 +1,4 @@
-import { Record, RECORD_STATES, REC_HASH_RATE } from "../model/Record";
-import { RLP_RECORDS } from "../model/RecordLabel";
+import { RLP_RECORDS, REC_HASH_RATE} from "../models/Fixture";
 
 const MOCK_DATA_STORE = {
   [RLP_RECORDS.id]: [REC_HASH_RATE],
@@ -30,13 +29,13 @@ class RecordRepository {
       record
     );
 
-    const rec = Record({
+    const rec = {
       id: Math.floor(Math.random() * 100000000),
-      state: RECORD_STATES.DRAFT,
+      state: "DRAFT",
       labelId: labelId,
       title: record.title,
       artist: record.artist,
-    });
+    }
 
     // TODO fingerprint
     this.records[labelId].push(rec);
