@@ -3,13 +3,19 @@ project=rlprecords
 server.up:
 	@docker-compose -f docker-compose.yml -p ${project} up
 
+server.build:
+	@docker-compose -f docker-compose.yml -p ${project} build --no-cache
+
+server.clean:
+	@docker-compose -p ${project} down -v --rmi local --remove-orphans
+
 db.new_migration:
-	@python manage.py makemigrations
+	@docker-compose -p ${project} exec python manage.py makemigrations
 
 db.migrate:
-	@python manage.py migrate
+	@docker-compose -p ${project} exec python manage.py migrate
 
 db.loadfixtures: 
-	@python manage.py loaddata ${NAME}
+	@docker-compose -p ${project} exec python manage.py loaddata ${NAME}
 
 
