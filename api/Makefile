@@ -1,7 +1,7 @@
-project=rlp_records_api
+project=rlprecords
 
 server.up:
-	@python manage.py runserver
+	@docker-compose -f docker-compose.yml -p ${project} up
 
 db.new_migration:
 	@python manage.py makemigrations
@@ -11,4 +11,5 @@ db.migrate:
 
 db.loadfixtures: 
 	@python manage.py loaddata ${NAME}
+
 
