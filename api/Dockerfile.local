@@ -1,0 +1,16 @@
+FROM python:3.9-alpine
+
+RUN apk update -qq && apk upgrade
+
+RUN apk add --no-cache build-base 
+
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /usr/src/app/
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY . .
+
