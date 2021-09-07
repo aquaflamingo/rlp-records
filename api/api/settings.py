@@ -31,9 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'corsheaders',
     'rest_framework',
     'django_filters',
+    # 'corsheaders',
     'rlp_records.apps.RlpRecordsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
