@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
-    # 'corsheaders',
+    'corsheaders',
     'rlp_records.apps.RlpRecordsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
