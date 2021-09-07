@@ -1,5 +1,8 @@
 project=rlprecords
 
+server.pyup:
+	@python manage.py runserver
+
 server.up:
 	@docker-compose -f docker-compose.yml -p ${project} up
 
