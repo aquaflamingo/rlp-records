@@ -14,8 +14,8 @@ services:
       context: .
       dockerfile: Dockerfile.local
     command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./tmp:/usr/src/app
+    # volumes:
+      # - ./tmp:/usr/src/app
     ports:
       - "8000:8000"
     # depends_on:
