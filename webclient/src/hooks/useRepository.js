@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import RecordRepository from "../repos/RecordRepository";
 import RecordLabelRepository from "../repos/RecordLabelRepository";
+import MemberRepository from "../repos/MemberRepository";
 
 // Returns the record repository structure
 export const useRecordRepository = () => {
@@ -23,6 +24,20 @@ export const useRecordLabelRepository = (labelId) => {
     const labelRepo = new RecordLabelRepository();
 
     setRepo(labelRepo);
+  }, []);
+
+  return repo;
+};
+
+
+// Returns the record label repository structure
+export const useMemberRepository = (labelId) => {
+  const [repo, setRepo] = useState(null);
+
+  useEffect(() => {
+    const r = new MemberRepository();
+
+    setRepo(r);
   }, []);
 
   return repo;
