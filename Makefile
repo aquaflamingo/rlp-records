@@ -31,7 +31,7 @@ ipfs.clean:
 ###############################################################
 
 server.pyup:
-	@python manage.py runserver
+	@cd api && python manage.py runserver
 
 server.up:
 	@docker-compose -f ./api/docker-compose.yml -p ${project} up
