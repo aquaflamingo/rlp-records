@@ -9,7 +9,7 @@ const RecordPress = ({ labelId }) => {
     setVersion((s) => s + 1);
   }, []);
 
-	 const drafted = useRecords({labelId, state: 'DRAFT'});
+  const drafted = useRecords({ labelId, state: "DRAFT" });
 
   console.log("RecordPress: drafted", drafted);
 

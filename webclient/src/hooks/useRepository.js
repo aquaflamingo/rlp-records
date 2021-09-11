@@ -29,7 +29,6 @@ export const useRecordLabelRepository = (labelId) => {
   return repo;
 };
 
-
 // Returns the record label repository structure
 export const useMemberRepository = (labelId) => {
   const [repo, setRepo] = useState(null);

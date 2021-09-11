@@ -7,7 +7,7 @@ export const useMembers = (labelId) => {
 
   useEffect(() => {
     repo
-      ?.list({labelId})
+      ?.list({ labelId })
       .then((members) => {
         setMembers(members);
       })
