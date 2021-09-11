@@ -2,13 +2,13 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useRecordRepository } from "../hooks/useRepository";
 import { REC_HASH_RATE } from "../models/Fixture";
 
-export const useRecords = ({labelId, states}) => {
+export const useRecords = ({labelId, state}) => {
   const [records, setRecords] = useState(null);
   const repo = useRecordRepository();
 
   useEffect(() => {
     repo
-      ?.listRecords(labelId)
+      ?.listRecords({labelId, state})
       .then((records) => {
         setRecords(records);
       })
