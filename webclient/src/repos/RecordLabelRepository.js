@@ -1,27 +1,33 @@
-import { RLP_RECORDS  } from "../models/Fixture";
-
-const MOCK_DATA_STORE = {
-  [RLP_RECORDS.id]: [RLP_RECORDS],
-};
+import client from "./ApiClient";
+import Base from "./Base";
 
 // RecordLabelRepository is the data access interface  for labels
-class RecordLabelRepository {
+class RecordLabelRepository extends Base {
   constructor() {
-    // Setup default records
-    this.labels = MOCK_DATA_STORE;
-    console.log("RecordLabelRepository: ", this.records);
+    super();
+    this.URI = "/recordlabels/";
   }
 
-  listMembers(id) {
-    const label = this.findLabel(id);
-    return new Promise((resolve, reject) => {
-      resolve(label.members);
-    });
-  }
+  // Returns all records associated with the label
+  async get(id) {
+    if (id == undefined) {
+      return null;
+    }
 
-  // FIXME - use other record labels
-  findLabel(id) {
-    return MOCK_DATA_STORE[id];
+    try {
+      const response = await client.get(`${this.URI}/${id}/`);
+
+      const result = this.deserializeResponse(
+        response,
+        RecordLabelDeserializer
+      );
+
+      console.log(response);
+      return result;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 }
 

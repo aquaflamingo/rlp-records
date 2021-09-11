@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useRecordLabelRepository } from "../hooks/useRepository";
+import { useMemberRepository } from "../hooks/useRepository";
 
 export const useMembers = (labelId) => {
   const [members, setMembers] = useState(null);
-  const repo = useRecordLabelRepository();
+  const repo = useMemberRepository();
 
   useEffect(() => {
     repo
-      ?.listMembers(labelId)
+      ?.list({ labelId })
       .then((members) => {
         setMembers(members);
       })

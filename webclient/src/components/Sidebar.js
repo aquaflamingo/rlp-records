@@ -17,6 +17,8 @@ const MembersList = ({ members }) => {
     slots = members.map((r, index) => <MemberSlot key={index} member={r} />);
   }
 
+  console.log("Members are ", members);
+
   return (
     <div className="record-list">
       {hasItems ? slots : <p> No members in this label</p>}

@@ -1,24 +1,33 @@
-import { RLP_RECORDS, REC_HASH_RATE} from "../models/Fixture";
-
-const MOCK_DATA_STORE = {
-  [RLP_RECORDS.id]: [REC_HASH_RATE],
-};
+import client from "./ApiClient";
+import Base from "./Base";
+import { RecordDeserializer } from "./models/Record.js";
 
 // RecordRepository is the data access interface for record
-class RecordRepository {
+class RecordRepository extends Base {
   constructor() {
-    // Setup default records
-    this.records = MOCK_DATA_STORE;
-    console.log("RecordRepository: ", this.records);
+    super();
+    this.URI = "/records/";
   }
 
   // Returns all records associated with the label
-  listRecords(labelId) {
-    const records = this.findRecords(labelId);
+  async list({ labelId, state }) {
+    if (labelId == undefined || state == undefined) {
+      return null;
+    }
 
-    return new Promise((resolve, reject) => {
-      resolve(records);
-    });
+    try {
+      const response = await client.get(
+        `${this.URI}?recordlabel=${labelId}&state=${state}`
+      );
+
+      const result = this.deserializeResponse(response, RecordDeserializer);
+
+      console.log(response);
+      return result;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 
   createRecord({ labelId, record }) {
@@ -35,7 +44,7 @@ class RecordRepository {
       labelId: labelId,
       title: record.title,
       artist: record.artist,
-    }
+    };
 
     // TODO fingerprint
     this.records[labelId].push(rec);
@@ -43,12 +52,6 @@ class RecordRepository {
     return new Promise((resolve, reject) => {
       resolve({ data: { msg: "done" } });
     });
-  }
-
-  // FIXME - temporary
-  findRecords(labelId) {
-    // Use default
-    return this.records[labelId];
   }
 }
 

@@ -6,11 +6,11 @@ import Web3App from "./components/Web3/App";
 const App = () => {
   return (
     <div className="App">
-		 <Web3Provider>
-			 <Web3Connect>
-				 <Web3App />
-			 </Web3Connect>
-		 </Web3Provider>
+      <Web3Provider>
+        <Web3Connect>
+          <Web3App />
+        </Web3Connect>
+      </Web3Provider>
     </div>
   );
 };

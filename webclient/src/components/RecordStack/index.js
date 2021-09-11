@@ -25,18 +25,14 @@ const RecordStack = ({ labelId }) => {
     setVersion((s) => s + 1);
   }, []);
 
-  const records = useRecords(labelId);
-  let published,
-    minted,
-    drafted = [];
-
-  if (records) {
-    published = records.filter((rec) => rec.isPublished);
-    minted = records.filter((rec) => rec.isMinted);
-  }
+  // Three API calls is not ideal
+  const published = useRecords({ labelId, state: "PUBLISHED" });
+  const minted = useRecords({ labelId, state: "MINTED" });
+  const drafted = useRecords({ labelId, state: "DRAFT" });
 
   console.log("RecordStack: published", published);
   console.log("RecordStack: minted", minted);
+  console.log("RecordStack: drafted", drafted);
 
   return (
     <div className="row">

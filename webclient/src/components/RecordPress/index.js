@@ -9,12 +9,7 @@ const RecordPress = ({ labelId }) => {
     setVersion((s) => s + 1);
   }, []);
 
-  const records = useRecords(labelId);
-
-  let drafted = [];
-  if (records) {
-    drafted = records.filter((rec) => rec.isDraft);
-  }
+  const drafted = useRecords({ labelId, state: "DRAFT" });
 
   console.log("RecordPress: drafted", drafted);
 
