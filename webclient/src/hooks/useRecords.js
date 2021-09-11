@@ -8,7 +8,7 @@ export const useRecords = ({labelId, state}) => {
 
   useEffect(() => {
     repo
-      ?.listRecords({labelId, state})
+      ?.list({labelId, state})
       .then((records) => {
         setRecords(records);
       })

@@ -1,10 +1,11 @@
 import client from "./ApiClient"
+import Base from "./Base"
 import { MemberDeserializer } from "./models/Member.js"
-import { deserializeResponse } from "./helpers.js"
 
 // RecordLabelRepository is the data access interface  for labels
-class MemberRepository {
+class MemberRepository extends Base {
 	 constructor() {
+			super()
 			this.URI = "/members/"
 	 }
 
@@ -12,7 +13,7 @@ class MemberRepository {
 			try {
 				 const response = await client.get(`${this.URI}?recordlabel=${labelId}`)
 
-				 const result = deserializeResponse(response, MemberDeserializer)
+				 const result = this.deserializeResponse(response, MemberDeserializer)
 
 				 console.log(response);
 				 return result

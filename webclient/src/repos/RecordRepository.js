@@ -1,15 +1,16 @@
 import client from "./ApiClient"
+import Base from "./Base"
 import {RecordDeserializer} from "./models/Record.js"
-import { deserializeResponse } from "./helpers.js"
 
 // RecordRepository is the data access interface for record
-class RecordRepository {
+class RecordRepository extends Base {
 	 constructor() {
+			super()
 			this.URI = "/records/"
 	 }
 
 	 // Returns all records associated with the label
-	 async listRecords({labelId, state}) {
+	 async list({labelId, state}) {
 			if (labelId == undefined || state == undefined) {
 				 return null
 			}
@@ -17,7 +18,7 @@ class RecordRepository {
 			try {
 				 const response = await client.get(`${this.URI}?recordlabel=${labelId}&state=${state}`)
 
-				 const result = deserializeResponse(response, RecordDeserializer)
+				 const result = this.deserializeResponse(response, RecordDeserializer)
 
 				 console.log(response);
 				 return result
