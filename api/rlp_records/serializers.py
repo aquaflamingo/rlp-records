@@ -1,4 +1,4 @@
-from rest_framework_json_api import serializers
+from rest_framework import serializers
 from rlp_records.models import Record, Member, RecordLabel, ERC721
 
 
