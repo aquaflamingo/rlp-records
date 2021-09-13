@@ -31,7 +31,8 @@ ipfs.clean:
 ###############################################################
 
 server.pyup:
-	@cd api && python manage.py runserver
+	@echo "Make sure you venv"
+	@cd api && . ./venv/bin/activate && python manage.py runserver
 
 server.up:
 	@docker-compose -f ./api/docker-compose.yml -p ${project} up
