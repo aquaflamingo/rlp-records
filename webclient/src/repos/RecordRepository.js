@@ -30,29 +30,36 @@ class RecordRepository extends Base {
     }
   }
 
-  createRecord({ labelId, record }) {
-    console.log(
-      "RecordRepository: creating new record, label: ",
-      labelId,
-      " record: ",
-      record
-    );
+  async createRecord({ labelId, record, audioFile}) {
+		 // TODO: first post to create the initial record resource
+		 // TODO: second put the 
+		 try {
+				const response = await client.post(`${this.URI}`, {
+					 title: record.title,
+					 artist: record.artist,
+					 state: 'DRAFT',
+					 recordlabel: labelId
+				})
 
-    const rec = {
-      id: Math.floor(Math.random() * 100000000),
-      state: "DRAFT",
-      labelId: labelId,
-      title: record.title,
-      artist: record.artist,
-    };
+				const result = this.deserializeResponse(response, RecordDeserializer);
 
-    // TODO fingerprint
-    this.records[labelId].push(rec);
+				const formData = new FormData()
+				formData.append('value', audioFile)
+				// TODO: finish 
+				formData.append('record', result.id)
 
-    return new Promise((resolve, reject) => {
-      resolve({ data: { msg: "done" } });
-    });
+				const response = await client.put(`${this.URI}/upload`, formData)
+
+				// TODO return response
+				return result
+		 } catch(err) {
+				console.error(error)
+				debugger
+				return nuull
+		 }
   }
+
+	 async
 }
 
 export default RecordRepository;
