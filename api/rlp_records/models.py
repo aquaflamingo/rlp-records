@@ -11,11 +11,6 @@ class Member(models.Model):
     name = models.CharField(max_length=200)
     recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE, null=True)
 
-class AudioFile(models.Model):
-    sha256 = models.CharField(max_length=200, null=True)
-    fingerprint = models.BinaryField(null=True)
-    value = models.BinaryField(null=True)
-
 class Record(models.Model):
     class RecordState(models.TextChoices):
         DRAFT = 'DRAFT'
@@ -28,6 +23,10 @@ class Record(models.Model):
 
     recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE)
     token = models.ForeignKey(ERC721, on_delete=models.CASCADE, null=True)
-    audiofile = models.ForeignKey(AudioFile, on_delete=models.CASCADE, null=True)
 
 
+class AudioFile(models.Model):
+    sha256 = models.CharField(max_length=200, null=True)
+    fingerprint = models.BinaryField(null=True)
+    value = models.BinaryField(null=True)
+    record = models.ForeignKey(Record, on_delete=models.CASCADE, null=True)
