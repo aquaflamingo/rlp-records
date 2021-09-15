@@ -5,13 +5,16 @@ from rlp_records.models import Record, Member, RecordLabel, ERC721, AudioFile
 class ERC721Serializer(serializers.ModelSerializer):
     class Meta:
         model = ERC721
-        fields = ('tokenId',
+        fields = ('id', 
+                  'tokenId',
                   'metadataURI')
+        read_only_fields = ("id")
 
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ('name', 'recordlabel')
+        fields = ('id', 'name', 'recordlabel')
+        read_only_fields = ("id")
 
 
 class RecordLabelSerializer(serializers.ModelSerializer):
@@ -19,7 +22,8 @@ class RecordLabelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecordLabel
-        fields = ('name', 'member_set')
+        fields = ('id', 'name', 'member_set')
+        read_only_fields = ("id")
 
 class AudioFileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,12 +35,11 @@ class RecordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Record
-        fields = ('title',
+        fields = ('id', 
+                  'title',
                   'artist',
                   'state',
-                  'audiofile',
                   'recordlabel',
                   'token')
-        read_only_fields = ["audiofile"]
-
+        read_only_fields = ("id")
 
