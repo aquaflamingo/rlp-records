@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rlp_records.models import Record, Member, ERC721, RecordLabel
 from rlp_records.serializers import RecordLabelSerializer, RecordSerializer, MemberSerializer, ERC721Serializer, AudioFileSerializer
-from rest_framework import viewsets, generics, response, parsers
+from rest_framework import viewsets, response, parsers, status
 from rest_framework.decorators import action
 
 class RecordViewSet(viewsets.ModelViewSet):
@@ -14,15 +14,13 @@ class RecordViewSet(viewsets.ModelViewSet):
         detail=True,
         methods=['PUT'],
         serializer_class=AudioFileSerializer,
-        parser_classes=[parsers.MultiPartParser],
+        # parser_classes=[parsers.MultiPartParser],
     )
     def upload(self, request, pk):
-        # TODO: use primary key from request
-        #       to associate the audio file and save
-        obj = self.get_object()
+        audio_upload_data = request.data.copy()
+        audio_upload_data["record"] = pk
 
-        serializer = self.serializer_class(obj, 
-                                           data=request.data,
+        serializer = self.serializer_class(data=audio_upload_data,
                                            partial=True)
 
         # TODO: On save begin fingerprint compute
