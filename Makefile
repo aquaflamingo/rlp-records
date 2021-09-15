@@ -31,8 +31,26 @@ ipfs.clean:
 ###############################################################
 
 server.pyup:
-	@echo "Make sure you venv"
 	@cd api && . ./venv/bin/activate && python manage.py runserver
+
+server.pyshell:
+	@cd api && . ./venv/bin/activate && python manage.py shell
+
+db.pyshell:
+	@cd api && . ./venv/bin/activate && python manage.py dbshell
+
+db.pyflush:
+	@cd api && . ./venv/bin/activate && python manage.py sqlflush
+
+db.pynew_migration:
+	@cd api && . ./venv/bin/activate && python manage.py makemigrations
+
+db.pymigrate:
+	@cd api && . ./venv/bin/activate && python manage.py migrate
+
+###################################################################
+# CONTAINERZ
+###################################################################
 
 server.up:
 	@docker-compose -f ./api/docker-compose.yml -p ${project} up
@@ -52,4 +70,5 @@ db.migrate:
 db.loadfixtures: 
 	@docker-compose -p ${project} exec api python manage.py loaddata ${NAME}
 
-
+db.flush:
+	@docker-compose -p ${project} exec api python manage.py sqlflush
