@@ -16,4 +16,6 @@ tmp/
 #Hardhat files
 cache
 artifacts
+
+_logs/*
 LOG.md
