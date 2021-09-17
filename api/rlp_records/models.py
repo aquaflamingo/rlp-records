@@ -25,13 +25,16 @@ class Record(models.Model):
     recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE)
     token = models.ForeignKey(ERC721, on_delete=models.CASCADE, null=True)
 
+def record_upload_path(instance, filename):
+    name, extension = filename.split(sep=".")
+    name = slugify(name)
+    upload_name = name + "." + extension
+
+    # file saved to /uploads/record_id/file_name
+    return 'uploads/record_{0}/{1}'.format(instance.record.id, upload_name)
 
 class AudioFile(models.Model):
-    def user_upload_path(self, instance, filename):
-        # file saved to MEDIA/uploads/user_id/file_name
-        return 'uploads/user_{0}/{1}'.format(instance.user.id, slugify(filename))
-
     sha256 = models.CharField(max_length=200, null=True)
     fingerprint = models.BinaryField(null=True)
-    file = models.FileField(upload_to=user_upload_path, null=True)
+    file = models.FileField(upload_to=record_upload_path, null=True)
     record = models.ForeignKey(Record, on_delete=models.CASCADE, null=True)
