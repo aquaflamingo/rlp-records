@@ -28,7 +28,7 @@ class RecordLabelSerializer(serializers.ModelSerializer):
 class AudioFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AudioFile
-        fields = ('record', 'value')
+        fields = ('record', 'file')
 
 class RecordSerializer(serializers.ModelSerializer):
     token = ERC721Serializer(read_only=True)
