@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='audiofile',
             name='file',
-            field=models.FileField(null=True, upload_to=rlp_records.models.AudioFile.user_upload_path),
+            field=models.FileField(null=True, upload_to=rlp_records.models.record_upload_path),
         ),
     ]
