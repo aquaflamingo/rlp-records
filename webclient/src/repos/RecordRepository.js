@@ -1,6 +1,6 @@
 import client from "./ApiClient";
 import Base from "./Base";
-import { RecordDeserializer } from "./models/Record.js";
+import { RecordsDeserializer } from "./models/Record.js";
 
 // RecordRepository is the data access interface for record
 class RecordRepository extends Base {
@@ -19,10 +19,14 @@ class RecordRepository extends Base {
       const response = await client.get(
         `${this.URI}?recordlabel=${labelId}&state=${state}`
       );
+			 console.log("RecordRepository.list:", response);
 
-      const result = this.deserializeResponse(response, RecordDeserializer);
+			 let result = []
 
-      console.log(response);
+			 if (response && response.data) {
+				 result = this.deserializeResponse(response.data, RecordsDeserializer);
+			 }
+
       return result;
     } catch (error) {
       console.error(error);
@@ -30,32 +34,28 @@ class RecordRepository extends Base {
     }
   }
 
-  async createRecord({ labelId, record, audioFile}) {
-		 // TODO: first post to create the initial record resource
-		 // TODO: second put the 
+  async createRecord({ labelId, recordValues, audioFile}) {
 		 try {
-				const response = await client.post(`${this.URI}`, {
-					 title: record.title,
-					 artist: record.artist,
+				let response = await client.post(`${this.URI}`, {
+					 title: recordValues.title,
+					 artist: recordValues.artist,
 					 state: 'DRAFT',
 					 recordlabel: labelId
 				})
 
-				const result = this.deserializeResponse(response, RecordDeserializer);
+				const record = response.data
 
 				const formData = new FormData()
-				formData.append('value', audioFile)
-				// TODO: finish 
-				formData.append('record', result.id)
+				formData.append('record', record.id)
+				formData.append('file', audioFile)
 
-				const response = await client.put(`${this.URI}/upload`, formData)
+				response = await client.put(`${this.URI}${record.id}/upload/`, formData)
 
-				// TODO return response
-				return result
+				return record
 		 } catch(err) {
-				console.error(error)
+				console.error(err)
 				debugger
-				return nuull
+				return null
 		 }
   }
 
