@@ -1,7 +1,7 @@
-export const MemberDeserializer = (data) => {
+// TODO: this is pretty dumb
+export const MembersDeserializer = (data) => {
   return {
-    type: data.type,
     id: data.id,
-    name: data.attributes.name,
+    name: data.name,
   };
 };

@@ -1,17 +1,20 @@
-from rest_framework_json_api import serializers
-from rlp_records.models import Record, Member, RecordLabel, ERC721
+from rest_framework import serializers
+from rlp_records.models import Record, Member, RecordLabel, ERC721, AudioFile
 
 
 class ERC721Serializer(serializers.ModelSerializer):
     class Meta:
         model = ERC721
-        fields = ('tokenId',
+        fields = ('id', 
+                  'tokenId',
                   'metadataURI')
+        read_only_fields = [ 'id' ]
 
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ('name', 'recordlabel')
+        fields = ('id', 'name', 'recordlabel')
+        read_only_fields = [ 'id' ]
 
 
 class RecordLabelSerializer(serializers.ModelSerializer):
@@ -19,17 +22,24 @@ class RecordLabelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecordLabel
-        fields = ('name', 'member_set')
+        fields = ('id', 'name', 'member_set')
+        read_only_fields = [ 'id' ]
+
+class AudioFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AudioFile
+        fields = [ 'record', 'file' ]
 
 class RecordSerializer(serializers.ModelSerializer):
     token = ERC721Serializer(read_only=True)
 
     class Meta:
         model = Record
-        fields = ('title',
+        fields = ('id', 
+                  'title',
                   'artist',
                   'state',
-                  'audio_hash',
-                  'fingerprint',
                   'recordlabel',
                   'token')
+        read_only_fields = [ 'id' ]
+

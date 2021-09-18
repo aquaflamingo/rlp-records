@@ -1,12 +1,11 @@
 class Base {
   constructor() {}
 
-  deserializeResponse(response, deserializer) {
+  deserializeResponse(data, deserializer) {
     let result = [];
-    let dataModels = response.data.data;
 
-    for (var m = 0; m < dataModels.length; m++) {
-      result.push(deserializer(dataModels[m]));
+    for (var m = 0; m < data.length; m++) {
+      result.push(deserializer(data[m]));
     }
     return result;
   }

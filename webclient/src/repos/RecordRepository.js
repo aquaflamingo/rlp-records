@@ -1,6 +1,6 @@
 import client from "./ApiClient";
 import Base from "./Base";
-import { RecordDeserializer } from "./models/Record.js";
+import { RecordsDeserializer } from "./models/Record.js";
 
 // RecordRepository is the data access interface for record
 class RecordRepository extends Base {
@@ -19,10 +19,14 @@ class RecordRepository extends Base {
       const response = await client.get(
         `${this.URI}?recordlabel=${labelId}&state=${state}`
       );
+      console.log("RecordRepository.list:", response);
 
-      const result = this.deserializeResponse(response, RecordDeserializer);
+      let result = [];
 
-      console.log(response);
+      if (response && response.data) {
+        result = this.deserializeResponse(response.data, RecordsDeserializer);
+      }
+
       return result;
     } catch (error) {
       console.error(error);
@@ -30,29 +34,32 @@ class RecordRepository extends Base {
     }
   }
 
-  createRecord({ labelId, record }) {
-    console.log(
-      "RecordRepository: creating new record, label: ",
-      labelId,
-      " record: ",
-      record
-    );
+  async createRecord({ labelId, recordValues, audioFile }) {
+    try {
+      let response = await client.post(`${this.URI}`, {
+        title: recordValues.title,
+        artist: recordValues.artist,
+        state: "DRAFT",
+        recordlabel: labelId,
+      });
 
-    const rec = {
-      id: Math.floor(Math.random() * 100000000),
-      state: "DRAFT",
-      labelId: labelId,
-      title: record.title,
-      artist: record.artist,
-    };
+      const record = response.data;
 
-    // TODO fingerprint
-    this.records[labelId].push(rec);
+      const formData = new FormData();
+      formData.append("record", record.id);
+      formData.append("file", audioFile);
 
-    return new Promise((resolve, reject) => {
-      resolve({ data: { msg: "done" } });
-    });
+      response = await client.put(`${this.URI}${record.id}/upload/`, formData);
+
+      return record;
+    } catch (err) {
+      console.error(err);
+      debugger;
+      return null;
+    }
   }
+
+  async;
 }
 
 export default RecordRepository;

@@ -18,7 +18,7 @@ class RecordLabelRepository extends Base {
       const response = await client.get(`${this.URI}/${id}/`);
 
       const result = this.deserializeResponse(
-        response,
+        response.data,
         RecordLabelDeserializer
       );
 

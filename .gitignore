@@ -10,10 +10,14 @@ hardhatAccounts.json
 */deployments/localhost
 webclient/contracts
 TODO.md
-
 node_modules
+tmp/
 
 #Hardhat files
 cache
 artifacts
+
+_logs/*
 LOG.md
+
+uploads/

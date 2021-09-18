@@ -1,14 +1,11 @@
-export const RecordDeserializer = (data) => {
-  const { artist, title, state, token } = data.attributes;
-  const { recordlabel } = data.relationships;
-
+// TODO: this is pretty dumb
+export const RecordsDeserializer = (data) => {
   return {
-    type: data.type,
     id: data.id,
-    artist: artist,
-    title: title,
-    state: state,
-    token: token,
-    label: recordlabel.data,
+    artist: data.artist,
+    title: data.title,
+    state: data.state,
+    token: data.token,
+    recordlabel: data.recordlabel,
   };
 };
