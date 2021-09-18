@@ -30,17 +30,18 @@ export const useCreateRecord = () => {
 
   const repo = useRecordRepository();
 
-  // You POST method here
-  const request = (labelId, record) => {
+  const request = (labelId, recordValues) => {
     setResult((prev) => ({ ...prev, isLoading: true }));
 
     repo
-      .createRecord({ labelId, record })
+				.createRecord({ labelId, recordValues, audioFile: recordValues.audio})
       .then((res) => {
         setResult({ data: res.data, isLoading: false, error: null });
       })
       .catch((error) => {
-        setResult({ data: null, isLoading: false, error });
+				 console.error("Failed to create record:", error)
+				 // FIXME: error 
+        setResult({ data: [], isLoading: false, error });
       });
   };
 
