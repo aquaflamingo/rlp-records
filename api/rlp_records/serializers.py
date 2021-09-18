@@ -8,13 +8,13 @@ class ERC721Serializer(serializers.ModelSerializer):
         fields = ('id', 
                   'tokenId',
                   'metadataURI')
-        read_only_fields = ("id")
+        read_only_fields = [ 'id' ]
 
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
         fields = ('id', 'name', 'recordlabel')
-        read_only_fields = ("id")
+        read_only_fields = [ 'id' ]
 
 
 class RecordLabelSerializer(serializers.ModelSerializer):
@@ -23,12 +23,12 @@ class RecordLabelSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecordLabel
         fields = ('id', 'name', 'member_set')
-        read_only_fields = ("id")
+        read_only_fields = [ 'id' ]
 
 class AudioFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AudioFile
-        fields = ('record', 'file')
+        fields = [ 'record', 'file' ]
 
 class RecordSerializer(serializers.ModelSerializer):
     token = ERC721Serializer(read_only=True)
@@ -41,5 +41,5 @@ class RecordSerializer(serializers.ModelSerializer):
                   'state',
                   'recordlabel',
                   'token')
-        read_only_fields = ("id")
+        read_only_fields = [ 'id' ]
 
