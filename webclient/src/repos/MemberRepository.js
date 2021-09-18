@@ -12,13 +12,13 @@ class MemberRepository extends Base {
   async list({ labelId }) {
     try {
       const response = await client.get(`${this.URI}?recordlabel=${labelId}`);
-			 console.log("MemberRepository.list:", response);
+      console.log("MemberRepository.list:", response);
 
-			 let result =[]
+      let result = [];
 
-			 if (response && response.data) {
-				 result = this.deserializeResponse(response.data, MembersDeserializer);
-			 }
+      if (response && response.data) {
+        result = this.deserializeResponse(response.data, MembersDeserializer);
+      }
 
       return result;
     } catch (error) {

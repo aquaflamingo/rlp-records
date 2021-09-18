@@ -34,13 +34,13 @@ export const useCreateRecord = () => {
     setResult((prev) => ({ ...prev, isLoading: true }));
 
     repo
-				.createRecord({ labelId, recordValues, audioFile: recordValues.audio})
+      .createRecord({ labelId, recordValues, audioFile: recordValues.audio })
       .then((res) => {
         setResult({ data: res.data, isLoading: false, error: null });
       })
       .catch((error) => {
-				 console.error("Failed to create record:", error)
-				 // FIXME: error 
+        console.error("Failed to create record:", error);
+        // FIXME: error
         setResult({ data: [], isLoading: false, error });
       });
   };

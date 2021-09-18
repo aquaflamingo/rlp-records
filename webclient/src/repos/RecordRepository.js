@@ -19,13 +19,13 @@ class RecordRepository extends Base {
       const response = await client.get(
         `${this.URI}?recordlabel=${labelId}&state=${state}`
       );
-			 console.log("RecordRepository.list:", response);
+      console.log("RecordRepository.list:", response);
 
-			 let result = []
+      let result = [];
 
-			 if (response && response.data) {
-				 result = this.deserializeResponse(response.data, RecordsDeserializer);
-			 }
+      if (response && response.data) {
+        result = this.deserializeResponse(response.data, RecordsDeserializer);
+      }
 
       return result;
     } catch (error) {
@@ -34,32 +34,32 @@ class RecordRepository extends Base {
     }
   }
 
-  async createRecord({ labelId, recordValues, audioFile}) {
-		 try {
-				let response = await client.post(`${this.URI}`, {
-					 title: recordValues.title,
-					 artist: recordValues.artist,
-					 state: 'DRAFT',
-					 recordlabel: labelId
-				})
+  async createRecord({ labelId, recordValues, audioFile }) {
+    try {
+      let response = await client.post(`${this.URI}`, {
+        title: recordValues.title,
+        artist: recordValues.artist,
+        state: "DRAFT",
+        recordlabel: labelId,
+      });
 
-				const record = response.data
+      const record = response.data;
 
-				const formData = new FormData()
-				formData.append('record', record.id)
-				formData.append('file', audioFile)
+      const formData = new FormData();
+      formData.append("record", record.id);
+      formData.append("file", audioFile);
 
-				response = await client.put(`${this.URI}${record.id}/upload/`, formData)
+      response = await client.put(`${this.URI}${record.id}/upload/`, formData);
 
-				return record
-		 } catch(err) {
-				console.error(err)
-				debugger
-				return null
-		 }
+      return record;
+    } catch (err) {
+      console.error(err);
+      debugger;
+      return null;
+    }
   }
 
-	 async
+  async;
 }
 
 export default RecordRepository;
