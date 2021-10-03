@@ -46,7 +46,8 @@ const PressRecordForm = ({ labelId, draftedRecords }) => {
 
   const onMint = async ({ values, errors }) => {
     console.log("MintForm.onMint: ", values, errors);
-    const record = draftedRecords.find((r) => r.id === values.recordId);
+    const record = draftedRecords.find((r) => r.id === parseInt(values.recordId));
+		 console.log("MintForm.onMint, Record:", record)
     mint(record);
   };
 
