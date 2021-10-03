@@ -40,7 +40,7 @@ const RecordDropdown = ({ records, value, onChange }) => {
 
 const PressRecordForm = ({ labelId, draftedRecords }) => {
   const accounts = useETHAccounts();
-  const mint = useMint(accounts[0]);
+  const [{ data, isLoading, error }, mint] = useMint(accounts[0]);
 
   let hasRecords = draftedRecords && draftedRecords.length > 0;
 
@@ -62,7 +62,11 @@ const PressRecordForm = ({ labelId, draftedRecords }) => {
 
   return (
     <div>
-      <div className="submit-result"></div>
+      <div className="submit-result">
+        {isLoading ? "Loading..." : ""}
+        {data ? data.msg : ""}
+        {error ? error : ""}
+      </div>
 
       {hasRecords ? (
         <form onSubmit={handleSubmit}>
