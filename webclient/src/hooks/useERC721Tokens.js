@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useERC721TokenRepository } from "../hooks/useRepository";
+import { useERC721Repository } from "../hooks/useRepository";
 
 export const useCreateERC721 = ({ metadataURI, tokenId, recordId }) => {
-	 const repo = useERC721TokenRepository();
+	 const repo = useERC721Repository();
 	 const [result, setResult] = useState({
 			data: null,
 			error: null,
@@ -12,10 +12,9 @@ export const useCreateERC721 = ({ metadataURI, tokenId, recordId }) => {
 	 const uploadRequest = useCallback(
 			async(tokenValues) => {
 				 if (repo === null) return
-				 setResult((prev) => ({...prev, isLoading:true})
+				 setResult((prev) => ({...prev, isLoading:true}))
 
-				 repo.create({tokenvalues: tokenValues})
-						.then((res) => {
+				 repo.create({tokenValues}).then((res) => {
 							 setResult({data: res.data, isLoading: false, error: null});
 						}).catch((err) => {
 							 console.error("Failed to create token:", err)
@@ -28,7 +27,7 @@ export const useCreateERC721 = ({ metadataURI, tokenId, recordId }) => {
 };
 
 export const useERC721 = ({recordId}) => {
-  const repo = useERC721TokenRepository();
+  const repo = useERC721Repository();
 	 const [token, setToken] = useState()
 
   useEffect(() => {

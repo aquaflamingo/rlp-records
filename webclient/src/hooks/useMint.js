@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { ethers } from "ethers";
 import { useEthersJs, useHardhat } from "./useEthers";
 import { useIPFSContentUpload } from "./useIPFS";
+import { useCreateERC721 } from "./useERC721Tokens.js";
 import {
   createFingerprintFileName,
   buildFingerprint,
@@ -35,16 +36,18 @@ const useRLPRecordContract = () => {
 const useMint = (account) => {
   const contract = useRLPRecordContract();
   const ethersjsInstance = useEthersJs();
-  const uploadRequest = useIPFSContentUpload();
+  const ipfsUploadRequest = useIPFSContentUpload();
+	 // TODO
+  // const [result, createTokenRequest] = useCreateERC721();
 
   const mintRequest = useCallback(
     async (record) => {
-      if (ethersjsInstance === null || uploadRequest === null) return;
+      if (ethersjsInstance === null || ipfsUploadRequest === null) return;
 
       console.log("Mint request received...");
       console.log("Starting upload...");
 
-      const uploadResult = await uploadRequest({
+      const uploadResult = await ipfsUploadRequest({
         // track_name.fingerprint
         basename: createFingerprintFileName(record.title),
         // binary stream
@@ -114,7 +117,7 @@ const useMint = (account) => {
         };
       }
     },
-    [ethersjsInstance, uploadRequest]
+    [ethersjsInstance, ipfsUploadRequest]
   );
 
   return mintRequest;
