@@ -6,6 +6,7 @@ router = routers.DefaultRouter()
 router.register(r'members', views.MemberViewSet)
 router.register(r'recordlabels', views.RecordLabelViewSet)
 router.register(r'records', views.RecordViewSet)
+router.register(r'erc721s', views.ERC721ViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
