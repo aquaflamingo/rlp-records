@@ -38,9 +38,9 @@ const useMint = (account) => {
   const ethersjsInstance = useEthersJs();
   const ipfsUploadRequest = useIPFSContentUpload();
 	 // TODO
-  // const [result, createTokenRequest] = useCreateERC721();
+  const [result, createTokenRequest] = useCreateERC721();
 
-  const mintRequest = useCallback(
+  const request = useCallback(
     async (record) => {
       if (ethersjsInstance === null || ipfsUploadRequest === null) return;
 
@@ -93,7 +93,10 @@ const useMint = (account) => {
 
         const tokenId = event.args.tokenId.toString();
         console.log("Token mint succeeded.");
+				 const result = await createTokenRequest({tokenId: tokenId, metadataURI: uploadRequest.metadataURI, recordId: record.id})
 
+				 // TODO handle result
+			
         console.log(
           "id:",
           tokenId,
@@ -120,7 +123,7 @@ const useMint = (account) => {
     [ethersjsInstance, ipfsUploadRequest]
   );
 
-  return mintRequest;
+  return [result, request];
 };
 
 export default useMint;
