@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='erc721',
             name='record',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='rlp_records.record'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='rlp_records.record'),
             preserve_default=False,
         ),
     ]
