@@ -7,7 +7,7 @@ class ERC721Serializer(serializers.ModelSerializer):
         model = ERC721
         fields = ('id', 
                   'tokenId',
-                  'record_id',
+                  'record',
                   'metadataURI')
         read_only_fields = [ 'id' ]
 
@@ -41,7 +41,7 @@ class RecordSerializer(serializers.ModelSerializer):
                   'title',
                   'artist',
                   'state',
-                  'recordlabel'
+                  'recordlabel',
                   # 'token'
                   )
         read_only_fields = [ 'id' ]
