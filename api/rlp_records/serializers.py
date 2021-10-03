@@ -7,6 +7,7 @@ class ERC721Serializer(serializers.ModelSerializer):
         model = ERC721
         fields = ('id', 
                   'tokenId',
+                  'record_id',
                   'metadataURI')
         read_only_fields = [ 'id' ]
 
@@ -31,7 +32,8 @@ class AudioFileSerializer(serializers.ModelSerializer):
         fields = [ 'record', 'file' ]
 
 class RecordSerializer(serializers.ModelSerializer):
-    token = ERC721Serializer(read_only=True)
+    # TODO
+    # token = ERC721Serializer(read_only=True)
 
     class Meta:
         model = Record
@@ -39,7 +41,8 @@ class RecordSerializer(serializers.ModelSerializer):
                   'title',
                   'artist',
                   'state',
-                  'recordlabel',
-                  'token')
+                  'recordlabel'
+                  # 'token'
+                  )
         read_only_fields = [ 'id' ]
 

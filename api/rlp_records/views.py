@@ -35,7 +35,7 @@ class ERC721ViewSet(viewsets.ModelViewSet):
     queryset = ERC721.objects.all()
     serializer_class = ERC721Serializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['tokenId']
+    filterset_fields = ['tokenId', 'record_id']
 
 class MemberViewSet(viewsets.ModelViewSet):
     queryset = Member.objects.all()
