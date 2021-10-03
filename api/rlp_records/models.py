@@ -1,9 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify 
 
-class ERC721(models.Model):
-    tokenId = models.CharField(max_length=200)
-    metadataURI = models.CharField(max_length=200)
 
 class RecordLabel(models.Model):
     name = models.CharField(max_length=200)
@@ -23,7 +20,11 @@ class Record(models.Model):
     state = models.CharField(choices=RecordState.choices, max_length=200)
 
     recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE)
-    token = models.ForeignKey(ERC721, on_delete=models.CASCADE, null=True)
+
+class ERC721(models.Model):
+    tokenId = models.CharField(max_length=200)
+    metadataURI = models.CharField(max_length=200)
+    record = models.ForeignKey(Record, on_delete=models.CASCADE, null=True)
 
 def record_upload_path(instance, filename):
     name, extension = filename.split(sep=".")
