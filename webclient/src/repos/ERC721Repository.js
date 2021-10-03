@@ -14,7 +14,7 @@ async create({tokenValues}) {
       let response = await client.post(`${this.URI}`, {
         tokenId: tokenValues.tokenId,
         metadataURI: tokenValues.metadatURI,
-        record_id: tokenValues.recordId,
+        record: tokenValues.recordId,
       });
     } catch (err) {
       console.error(err);
