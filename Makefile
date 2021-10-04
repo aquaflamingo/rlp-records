@@ -38,6 +38,9 @@ server.pyup:
 server.pyshell:
 	@cd api && . ./venv/bin/activate && python manage.py shell
 
+db.pydrop:
+	@cd api && . ./venv/bin/activate && python manage.py flush
+
 db.pyshell:
 	@cd api && . ./venv/bin/activate && python manage.py dbshell
 
@@ -53,7 +56,6 @@ db.pymigrate:
 ###################################################################
 # CONTAINERZ
 ###################################################################
-
 server.up:
 	@docker-compose -f ./api/docker-compose.yml -p ${project} up
 
@@ -71,6 +73,9 @@ db.migrate:
 
 db.loadfixtures: 
 	@docker-compose -p ${project} exec api python manage.py loaddata ${NAME}
+
+db.drop:
+	@docker-compose -p ${project} exec api python manage.py flush
 
 db.flush:
 	@docker-compose -p ${project} exec api python manage.py sqlflush
