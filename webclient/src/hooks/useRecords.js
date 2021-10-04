@@ -36,6 +36,7 @@ export const useCreateRecord = () => {
     repo
       .createRecord({ labelId, recordValues, audioFile: recordValues.audio })
       .then((res) => {
+				 debugger
         setResult({ data: res.data, isLoading: false, error: null });
       })
       .catch((error) => {

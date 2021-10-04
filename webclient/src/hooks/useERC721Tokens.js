@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useERC721Repository } from "../hooks/useRepository";
 
-export const useCreateERC721 = ({ metadataURI, tokenId, recordId }) => {
+export const useCreateERC721 = () => {
 	 const repo = useERC721Repository();
 	 const [result, setResult] = useState({
 			data: null,
@@ -10,7 +10,7 @@ export const useCreateERC721 = ({ metadataURI, tokenId, recordId }) => {
 	 });
 
 	 const uploadRequest = useCallback(
-			async(tokenValues) => {
+			async({ metadataURI, tokenId, recordId }) => {
 				 if (repo === null) return
 				 setResult((prev) => ({...prev, isLoading:true}))
 
