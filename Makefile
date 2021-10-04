@@ -31,27 +31,29 @@ ipfs.clean:
 ###############################################################
 # SERVER
 ###############################################################
-
-server.pyup:
+server.py.up:
 	@cd api && . ./venv/bin/activate && python manage.py runserver
 
-server.pyshell:
+server.py.shell:
 	@cd api && . ./venv/bin/activate && python manage.py shell
 
-db.pydrop:
+db.py.drop:
 	@cd api && . ./venv/bin/activate && python manage.py flush
 
-db.pyshell:
+db.py.shell:
 	@cd api && . ./venv/bin/activate && python manage.py dbshell
 
-db.pyflush:
+db.py.flush:
 	@cd api && . ./venv/bin/activate && python manage.py sqlflush
 
-db.pynew_migration:
+db.py.new_migration:
 	@cd api && . ./venv/bin/activate && python manage.py makemigrations
 
-db.pymigrate:
+db.py.migrate:
 	@cd api && . ./venv/bin/activate && python manage.py migrate
+
+db.py.loadfixtures: 
+	@cd api && . ./venv/bin/activate && python manage.py loaddata ${NAME}
 
 ###################################################################
 # CONTAINERZ
