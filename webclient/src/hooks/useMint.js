@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { ethers } from "ethers";
 import { useEthersJs, useHardhat } from "./useEthers";
 import { useIPFSContentUpload } from "./useIPFS";
+import { useCreateMintEvent } from "./useCreateMintEvent";
 import {
 	 createFingerprintFileName,
 	 buildFingerprint,
@@ -36,7 +37,7 @@ const useMintFlow = (account) => {
 	 const contract = useRLPRecordContract();
 	 const ethersjsInstance = useEthersJs();
 	 const ipfsUploadRequest = useIPFSContentUpload();
-	 const createMintEvent = useCreateMintEvent();
+	 const createMintEventRequest = useCreateMintEvent();
 
 	 const request = useCallback(async (record) => {
 			if (ethersjsInstance === null || ipfsUploadRequest === null) return;
@@ -75,10 +76,18 @@ const useMintFlow = (account) => {
 			// The transaction receipt contains events emitted while processing the transaction.
 			const receipt = await tx.wait();
 			const erc721Token = parseMintTxResponse(receipt, {...uploadRequest})
+			const mintEventResult = await createMintEventRequest(
+				 { proof: tx.hash,
+						recordId: record.id,
+						tokenId: erc721Token.id,
+						assetURI: erc721Token.assetURI,
+						metadataURI: erc721Token.metadataURI,
+						storageVenue: 'ipfs'
+				 }
+			)
 
 			return erc721Token
-	 }, [ethersjsInstance, ipfsUploadRequest]);
-
+	 }, [ethersjsInstance, createMintEventRequest, ipfsUploadRequest]);
 	 return [result, request];
 };
 
