@@ -1,6 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rlp_records.models import Record, Member, ERC721, RecordLabel
-from rlp_records.serializers import RecordLabelSerializer, RecordSerializer, MemberSerializer, ERC721Serializer, AudioFileSerializer
+from rlp_records.serializers import RecordLabelSerializer, RecordSerializer, MemberSerializer, ERC721Serializer, AudioFileSerializer, EventSerializer
 from rest_framework import viewsets, mixins, response, parsers, status
 from rest_framework.decorators import action
 import IPython
@@ -56,4 +56,7 @@ class RecordLabelViewSet(viewsets.ModelViewSet):
     queryset = RecordLabel.objects.all()
     serializer_class = RecordLabelSerializer
 
+class EventViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin)
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
 
