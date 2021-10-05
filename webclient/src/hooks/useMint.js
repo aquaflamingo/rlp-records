@@ -2,10 +2,9 @@ import React, { useEffect, useState, useCallback } from "react";
 import { ethers } from "ethers";
 import { useEthersJs, useHardhat } from "./useEthers";
 import { useIPFSContentUpload } from "./useIPFS";
-import { useCreateERC721 } from "./useERC721Tokens.js";
 import {
-  createFingerprintFileName,
-  buildFingerprint,
+	 createFingerprintFileName,
+	 buildFingerprint,
 } from "./../helpers/Record";
 import { removeIPFSPrefix } from "./../helpers/IPFS";
 
@@ -14,116 +13,115 @@ import Artifacts from "@rlprecords/contracts";
 const RLPRecord = Artifacts.contracts.RLPRecord;
 
 const useRLPRecordContract = () => {
-  const ethersjsInstance = useEthersJs();
-  const [contract, setContract] = useState([]);
+	 const ethersjsInstance = useEthersJs();
+	 const [contract, setContract] = useState([]);
 
-  useEffect(() => {
-    if (ethersjsInstance === null) return;
+	 useEffect(() => {
+			if (ethersjsInstance === null) return;
 
-    const rlpRecordContract = new ethers.Contract(
-      RLPRecord.address,
-      RLPRecord.abi,
-      // RLPRecord is ownable needs to be owner to interact
-      ethersjsInstance.getSigner(0)
-    );
+			const rlpRecordContract = new ethers.Contract(
+				 RLPRecord.address,
+				 RLPRecord.abi,
+				 // RLPRecord is ownable needs to be owner to interact
+				 ethersjsInstance.getSigner(0)
+			);
 
-    setContract(rlpRecordContract);
-  }, [ethersjsInstance]);
+			setContract(rlpRecordContract);
+	 }, [ethersjsInstance]);
 
-  return contract;
+	 return contract;
 };
 
-const useMint = (account) => {
-  const contract = useRLPRecordContract();
-  const ethersjsInstance = useEthersJs();
-  const ipfsUploadRequest = useIPFSContentUpload();
-	 // TODO
-  const [result, createTokenRequest] = useCreateERC721();
+const useMintFlow = (account) => {
+	 const contract = useRLPRecordContract();
+	 const ethersjsInstance = useEthersJs();
+	 const ipfsUploadRequest = useIPFSContentUpload();
+	 const createMintEvent = useCreateMintEvent();
 
-  const request = useCallback(
-    async (record) => {
-      if (ethersjsInstance === null || ipfsUploadRequest === null) return;
+	 const request = useCallback(async (record) => {
+			if (ethersjsInstance === null || ipfsUploadRequest === null) return;
 
-      console.log("Mint request received...");
-      console.log("Starting upload...");
+			console.log("Mint request received, starting upload...");
 
-      const uploadResult = await ipfsUploadRequest({
-        // track_name.fingerprint
-        basename: createFingerprintFileName(record.title),
-        // binary stream
-        content: record.fingerprint,
-        metadata: {
-          title: record.title,
-          artist: record.artist,
-          labelId: record.labelId,
-          released: new Date().getFullYear(),
-        },
-      });
+			const uploadResult = await ipfsUploadRequest({
+				 // track_name.fingerprint
+				 basename: createFingerprintFileName(record.title),
+				 // binary stream
+				 content: record.fingerprint,
+				 metadata: {
+						title: record.title,
+						artist: record.artist,
+						labelId: record.labelId,
+						released: new Date().getFullYear(),
+				 },
+			});
 
-      console.log(
-        "Upload completed. URI: ",
-        uploadResult.assetURI,
-        "Metadata URI:",
-        uploadResult.metadataURI
-      );
-      console.log("Minting token...");
+			console.log(
+				 "Storage upload completed. URI: ",
+				 uploadResult.assetURI,
+				 "Metadata URI:",
+				 uploadResult.metadataURI,
+				 "Starting token mint..."
+			);
 
-      // Strip the IPFS prefix which is appended to the metadataURI.
-      //
-      // The RLPRecord contract appends the base prefix ipfs:// to
-      // each tokenURI.
-      const tokenMetadata = removeIPFSPrefix(uploadResult.metadataURI);
+			// Strip the IPFS prefix which is appended to the metadataURI.
+			//
+			// The RLPRecord contract appends the base prefix ipfs:// to
+			// each tokenURI.
+			const tokenMetadata = removeIPFSPrefix(uploadResult.metadataURI);
 
-      const tx = await contract.mintToken(account, tokenMetadata);
-      // The transaction receipt contains events emitted while processing the transaction.
-      const receipt = await tx.wait();
-      console.log(
-        "Token mint requested, received response.",
-        "Filtering ",
-        receipt.events.length,
-        "events..."
-      );
+			const tx = await contract.mintToken(account, tokenMetadata);
 
-      console.log(receipt.events);
-      for (const event of receipt.events) {
-        if (event.event !== "Transfer") {
-          console.log("ignoring unknown event type ", event.event);
-          continue;
-        }
+			// The transaction receipt contains events emitted while processing the transaction.
+			const receipt = await tx.wait();
+			const erc721Token = parseMintTxResponse(receipt, {...uploadRequest})
 
-        const tokenId = event.args.tokenId.toString();
-        console.log("Token mint succeeded.");
-				 const result = await createTokenRequest({tokenId: tokenId, metadataURI: uploadRequest.metadataURI, recordId: record.id})
+			return erc721Token
+	 }, [ethersjsInstance, ipfsUploadRequest]);
 
-				 // TODO handle result
-			
-        console.log(
-          "id:",
-          tokenId,
-          "assetURI:",
-          uploadResult.assetURI,
-          "metadataURI:",
-          uploadResult.metadataURI
-        );
-
-        // return nft id, asset and metadata
-        return {
-          id: tokenId,
-          asset: {
-            uri: uploadResult.assetURI,
-            cid: removeIPFSPrefix(uploadResult.assetURI),
-          },
-          metadata: {
-            uri: uploadResult.metadataURI,
-            cid: removeIPFSPrefix(uploadResult.metadataURI),
-          },
-        };
-      }
-    },
-    [ethersjsInstance, ipfsUploadRequest]
-  );
-
-  return [result, request];
+	 return [result, request];
 };
 
-export default useMint;
+export default useMintFlow;
+
+const parseMintTxResponse = (receipt, storageInformation) => {
+	 console.log(
+			"Token mint requested, received response.",
+			"Filtering ",
+			receipt.events.length,
+			"events..."
+	 );
+	 for (const event of receipt.events) {
+			if (event.event !== "Transfer") {
+				 console.log("ignoring unknown event type ", event.event);
+				 continue;
+			}
+
+			const tokenId = event.args.tokenId.toString();
+			console.log("Token mint succeeded.");
+
+			// const result = await createTokenRequest({tokenId: tokenId, metadataURI: uploadRequest.metadataURI, recordId: record.id})
+
+			console.log(
+				 "id:",
+				 tokenId,
+				 "assetURI:",
+				 storageInformation.assetURI,
+				 "metadataURI:",
+				 storageInformation.metadataURI
+			);
+
+			// return nft id, asset and metadata
+			return {
+				 id: tokenId,
+				 asset: {
+						uri: storageInformation.assetURI,
+						cid: removeIPFSPrefix(storageInformation.assetURI),
+				 },
+				 metadata: {
+						uri: storageInformation.metadataURI,
+						cid: removeIPFSPrefix(storageInformation.metadataURI),
+				 },
+			};
+	 }
+}
