@@ -9,13 +9,21 @@ class ERC721Repository extends Base {
     this.URI = "/erc721s/";
   }
 
-async create({tokenValues}) {
+	 async createMintEvent({ txHash, recordId, tokenId, metadataURI }) {
     try {
-      let response = await client.post(`${this.URI}`, {
-        tokenId: tokenValues.tokenId,
-        metadataURI: tokenValues.metadatURI,
-        record: tokenValues.recordId,
-      });
+      let response = await client.post(`/events/`, {
+				 event_type: 'MINT',
+				 data: {
+						proof: txHash,
+						record_id: recordId,
+						token_id: tokenId,
+						metadata_uri: metadataURI
+				 }
+			})
+
+      const res = response.data;
+
+      return res;
     } catch (err) {
       console.error(err);
       debugger;
