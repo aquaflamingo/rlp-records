@@ -9,6 +9,16 @@ class Member(models.Model):
     name = models.CharField(max_length=200)
     recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE, null=True)
 
+class Event(models.Model):
+    class EventType(models.TextChoices):
+        MINT = 'MINT'
+
+    event_type = models.CharField(choices=EventType.choices, max_length=100)
+    proof = models.CharField(max_length=200)
+    attributed_to = models.ForeignKey(RecordLabel, on_delete=models.CASCADE)
+
+    details = models.JSONField()
+
 class Record(models.Model):
     class RecordState(models.TextChoices):
         DRAFT = 'DRAFT'
