@@ -17,7 +17,7 @@ tmp/
 cache
 artifacts
 
-_logs/*
+devlog/*
 LOG.md
 
 uploads/
