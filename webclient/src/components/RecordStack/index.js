@@ -1,22 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import RecordList from "../RecordList";
 import { useRecords } from "../../hooks/useRecords";
-import useMint from "../../hooks/useMint";
-
-//
-const MintButton = ({ mintable, onMint }) => {
-  const mintRequest = useMint(mintable);
-  const tmpToAddress = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-
-  const mintFn = async () => {
-    // TODO how to refactor this up so it makes sense
-    const result = await mintRequest({ toAddress: tmpToAddress });
-    onMint(result);
-    console.log("Record was minted", result);
-  };
-
-  return <button onClick={mintFn}>Mint</button>;
-};
 
 const RecordStack = ({ labelId }) => {
   const [version, setVersion] = useState(0);
