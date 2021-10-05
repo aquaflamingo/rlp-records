@@ -3,6 +3,20 @@ import RecordRepository from "../repos/RecordRepository";
 import RecordLabelRepository from "../repos/RecordLabelRepository";
 import MemberRepository from "../repos/MemberRepository";
 import ERC721Repository from "../repos/ERC721Repository";
+import EventRepository from "../repos/EventRepository";
+
+// Returns the record repository structure
+export const useEventRepository = () => {
+  const [repo, setRepo] = useState(null);
+
+  useEffect(() => {
+    const eventRepo = new EventRepository();
+
+    setRepo(eventRepo);
+  }, []); // Empty array prevents infinite rerender
+
+  return repo;
+};
 
 // Returns the record repository structure
 export const useERC721Repository = () => {

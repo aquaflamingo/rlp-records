@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useERC721Repository } from "../hooks/useRepository";
+import { useEventRepository } from "../hooks/useRepository";
 
 export const useCreateMintEvent = () => {
   const [result, setResult] = useState({
@@ -8,9 +8,9 @@ export const useCreateMintEvent = () => {
     isLoading: false,
   });
 
-  const repo = useERC721Repository();
+  const repo = useEventRepository();
 
-  const request = ({ proof, recordId, tokenId, assetURI, metadataURI, storageVenue}) => {
+  const request = ({ proof, details: {recordId, tokenId, assetURI, metadataURI, storageVenue}}) => {
     setResult((prev) => ({ ...prev, isLoading: true }));
 
     repo
