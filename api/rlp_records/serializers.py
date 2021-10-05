@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rlp_records.models import Record, Member, RecordLabel, ERC721, AudioFile
+from rlp_records.models import Record, Member, RecordLabel, ERC721, AudioFile, Event
 
 
 class ERC721Serializer(serializers.ModelSerializer):
@@ -31,8 +31,14 @@ class AudioFileSerializer(serializers.ModelSerializer):
         model = AudioFile
         fields = [ 'record', 'file' ]
 
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        # TODO: include details?
+        fields = ('id', 'attributed_to', 'proof')
+
 class RecordSerializer(serializers.ModelSerializer):
-    # TODO
+    # TODO include ERC721 per event creation
     # token = ERC721Serializer(read_only=True)
 
     class Meta:
