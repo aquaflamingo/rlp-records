@@ -1,5 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rlp_records.models import Record, Member, ERC721, RecordLabel
+from rlp_records.models import Record, Member, ERC721, RecordLabel, Event
 from rlp_records.serializers import RecordLabelSerializer, RecordSerializer, MemberSerializer, ERC721Serializer, AudioFileSerializer, EventSerializer
 from rest_framework import viewsets, mixins, response, parsers, status
 from rest_framework.decorators import action
@@ -12,7 +12,8 @@ import IPython
 class RecordViewSet(mixins.RetrieveModelMixin,
         mixins.DestroyModelMixin,
         mixins.ListModelMixin,
-        mixins.CreateModelMixin):
+        mixins.CreateModelMixin,
+        viewsets.GenericViewSet):
     queryset = Record.objects.all()
     serializer_class = RecordSerializer
     filter_backends = [DjangoFilterBackend]
@@ -40,23 +41,23 @@ class RecordViewSet(mixins.RetrieveModelMixin,
 
 # NOTE 
 #   READ ONLY
-class ERC721ViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin):
+class ERC721ViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     queryset = ERC721.objects.all()
     serializer_class = ERC721Serializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['tokenId', 'record']
 
-class MemberViewSet(viewsets.ModelViewSet):
+class MemberViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['recordlabel']
 
-class RecordLabelViewSet(viewsets.ModelViewSet):
+class RecordLabelViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     queryset = RecordLabel.objects.all()
     serializer_class = RecordLabelSerializer
 
-class EventViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin)
+class EventViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
