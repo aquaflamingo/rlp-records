@@ -58,8 +58,6 @@ class RecordRepository extends Base {
       return null;
     }
   }
-
-  async;
 }
 
 export default RecordRepository;
