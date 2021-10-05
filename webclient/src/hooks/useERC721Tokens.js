@@ -1,21 +1,30 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useERC721Repository } from "../hooks/useRepository";
 
-export const useERC721 = ({recordId}) => {
+export const useCreateMintEvent = () => {
+  const [result, setResult] = useState({
+    data: null,
+    error: null,
+    isLoading: false,
+  });
+
   const repo = useERC721Repository();
-	 const [token, setToken] = useState()
 
-  useEffect(() => {
+  const request = (proof, recordId, tokenId, metadataURI) => {
+    setResult((prev) => ({ ...prev, isLoading: true }));
+
     repo
-      ?.get({ recordId })
-      .then((token) => {
-        setToken(token);
+      .createMintEvent({ proof, recordId, tokenId, metadataURI})
+      .then((res) => {
+				 debugger
+        // FIXME: error if data is not array
+        setResult({ data: res.data, isLoading: false, error: null });
       })
-      .catch((err) => {
-        console.error("Failed to fetch token", err);
-        debugger;
+      .catch((error) => {
+        console.error("Failed to mint record:", error);
+        setResult({ data: [], isLoading: false, error });
       });
-  }, [recordId, repo]);
+  };
 
-  return token;
-};
+  return [result, request];
+}
