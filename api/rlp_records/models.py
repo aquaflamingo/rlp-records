@@ -32,8 +32,8 @@ class Record(models.Model):
     recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE)
 
 class ERC721(models.Model):
-    tokenId = models.CharField(max_length=200)
-    metadataURI = models.CharField(max_length=200)
+    tokenid = models.CharField(max_length=200)
+    metadata_uri = models.CharField(max_length=200)
     record = models.ForeignKey(Record, on_delete=models.CASCADE, null=False)
 
 def record_upload_path(instance, filename):
