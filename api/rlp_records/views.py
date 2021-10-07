@@ -68,18 +68,14 @@ class EventViewSet(mixins.CreateModelMixin,
     filterset_fields = ['attributed_to']
 
 
-    def build_erc721(self, record_id, token_id, metadata_uri):
-        record = Record.objects.get(pk=record_id)
-        print("What is token id")
-        print(token_id)
+    def build_erc721(self, record, token_id, metadata_uri):
         return ERC721Serializer(data={
             'record': record.id,
             'tokenid': token_id,
             'metadata_uri' :metadata_uri
             })
 
-    def build_mint_event(self, proof, record_id, details):
-        record = Record.objects.get(pk=record_id)
+    def build_mint_event(self, proof, record, details):
         attributed_to = record.recordlabel
 
         return EventSerializer(data= {
@@ -139,20 +135,23 @@ class EventViewSet(mixins.CreateModelMixin,
         proof = request.data['proof']
         details = request.data['details']
 
-        record_id = details['recordId']
+        record = Record.objects.get(pk=details['recordId'])
         token_id = details['tokenId']
         metadata_uri = details['metadataURI']
 
-        mint_event = self.build_mint_event(proof, record_id, details)
+        mint_event = self.build_mint_event(proof, record, details)
         if mint_event.is_valid():
             mint_event.save()
         else:
             return response.Response(mint_event.errors, status.HTTP_400_BAD_REQUEST)
 
-        erc721 = self.build_erc721(record_id, token_id, metadata_uri)
+        erc721 = self.build_erc721(record, token_id, metadata_uri)
         if erc721.is_valid():
             erc721.save()
         else:
             return response.Response(erc721.errors, status.HTTP_400_BAD_REQUEST)
+
+        record.state = Record.RecordState.MINTED
+        record.save()
 
         return response.Response(mint_event.data, status.HTTP_201_CREATED)
