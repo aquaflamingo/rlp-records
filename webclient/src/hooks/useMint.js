@@ -86,6 +86,8 @@ const useMintFlow = (account) => {
 				 }
 			)
 
+			console.log("Successfully minted the token")
+
 			return erc721Token
 	 }, [ethersjsInstance, createMintEventRequest, ipfsUploadRequest]);
 	 return [result, request];
