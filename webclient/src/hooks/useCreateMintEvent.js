@@ -10,22 +10,32 @@ export const useCreateMintEvent = () => {
 
   const repo = useEventRepository();
 
-	 /*
-		* Request to create a new mint event on the API
-		*
-		* @param {string} proof - a tx hash with on chain proof of event
-		* @param {string | int} recordId - id of the record
-		* @param {string | int} token - id of the token on chain
-		* @param {string} assetURI - a URI to the asset 
-		* @param {string} metadataURI - a URI to the asset's metadata
-		* @param {string} storageVenue - where the asset is stored
-		*
-		*/
-  const request = ({ proof, recordId, tokenId, assetURI, metadataURI, storageVenue}) => {
+  /*
+   * Request to create a new mint event on the API
+   *
+   * @param {string} proof - a tx hash with on chain proof of event
+   * @param {string | int} recordId - id of the record
+   * @param {string | int} token - id of the token on chain
+   * @param {string} assetURI - a URI to the asset
+   * @param {string} metadataURI - a URI to the asset's metadata
+   * @param {string} storageVenue - where the asset is stored
+   *
+   */
+  const request = ({
+    proof,
+    recordId,
+    tokenId,
+    assetURI,
+    metadataURI,
+    storageVenue,
+  }) => {
     setResult((prev) => ({ ...prev, isLoading: true }));
 
     repo
-      .createMintEvent({ proof, details: { recordId, tokenId, assetURI, metadataURI, storageVenue}})
+      .createMintEvent({
+        proof,
+        details: { recordId, tokenId, assetURI, metadataURI, storageVenue },
+      })
       .then((res) => {
         setResult({ data: res.data, isLoading: false, error: null });
       })
@@ -36,4 +46,4 @@ export const useCreateMintEvent = () => {
   };
 
   return [result, request];
-}
+};
