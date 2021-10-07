@@ -125,7 +125,7 @@ const parseMintTxResponse = (receipt, storageInformation) => {
       storageInformation.metadataURI
     );
 
-    // return nft id, asset and metadata
+    // return token id, asset and metadata
     return {
       id: tokenId,
       asset: {

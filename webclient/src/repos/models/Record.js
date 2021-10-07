@@ -1,4 +1,3 @@
-// TODO: this is pretty dumb
 export const RecordsDeserializer = (data) => {
   return {
     id: data.id,

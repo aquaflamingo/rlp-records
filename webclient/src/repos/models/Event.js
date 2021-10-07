@@ -1,6 +1,7 @@
-// TODO: this is pretty dumb
-export const EvenetDeserializer = (data) => {
+export const EventDeserializer = (data) => {
   return {
-    // TODO
+		 proof: data.proof,
+		 eventType: data.event_type,
+		 details: data.details
   };
 };
