@@ -5,9 +5,9 @@ class ERC721Serializer(serializers.ModelSerializer):
     class Meta:
         model = ERC721
         fields = ('id', 
-                  'tokenId',
+                  'tokenid',
                   'record',
-                  'metadataURI')
+                  'metadata_uri')
         read_only_fields = [ 'id' ]
 
 class MemberSerializer(serializers.ModelSerializer):

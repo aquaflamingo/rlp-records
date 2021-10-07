@@ -46,7 +46,7 @@ class ERC721ViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.Ge
     queryset = ERC721.objects.all()
     serializer_class = ERC721Serializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['tokenId', 'record']
+    filterset_fields = ['tokenid', 'record']
 
 class MemberViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     queryset = Member.objects.all()
@@ -70,41 +70,63 @@ class EventViewSet(mixins.CreateModelMixin,
 
     def build_erc721(self, record_id, token_id, metadata_uri):
         record = Record.objects.get(pk=record_id)
-        return ERC721Serializer(
-                record = record,
-                tokenid = token_id,
-                metadata_uri = metadata_uri
-                )
+        print("What is token id")
+        print(token_id)
+        return ERC721Serializer(data={
+            'record': record.id,
+            'tokenid': token_id,
+            'metadata_uri' :metadata_uri
+            })
 
     def build_mint_event(self, proof, record_id, details):
         record = Record.objects.get(pk=record_id)
         attributed_to = record.recordlabel
 
-        return EventSerializer(
-                proof=proof, 
-                event_type=Event.EventType.MINT, 
-                attributed_to=attributed_to,
-                details = details
-                )
+        return EventSerializer(data= {
+                    'proof': proof, 
+                    'event_type': Event.EventType.MINT, 
+                    'attributed_to': attributed_to.id, 
+                    'details': details
+                    })
 
     def validate_create_request(self, req_data):
-        etype = req_data['event_type']
+        proof = req_data.get('proof')
 
-        if etype == "":
+        if proof == None or proof == "":
+            return response.Response("Proof cannot be blank", status.HTTP_400_BAD_REQUEST)
+
+        etype = req_data.get('event_type')
+
+        if  etype == None or etype == "":
             return response.Response("Event type cannot be blank", status.HTTP_400_BAD_REQUEST)
 
         if not etype.upper() == 'MINT':
             return response.Response("Invalid event_type", status.HTTP_400_BAD_REQUEST)
 
-        record_id = req_data['details']['recordId']
+        details = req_data.get('details')
+        # Needs to be dictionary
+        if details == None or not isinstance(details, dict):
+            return response.Response("Invalid details cannot be blank", status.HTTP_400_BAD_REQUEST)
 
-        if record_id == "":
-            return response.Response("Record id cannot be blank", status.HTTP_400_BAD_REQUEST)
+        record_id = details.get("recordId") 
+
+        if record_id == None or record_id == "":
+            return response.Response("Detail's recordId cannot be blank", status.HTTP_400_BAD_REQUEST)
 
         exists = Record.objects.filter(pk=record_id).exists()
 
         if not exists:
-            return response.Response("Associated record does not exist", status.HTTP_404_NOT_FOUND)
+            return response.Response("Associated record for recordId does not exist", status.HTTP_404_NOT_FOUND)
+
+        token_id = details.get("tokenId") 
+
+        if token_id == None or token_id == "":
+            return response.Response("Detail's tokenId cannot be blank", status.HTTP_400_BAD_REQUEST)
+
+        metadata_uri = details.get("metadataURI") 
+
+        if metadata_uri == None or metadata_uri == "":
+            return response.Response("Detail's metadataURI cannot be blank", status.HTTP_400_BAD_REQUEST)
 
         return None
 
@@ -115,10 +137,11 @@ class EventViewSet(mixins.CreateModelMixin,
             return error
 
         proof = request.data['proof']
-        record_id = request.data['details']['recordId']
-        token_id = request.data['details']['tokenId']
-        metadata_uri = request.data['details']['metadtaURI']
         details = request.data['details']
+
+        record_id = details['recordId']
+        token_id = details['tokenId']
+        metadata_uri = details['metadataURI']
 
         mint_event = self.build_mint_event(proof, record_id, details)
         if mint_event.is_valid():
@@ -131,3 +154,5 @@ class EventViewSet(mixins.CreateModelMixin,
             erc721.save()
         else:
             return response.Response(erc721.errors, status.HTTP_400_BAD_REQUEST)
+
+        return response.Response(mint_event.data, status.HTTP_201_CREATED)
