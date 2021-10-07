@@ -27,8 +27,6 @@ export const useCreateMintEvent = () => {
     repo
       .createMintEvent({ proof, details: { recordId, tokenId, assetURI, metadataURI, storageVenue}})
       .then((res) => {
-				 debugger
-        // FIXME: error if data is not array
         setResult({ data: res.data, isLoading: false, error: null });
       })
       .catch((error) => {

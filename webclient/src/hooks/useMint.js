@@ -37,7 +37,7 @@ const useMintFlow = (account) => {
 	 const contract = useRLPRecordContract();
 	 const ethersjsInstance = useEthersJs();
 	 const ipfsUploadRequest = useIPFSContentUpload();
-	 const createMintEventRequest = useCreateMintEvent();
+	 const [createEventResult, createMintEventRequest] = useCreateMintEvent();
 
 	 const request = useCallback(async (record) => {
 			if (ethersjsInstance === null || ipfsUploadRequest === null) return;
@@ -75,13 +75,16 @@ const useMintFlow = (account) => {
 
 			// The transaction receipt contains events emitted while processing the transaction.
 			const receipt = await tx.wait();
-			const erc721Token = parseMintTxResponse(receipt, {...uploadRequest})
+			const erc721Token = parseMintTxResponse(receipt, {...uploadResult})
+
+			console.log("ERC721 is", erc721Token)
+
 			const mintEventResult = await createMintEventRequest(
 				 { proof: tx.hash,
 						recordId: record.id,
 						tokenId: erc721Token.id,
-						assetURI: erc721Token.assetURI,
-						metadataURI: erc721Token.metadataURI,
+						assetURI: erc721Token.asset.uri,
+						metadataURI: erc721Token.metadata.uri,
 						storageVenue: 'ipfs'
 				 }
 			)
@@ -90,7 +93,7 @@ const useMintFlow = (account) => {
 
 			return erc721Token
 	 }, [ethersjsInstance, createMintEventRequest, ipfsUploadRequest]);
-	 return [result, request];
+	 return [createEventResult, request];
 };
 
 export default useMintFlow;
@@ -110,8 +113,6 @@ const parseMintTxResponse = (receipt, storageInformation) => {
 
 			const tokenId = event.args.tokenId.toString();
 			console.log("Token mint succeeded.");
-
-			// const result = await createTokenRequest({tokenId: tokenId, metadataURI: uploadRequest.metadataURI, recordId: record.id})
 
 			console.log(
 				 "id:",
