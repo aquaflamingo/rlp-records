@@ -1,9 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify 
 
-class ERC721(models.Model):
-    tokenId = models.CharField(max_length=200)
-    metadataURI = models.CharField(max_length=200)
 
 class RecordLabel(models.Model):
     name = models.CharField(max_length=200)
@@ -11,6 +8,16 @@ class RecordLabel(models.Model):
 class Member(models.Model):
     name = models.CharField(max_length=200)
     recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE, null=True)
+
+class Event(models.Model):
+    class EventType(models.TextChoices):
+        MINT = 'MINT'
+
+    event_type = models.CharField(choices=EventType.choices, max_length=100)
+    proof = models.CharField(max_length=200)
+    attributed_to = models.ForeignKey(RecordLabel, on_delete=models.CASCADE)
+
+    details = models.JSONField()
 
 class Record(models.Model):
     class RecordState(models.TextChoices):
@@ -23,7 +30,11 @@ class Record(models.Model):
     state = models.CharField(choices=RecordState.choices, max_length=200)
 
     recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE)
-    token = models.ForeignKey(ERC721, on_delete=models.CASCADE, null=True)
+
+class ERC721(models.Model):
+    tokenid = models.CharField(max_length=200)
+    metadata_uri = models.CharField(max_length=200)
+    record = models.ForeignKey(Record, on_delete=models.CASCADE, null=False)
 
 def record_upload_path(instance, filename):
     name, extension = filename.split(sep=".")

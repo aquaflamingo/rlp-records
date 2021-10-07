@@ -40,7 +40,7 @@ export const useCreateRecord = () => {
       })
       .catch((error) => {
         console.error("Failed to create record:", error);
-        // FIXME: error
+        debugger;
         setResult({ data: [], isLoading: false, error });
       });
   };

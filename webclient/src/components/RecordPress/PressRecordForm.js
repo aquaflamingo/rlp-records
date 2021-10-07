@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useCreateRecord } from "../../hooks/useRecords";
 import useForm from "../../hooks/useForm";
-import useMint from "../../hooks/useMint";
+import useMintFlow from "../../hooks/useMint";
 import { useETHAccounts } from "../../hooks/useEthers";
 
 const RecordDropdown = ({ records, value, onChange }) => {
@@ -40,13 +40,16 @@ const RecordDropdown = ({ records, value, onChange }) => {
 
 const PressRecordForm = ({ labelId, draftedRecords }) => {
   const accounts = useETHAccounts();
-  const mint = useMint(accounts[0]);
+  const [{ data, isLoading, error }, mint] = useMintFlow(accounts[0]);
 
   let hasRecords = draftedRecords && draftedRecords.length > 0;
 
   const onMint = async ({ values, errors }) => {
     console.log("MintForm.onMint: ", values, errors);
-    const record = draftedRecords.find((r) => r.id === values.recordId);
+    const record = draftedRecords.find(
+      (r) => r.id === parseInt(values.recordId)
+    );
+    console.log("MintForm.onMint, Record:", record);
     mint(record);
   };
 
@@ -61,7 +64,11 @@ const PressRecordForm = ({ labelId, draftedRecords }) => {
 
   return (
     <div>
-      <div className="submit-result"></div>
+      <div className="submit-result">
+        {isLoading ? "Loading..." : ""}
+        {data ? data.msg : ""}
+        {error ? error : ""}
+      </div>
 
       {hasRecords ? (
         <form onSubmit={handleSubmit}>

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { ethers } from "ethers";
 import { useEthersJs, useHardhat } from "./useEthers";
 import { useIPFSContentUpload } from "./useIPFS";
+import { useCreateMintEvent } from "./useCreateMintEvent";
 import {
   createFingerprintFileName,
   buildFingerprint,
@@ -32,19 +33,19 @@ const useRLPRecordContract = () => {
   return contract;
 };
 
-const useMint = (account) => {
+const useMintFlow = (account) => {
   const contract = useRLPRecordContract();
   const ethersjsInstance = useEthersJs();
-  const uploadRequest = useIPFSContentUpload();
+  const ipfsUploadRequest = useIPFSContentUpload();
+  const [createEventResult, createMintEventRequest] = useCreateMintEvent();
 
-  const mintRequest = useCallback(
+  const request = useCallback(
     async (record) => {
-      if (ethersjsInstance === null || uploadRequest === null) return;
+      if (ethersjsInstance === null || ipfsUploadRequest === null) return;
 
-      console.log("Mint request received...");
-      console.log("Starting upload...");
+      console.log("Mint request received, starting upload...");
 
-      const uploadResult = await uploadRequest({
+      const uploadResult = await ipfsUploadRequest({
         // track_name.fingerprint
         basename: createFingerprintFileName(record.title),
         // binary stream
@@ -58,12 +59,12 @@ const useMint = (account) => {
       });
 
       console.log(
-        "Upload completed. URI: ",
+        "Storage upload completed. URI: ",
         uploadResult.assetURI,
         "Metadata URI:",
-        uploadResult.metadataURI
+        uploadResult.metadataURI,
+        "Starting token mint..."
       );
-      console.log("Minting token...");
 
       // Strip the IPFS prefix which is appended to the metadataURI.
       //
@@ -72,52 +73,69 @@ const useMint = (account) => {
       const tokenMetadata = removeIPFSPrefix(uploadResult.metadataURI);
 
       const tx = await contract.mintToken(account, tokenMetadata);
+
       // The transaction receipt contains events emitted while processing the transaction.
       const receipt = await tx.wait();
-      console.log(
-        "Token mint requested, received response.",
-        "Filtering ",
-        receipt.events.length,
-        "events..."
-      );
+      const erc721Token = parseMintTxResponse(receipt, { ...uploadResult });
 
-      console.log(receipt.events);
-      for (const event of receipt.events) {
-        if (event.event !== "Transfer") {
-          console.log("ignoring unknown event type ", event.event);
-          continue;
-        }
+      console.log("ERC721 is", erc721Token);
 
-        const tokenId = event.args.tokenId.toString();
-        console.log("Token mint succeeded.");
+      const mintEventResult = await createMintEventRequest({
+        proof: tx.hash,
+        recordId: record.id,
+        tokenId: erc721Token.id,
+        assetURI: erc721Token.asset.uri,
+        metadataURI: erc721Token.metadata.uri,
+        storageVenue: "ipfs",
+      });
 
-        console.log(
-          "id:",
-          tokenId,
-          "assetURI:",
-          uploadResult.assetURI,
-          "metadataURI:",
-          uploadResult.metadataURI
-        );
+      console.log("Successfully minted the token");
 
-        // return nft id, asset and metadata
-        return {
-          id: tokenId,
-          asset: {
-            uri: uploadResult.assetURI,
-            cid: removeIPFSPrefix(uploadResult.assetURI),
-          },
-          metadata: {
-            uri: uploadResult.metadataURI,
-            cid: removeIPFSPrefix(uploadResult.metadataURI),
-          },
-        };
-      }
+      return erc721Token;
     },
-    [ethersjsInstance, uploadRequest]
+    [ethersjsInstance, createMintEventRequest, ipfsUploadRequest]
   );
-
-  return mintRequest;
+  return [createEventResult, request];
 };
 
-export default useMint;
+export default useMintFlow;
+
+const parseMintTxResponse = (receipt, storageInformation) => {
+  console.log(
+    "Token mint requested, received response.",
+    "Filtering ",
+    receipt.events.length,
+    "events..."
+  );
+  for (const event of receipt.events) {
+    if (event.event !== "Transfer") {
+      console.log("ignoring unknown event type ", event.event);
+      continue;
+    }
+
+    const tokenId = event.args.tokenId.toString();
+    console.log("Token mint succeeded.");
+
+    console.log(
+      "id:",
+      tokenId,
+      "assetURI:",
+      storageInformation.assetURI,
+      "metadataURI:",
+      storageInformation.metadataURI
+    );
+
+    // return token id, asset and metadata
+    return {
+      id: tokenId,
+      asset: {
+        uri: storageInformation.assetURI,
+        cid: removeIPFSPrefix(storageInformation.assetURI),
+      },
+      metadata: {
+        uri: storageInformation.metadataURI,
+        cid: removeIPFSPrefix(storageInformation.metadataURI),
+      },
+    };
+  }
+};

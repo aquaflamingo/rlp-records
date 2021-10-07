@@ -1,5 +1,7 @@
 project=rlprecords
 
+up:
+	make -j 4 -C . web.start hh.node server.py.up ipfs.start
 ###############################################################
 # CLIENT
 ###############################################################
@@ -29,29 +31,33 @@ ipfs.clean:
 ###############################################################
 # SERVER
 ###############################################################
-
-server.pyup:
+server.py.up:
 	@cd api && . ./venv/bin/activate && python manage.py runserver
 
-server.pyshell:
+server.py.shell:
 	@cd api && . ./venv/bin/activate && python manage.py shell
 
-db.pyshell:
+db.py.drop:
+	@cd api && . ./venv/bin/activate && python manage.py flush
+
+db.py.shell:
 	@cd api && . ./venv/bin/activate && python manage.py dbshell
 
-db.pyflush:
+db.py.flush:
 	@cd api && . ./venv/bin/activate && python manage.py sqlflush
 
-db.pynew_migration:
+db.py.new_migration:
 	@cd api && . ./venv/bin/activate && python manage.py makemigrations
 
-db.pymigrate:
+db.py.migrate:
 	@cd api && . ./venv/bin/activate && python manage.py migrate
+
+db.py.loadfixtures: 
+	@cd api && . ./venv/bin/activate && python manage.py loaddata ${NAME}
 
 ###################################################################
 # CONTAINERZ
 ###################################################################
-
 server.up:
 	@docker-compose -f ./api/docker-compose.yml -p ${project} up
 
@@ -69,6 +75,9 @@ db.migrate:
 
 db.loadfixtures: 
 	@docker-compose -p ${project} exec api python manage.py loaddata ${NAME}
+
+db.drop:
+	@docker-compose -p ${project} exec api python manage.py flush
 
 db.flush:
 	@docker-compose -p ${project} exec api python manage.py sqlflush
