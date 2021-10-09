@@ -1,7 +1,7 @@
 project=rlprecords
 
 up:
-	make -j 4 -C . web.start hh.node server.py.up ipfs.start
+	make -j 5 -C . web.start hh.node server.py.up ipfs.start hh.deploy
 ###############################################################
 # CLIENT
 ###############################################################

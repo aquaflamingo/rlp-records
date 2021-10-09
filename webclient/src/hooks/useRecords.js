@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useRecordRepository } from "../hooks/useRepository";
 import { REC_HASH_RATE } from "../models/Fixture";
 
-export const useRecords = ({ labelId, state }) => {
+export const useRecords = ({ labelId, state, tick }) => {
   const [records, setRecords] = useState(null);
   const repo = useRecordRepository();
 
@@ -10,13 +10,14 @@ export const useRecords = ({ labelId, state }) => {
     repo
       ?.list({ labelId, state })
       .then((records) => {
+        console.log("Fetched ", records.length, " records");
         setRecords(records);
       })
       .catch((err) => {
         console.error("Failed to fetch records", err);
         debugger;
       });
-  }, [labelId, repo]);
+  }, [labelId, repo, tick]);
 
   return records;
 };
@@ -36,12 +37,17 @@ export const useCreateRecord = () => {
     repo
       .createRecord({ labelId, recordValues, audioFile: recordValues.audio })
       .then((res) => {
-        setResult({ data: res.data, isLoading: false, error: null });
+        console.log("Record was created", res);
+        setResult({
+          data: { msg: "Record was created 🔨" },
+          isLoading: false,
+          error: null,
+        });
       })
       .catch((error) => {
         console.error("Failed to create record:", error);
         debugger;
-        setResult({ data: [], isLoading: false, error });
+        setResult({ data: {}, isLoading: false, error });
       });
   };
 
