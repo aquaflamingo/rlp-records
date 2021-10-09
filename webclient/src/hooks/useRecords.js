@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useRecordRepository } from "../hooks/useRepository";
 import { REC_HASH_RATE } from "../models/Fixture";
 
-export const useRecords = ({ labelId, state }) => {
+export const useRecords = ({ labelId, state, tick}) => {
   const [records, setRecords] = useState(null);
   const repo = useRecordRepository();
 
@@ -10,13 +10,14 @@ export const useRecords = ({ labelId, state }) => {
     repo
       ?.list({ labelId, state })
       .then((records) => {
+				 console.log("Fetched ", records.length, " records")
         setRecords(records);
       })
       .catch((err) => {
         console.error("Failed to fetch records", err);
         debugger;
       });
-  }, [labelId, repo]);
+  }, [labelId, repo, tick]);
 
   return records;
 };
