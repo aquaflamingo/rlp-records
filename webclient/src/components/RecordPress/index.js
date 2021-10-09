@@ -9,6 +9,16 @@ const RecordPress = ({ labelId }) => {
     setVersion((s) => s + 1);
   }, []);
 
+	 const handleSuccess = ({token, hash}) => {
+			alert("Your record was pressed 🤙", token.id, hash)
+	 }
+
+	 const handleFailure = ({errors}) => {
+			let err = Object.values(errors).join(", ")
+			// TODO modal
+			alert(err)
+	 }
+
   const drafted = useRecords({ labelId, state: "DRAFT" });
 
   console.log("RecordPress: drafted", drafted);
@@ -18,7 +28,10 @@ const RecordPress = ({ labelId }) => {
       <h2>Record Press</h2>
       <button onClick={refresh}>Fetch</button>
       <p>Here you can press out a fresh new release to the world.</p>
-      <PressRecordForm labelId={labelId} draftedRecords={drafted} />
+      <PressRecordForm 
+				labelId={labelId} draftedRecords={drafted}
+		    onSuccess={handleSuccess} onFailure={handleFailure}
+		 />
     </div>
   );
 };
