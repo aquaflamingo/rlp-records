@@ -8,7 +8,7 @@ import { useETHAccounts } from "../../hooks/useEthers";
 const RecordDropdown = ({ records, value, onChange }) => {
   // Use default dropdown menu value
   let options = [
-    <option key="0" disabled value="">
+    <option key="0" value="">
       {" "}
       -- Select --
 		 {" "}
