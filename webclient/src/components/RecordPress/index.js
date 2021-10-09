@@ -4,13 +4,16 @@ import { useRecords } from "../../hooks/useRecords";
 
 const RecordPress = ({ labelId }) => {
   const [version, setVersion] = useState(0);
+  const drafted = useRecords({ labelId, state: "DRAFT", tick: version });
+  console.log("RecordPress: drafted", drafted);
 
   const refresh = useCallback(() => {
     setVersion((s) => s + 1);
   }, []);
 
 	 const handleSuccess = ({token, hash}) => {
-			alert("Your record was pressed 🤙", token.id, hash)
+			alert("Your record was pressed 🤙. Id: " + token.id + " Event hash: " + hash)
+			setVersion(version+1)
 	 }
 
 	 const handleFailure = ({errors}) => {
@@ -18,10 +21,6 @@ const RecordPress = ({ labelId }) => {
 			// TODO modal
 			alert(err)
 	 }
-
-  const drafted = useRecords({ labelId, state: "DRAFT" });
-
-  console.log("RecordPress: drafted", drafted);
 
   return (
     <div className="mint-record">

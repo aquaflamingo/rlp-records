@@ -10,9 +10,9 @@ const RecordStack = ({ labelId }) => {
   }, []);
 
   // Three API calls is not ideal
-  const published = useRecords({ labelId, state: "PUBLISHED" });
-  const minted = useRecords({ labelId, state: "MINTED" });
-  const drafted = useRecords({ labelId, state: "DRAFT" });
+  const published = useRecords({ labelId, state: "PUBLISHED", tick: version});
+  const minted = useRecords({ labelId, state: "MINTED", tick: version });
+  const drafted = useRecords({ labelId, state: "DRAFT", tick: version});
 
   console.log("RecordStack: published", published);
   console.log("RecordStack: minted", minted);
