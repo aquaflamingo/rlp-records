@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useCreateRecord } from "../../hooks/useRecords";
 import useForm from "../../hooks/useForm";
 import useMintFlow from "../../hooks/useMintFlow";
-import {hasKeys} from "../../helpers/common.js";
+import { hasKeys } from "../../helpers/common.js";
 import { useETHAccounts } from "../../hooks/useEthers";
 
 const RecordDropdown = ({ records, value, onChange }) => {
@@ -10,8 +10,7 @@ const RecordDropdown = ({ records, value, onChange }) => {
   let options = [
     <option key="0" value="">
       {" "}
-      -- Select --
-		 {" "}
+      -- Select --{" "}
     </option>,
   ];
 
@@ -43,14 +42,13 @@ const RecordDropdown = ({ records, value, onChange }) => {
 const PressRecordForm = ({ labelId, draftedRecords, onSuccess }) => {
   const accounts = useETHAccounts();
   const [{ data, isLoading, error }, mint] = useMintFlow(accounts[0]);
-	 const [recordSelected, setRecordSelected] = useState(false)
+  const [recordSelected, setRecordSelected] = useState(false);
 
   let hasRecords = draftedRecords && draftedRecords.length > 0;
 
   const onMint = async ({ values, errors }) => {
-		 // Trigger failure modal if any errors
-		 if (hasKeys(errors)) 
-				onFailure(errors)
+    // Trigger failure modal if any errors
+    if (hasKeys(errors)) onFailure(errors);
 
     console.log("MintForm.onMint: ", values, errors);
     const record = draftedRecords.find(
@@ -58,7 +56,7 @@ const PressRecordForm = ({ labelId, draftedRecords, onSuccess }) => {
     );
 
     const [token, hash] = await mint(record);
-		 onSuccess({token, hash})
+    onSuccess({ token, hash });
   };
 
   // Default value is empty
@@ -70,12 +68,10 @@ const PressRecordForm = ({ labelId, draftedRecords, onSuccess }) => {
       onSubmit: onMint,
     });
 
-	 useEffect(()=>{
-			if (values.recordId == "") 
-				 setRecordSelected(false)
-			else 
-				 setRecordSelected(true)
-	 },[values])
+  useEffect(() => {
+    if (values.recordId == "") setRecordSelected(false);
+    else setRecordSelected(true);
+  }, [values]);
 
   return (
     <div>
@@ -95,7 +91,9 @@ const PressRecordForm = ({ labelId, draftedRecords, onSuccess }) => {
               onChange={handleChange}
             />
 
-            <button disabled={!recordSelected} type="submit">Press Record</button>
+            <button disabled={!recordSelected} type="submit">
+              Press Record
+            </button>
           </div>
         </form>
       ) : (
