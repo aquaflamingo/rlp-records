@@ -1,9 +1,15 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rlp_records.models import Record, Member, ERC721, RecordLabel, Event
-from rlp_records.serializers import RecordLabelSerializer, RecordSerializer, MemberSerializer, ERC721Serializer, AudioFileSerializer, EventSerializer
+from rlp_records.models import Record, Member, ERC721, RecordLabel, Event, AudioFile
+from rlp_records.serializers import RecordLabelSerializer, RecordSerializer, MemberSerializer, ERC721Serializer, AudioFileSerializer, EventSerializer, AudioFileSerializer
 from rest_framework import viewsets, mixins, response, parsers, status
 from rest_framework.decorators import action
+import acoustid
+from acoustid import chromaprint
+import hashlib
 import IPython
+
+class FingerprintError(Exception):
+    pass
 
 # Support by default:
 #   - CREATE
@@ -19,6 +25,36 @@ class RecordViewSet(mixins.RetrieveModelMixin,
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['state', 'recordlabel']
 
+    # Using the provided audiofile path, the function
+    # will compute the fingerprint of the audio using
+    # acoustid, then build a hash of that fingerprint 
+    # to store alongside for indexing/search/matching.
+    #
+    # Returns:
+    #
+    # (int32, encoded fingerprint)
+    def build_audio_fingerprint(self, audiofile_path):
+        # (duration, encoded fingerprint)
+        # See https://github.com/beetbox/pyacoustid/blob/7d5ec6e24a5b2fa6fc587698001d2ffa24065b51/acoustid.py#L282
+        (_, fp) = acoustid.fingerprint_file(audiofile_path)
+
+        # Raise error if cannot generate a fingerprint
+        if not fp:
+            raise FingerprintError("failed to fingerprint audiofile")
+
+        # Decode the fingerprint for hashing
+        # Result:
+        #  array of 32-bit integers and algorithm
+        (decoded_fp, __) = chromaprint.decode_fingerprint(fp)
+
+        # Generate 32 bit hash 
+        hashstamp = chromaprint.hash_fingerprint(decoded_fp)
+
+        # https://github.com/beetbox/pyacoustid/blob/7d5ec6e24a5b2fa6fc587698001d2ffa24065b51/chromaprint.py#L194
+        IPython.embed()
+
+        return (hashstamp, fp)
+
     @action(
             detail=True,
             methods=['PUT'],
@@ -27,13 +63,19 @@ class RecordViewSet(mixins.RetrieveModelMixin,
             )
     def upload(self, request, pk):
         # FIXME: Use S3 or host NFS to store this lel
-        audio_upload_data = {"record": pk, "file": request.data['file']}
+        tmpfile = request.data['file']
+        audio_upload_data = {"record": pk, "file": tmpfile}
 
-        serializer = self.serializer_class(data=audio_upload_data,
-                partial=True)
+        # Duration, Binary Fingerprint
+        try:
+            (hashstamp, fingerprint) = self.build_audio_fingerprint(tmpfile.temporary_file_path())
+            audio_upload_data["hashstamp"] = hashstamp
+            audio_upload_data["fingerprint"] = fingerprint
+        except FingerprintError:
+            return response.Response("Unable to fingerprint audiofile", status.HTTP_400_BAD_REQUEST)
 
-        # TODO: On save begin fingerprint compute
-        # Async job on save
+        serializer = self.serializer_class(data=audio_upload_data, partial=True)
+
         if serializer.is_valid():
             serializer.save()
             return response.Response({"message": "success"})
@@ -53,6 +95,10 @@ class MemberViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.Ge
     serializer_class = MemberSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['recordlabel']
+
+class AudioFileViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+    queryset = AudioFile.objects.all()
+    serializer_class = AudioFileSerializer
 
 class RecordLabelViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     queryset = RecordLabel.objects.all()
