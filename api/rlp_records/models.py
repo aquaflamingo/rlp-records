@@ -45,8 +45,10 @@ def record_upload_path(instance, filename):
     return 'uploads/record_{0}/{1}'.format(instance.record.id, upload_name)
 
 class AudioFile(models.Model):
-    hashstamp = models.CharField(max_length=512, null=True)
-    fingerprint = models.BinaryField(null=True)
+    # 32 bit hash to index on
+    hashstamp = models.IntegerField(null=True)
+    # 1 megabyte encoded limit
+    fingerprint = models.CharField(max_length=10**6,null=True)
     file = models.FileField(upload_to=record_upload_path, null=True)
     record = models.ForeignKey(Record, on_delete=models.CASCADE, null=True)
 
