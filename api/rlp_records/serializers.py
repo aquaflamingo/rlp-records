@@ -1,3 +1,4 @@
+import acoustid
 from rest_framework import serializers
 from rlp_records.models import Record, Member, RecordLabel, ERC721, AudioFile, Event
 
@@ -28,7 +29,7 @@ class RecordLabelSerializer(serializers.ModelSerializer):
 class AudioFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AudioFile
-        fields = [ 'record', 'file' ]
+        fields = [ 'record', 'file', 'hashstamp', 'fingerprint']
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
