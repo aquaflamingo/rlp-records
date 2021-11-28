@@ -46,7 +46,7 @@ def record_upload_path(instance, filename):
 
 class AudioFile(models.Model):
     # 32 bit hash to index on
-    hashstamp = models.IntegerField(null=True)
+    fingerprinthash = models.IntegerField(null=True)
     # 1 megabyte encoded limit
     fingerprint = models.CharField(max_length=10**6,null=True)
     file = models.FileField(upload_to=record_upload_path, null=True)
