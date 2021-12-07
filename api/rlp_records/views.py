@@ -6,7 +6,6 @@ from rest_framework.decorators import action
 import acoustid
 from acoustid import chromaprint
 import hashlib
-import IPython
 
 class FingerprintError(Exception):
     pass
@@ -48,12 +47,10 @@ class RecordViewSet(mixins.RetrieveModelMixin,
         (decoded_fp, __) = chromaprint.decode_fingerprint(fp)
 
         # Generate 32 bit hash 
-        hashstamp = chromaprint.hash_fingerprint(decoded_fp)
+        fp_hash = chromaprint.hash_fingerprint(decoded_fp)
 
         # https://github.com/beetbox/pyacoustid/blob/7d5ec6e24a5b2fa6fc587698001d2ffa24065b51/chromaprint.py#L194
-        IPython.embed()
-
-        return (hashstamp, fp)
+        return (fp_hash, fp)
 
     @action(
             detail=True,
@@ -68,9 +65,11 @@ class RecordViewSet(mixins.RetrieveModelMixin,
 
         # Duration, Binary Fingerprint
         try:
-            (hashstamp, fingerprint) = self.build_audio_fingerprint(tmpfile.temporary_file_path())
-            audio_upload_data["hashstamp"] = hashstamp
-            audio_upload_data["fingerprint"] = fingerprint
+            (fp_hash, fingerprint) = self.build_audio_fingerprint(tmpfile.temporary_file_path())
+            audio_upload_data["fingerprinthash"] = fp_hash
+
+            # Fingerprint is already base64 encoded binary
+            audio_upload_data["fingerprint"] = fingerprint.decode('utf-8')
         except FingerprintError:
             return response.Response("Unable to fingerprint audiofile", status.HTTP_400_BAD_REQUEST)
 

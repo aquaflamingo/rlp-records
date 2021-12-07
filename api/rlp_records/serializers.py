@@ -29,7 +29,7 @@ class RecordLabelSerializer(serializers.ModelSerializer):
 class AudioFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AudioFile
-        fields = [ 'record', 'file', 'hashstamp', 'fingerprint']
+        fields = [ 'record', 'file', 'fingerprinthash', 'fingerprint']
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
