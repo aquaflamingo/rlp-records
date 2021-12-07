@@ -39,7 +39,7 @@ export const useCreateRecord = () => {
       .then((res) => {
         console.log("Record was created", res);
         setResult({
-          data: { msg: "Record was created 🔨" },
+					 data: { msg: "Record was created 🔨", fp_hash: res.metadata.fp_hash },
           isLoading: false,
           error: null,
         });
