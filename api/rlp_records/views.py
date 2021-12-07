@@ -77,7 +77,7 @@ class RecordViewSet(mixins.RetrieveModelMixin,
 
         if serializer.is_valid():
             serializer.save()
-            return response.Response({"message": "success"})
+            return response.Response({"fp_hash": fp_hash})
         return response.Response(serializer.errors,
                 status.HTTP_400_BAD_REQUEST)
 
