@@ -1,6 +1,5 @@
 import client from "./ApiClient";
 import Base from "./Base";
-import { RecordsDeserializer } from "./models/Record.js";
 
 // RecordRepository is the data access interface for record
 class RecordRepository extends Base {
@@ -24,7 +23,7 @@ class RecordRepository extends Base {
       let result = [];
 
       if (response && response.data) {
-        result = this.deserializeResponse(response.data, RecordsDeserializer);
+        result = response.data
       }
 
       return result;
@@ -33,6 +32,32 @@ class RecordRepository extends Base {
       return null;
     }
   }
+
+	 async getRecordMetadata({recordId}) {
+    if (recordId == undefined) {
+      return null;
+    }
+
+    try {
+      const response = await client.get(
+        `${this.URI}/${recordId}/metadata/`
+      );
+
+      console.log("RecordRepository.getRecordMetadata:", response);
+
+      let result = {};
+
+      if (response && response.data) {
+        result = response.data
+      }
+
+      return result;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+
+	 }
 
   async createRecord({ labelId, recordValues, audioFile }) {
     try {
@@ -66,7 +91,7 @@ class RecordRepository extends Base {
       return {
 				 record,
 				 metadata: {
-						fp_hash: upload.fp_hash
+						...upload
 				 }
 			}
     } catch (err) {
