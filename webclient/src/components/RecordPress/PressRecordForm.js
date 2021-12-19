@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useCreateRecord } from "../../hooks/useRecords";
+import { useCreateRecord, useRecordMetadata } from "../../hooks/useRecords";
 import useForm from "../../hooks/useForm";
+import MetadataFetcher from "./MetadataFetcher";
 import useMintFlow from "../../hooks/useMintFlow";
 import { hasKeys } from "../../helpers/common.js";
 import { useETHAccounts } from "../../hooks/useEthers";
@@ -51,11 +52,15 @@ const PressRecordForm = ({ labelId, draftedRecords, onSuccess }) => {
     if (hasKeys(errors)) onFailure(errors);
 
     console.log("MintForm.onMint: ", values, errors);
+
     const record = draftedRecords.find(
       (r) => r.id === parseInt(values.recordId)
     );
 
-    const [token, hash] = await mint(record);
+    const mintPayload = { data: record, content: md.fp };
+
+    const [token, hash] = await mint(mintPayload);
+
     onSuccess({ token, hash });
   };
 
@@ -69,9 +74,14 @@ const PressRecordForm = ({ labelId, draftedRecords, onSuccess }) => {
     });
 
   useEffect(() => {
-    if (values.recordId == "") setRecordSelected(false);
-    else setRecordSelected(true);
+    if (values.recordId == "") {
+      setRecordSelected(false);
+    } else {
+      setRecordSelected(true);
+    }
   }, [values]);
+
+  const md = useRecordMetadata(values.recordId);
 
   return (
     <div>
@@ -79,23 +89,27 @@ const PressRecordForm = ({ labelId, draftedRecords, onSuccess }) => {
         {isLoading ? "Loading..." : ""}
         {data ? data.msg : ""}
         {error ? error : ""}
+        {md ? md.fp.hash : ""}
       </div>
 
       {hasRecords ? (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Select Record</label>
-            <RecordDropdown
-              records={draftedRecords}
-              value={values.recordId}
-              onChange={handleChange}
-            />
+        <div>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>Select Record</label>
+              <RecordDropdown
+                records={draftedRecords}
+                value={values.recordId}
+                onChange={handleChange}
+              />
 
-            <button disabled={!recordSelected} type="submit">
-              Press Record
-            </button>
-          </div>
-        </form>
+              <button disabled={!recordSelected} type="submit">
+                Press Record
+              </button>
+            </div>
+          </form>
+          <br />
+        </div>
       ) : (
         <p> No records to press </p>
       )}

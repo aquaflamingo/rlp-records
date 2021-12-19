@@ -22,6 +22,26 @@ export const useRecords = ({ labelId, state, tick }) => {
   return records;
 };
 
+export const useRecordMetadata = (recordId) => {
+  const [metadata, setMetadata] = useState(null);
+  const repo = useRecordRepository();
+
+  useEffect(() => {
+    repo
+      ?.getRecordMetadata({ recordId })
+      .then((md) => {
+        console.log("Fetched metadata for id:", recordId);
+        setMetadata(md);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch records", err);
+        debugger;
+      });
+  }, [recordId, repo]);
+
+  return metadata;
+};
+
 export const useCreateRecord = () => {
   const [result, setResult] = useState({
     data: null,
@@ -39,7 +59,7 @@ export const useCreateRecord = () => {
       .then((res) => {
         console.log("Record was created", res);
         setResult({
-					 data: { msg: "Record was created 🔨", fp_hash: res.metadata.fp_hash },
+          data: { msg: "Record was created 🔨" },
           isLoading: false,
           error: null,
         });

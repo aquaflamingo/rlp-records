@@ -50,5 +50,5 @@ class AudioFile(models.Model):
     # 1 megabyte encoded limit
     fingerprint = models.CharField(max_length=10**6,null=True)
     file = models.FileField(upload_to=record_upload_path, null=True)
-    record = models.ForeignKey(Record, on_delete=models.CASCADE, null=True)
+    record = models.OneToOneField(Record, on_delete=models.CASCADE, null=True)
 
