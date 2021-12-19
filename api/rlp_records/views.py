@@ -7,6 +7,7 @@ import acoustid
 from acoustid import chromaprint
 import hashlib
 
+
 class FingerprintError(Exception):
     pass
 
@@ -54,6 +55,18 @@ class RecordViewSet(mixins.RetrieveModelMixin,
 
     @action(
             detail=True,
+            methods=["GET"]
+            )
+    def metadata(self, request, pk):
+        af = AudioFile.objects.get(record_id=pk)
+
+        return response.Response({
+                    "fp": { "encoded": af.fingerprint, "hash": af.fingerprinthash},
+                    "audioid": af.id
+                    })
+
+    @action(
+            detail=True,
             methods=['PUT'],
             serializer_class=AudioFileSerializer,
             parser_classes=[parsers.MultiPartParser],
@@ -77,7 +90,7 @@ class RecordViewSet(mixins.RetrieveModelMixin,
 
         if serializer.is_valid():
             serializer.save()
-            return response.Response({"fp_hash": fp_hash})
+            return response.Response({"fphash": fp_hash, "fingerprint": fingerprint})
         return response.Response(serializer.errors,
                 status.HTTP_400_BAD_REQUEST)
 
