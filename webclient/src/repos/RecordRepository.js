@@ -40,7 +40,7 @@ class RecordRepository extends Base {
 
     try {
       const response = await client.get(
-        `${this.URI}/${recordId}/metadata/`
+        `${this.URI}${recordId}/metadata/`
       );
 
       console.log("RecordRepository.getRecordMetadata:", response);
