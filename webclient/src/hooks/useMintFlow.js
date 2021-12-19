@@ -36,20 +36,20 @@ const useMintFlow = (account) => {
   const [createEventResult, createMintEventRequest] = useCreateMintEvent();
 
   const request = useCallback(
-    async ({data, content}) => {
+    async ({ data, content }) => {
       if (ethersjsInstance === null || ipfsUploadRequest === null) return;
 
       console.log("Mint request received, starting upload...");
 
       const uploadResult = await ipfsUploadRequest({
         basename: "content.fp",
-				 // Encoded acoustic fingerprint
+        // Encoded acoustic fingerprint
         content: content.encoded,
         metadata: {
           title: data.title,
           artist: data.artist,
           labelId: data.labelId,
-				 // Acoustic fingerprint hash
+          // Acoustic fingerprint hash
           searchHash: content.hash,
           released: new Date().getFullYear(),
         },

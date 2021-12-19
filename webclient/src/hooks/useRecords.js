@@ -40,7 +40,7 @@ export const useRecordMetadata = (recordId) => {
   }, [recordId, repo]);
 
   return metadata;
-}
+};
 
 export const useCreateRecord = () => {
   const [result, setResult] = useState({
@@ -59,7 +59,7 @@ export const useCreateRecord = () => {
       .then((res) => {
         console.log("Record was created", res);
         setResult({
-					 data: { msg: "Record was created 🔨" },
+          data: { msg: "Record was created 🔨" },
           isLoading: false,
           error: null,
         });
