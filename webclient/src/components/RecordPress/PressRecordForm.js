@@ -53,11 +53,15 @@ const PressRecordForm = ({ labelId, draftedRecords, onSuccess }) => {
     if (hasKeys(errors)) onFailure(errors);
 
     console.log("MintForm.onMint: ", values, errors);
+
     const record = draftedRecords.find(
       (r) => r.id === parseInt(values.recordId)
     );
 
-    const [token, hash] = await mint(record);
+		 const mintPayload = { data: record, content: md.fp } 
+
+    const [token, hash] = await mint(mintPayload);
+
     onSuccess({ token, hash });
   };
 

@@ -3,10 +3,6 @@ import { ethers } from "ethers";
 import { useEthersJs, useHardhat } from "./useEthers";
 import { useIPFSContentUpload } from "./useIPFS";
 import { useCreateMintEvent } from "./useCreateMintEvent";
-import {
-  createFingerprintFileName,
-  buildFingerprint,
-} from "./../helpers/Record";
 import { removeIPFSPrefix } from "./../helpers/IPFS";
 
 import Artifacts from "@rlprecords/contracts";
@@ -40,20 +36,21 @@ const useMintFlow = (account) => {
   const [createEventResult, createMintEventRequest] = useCreateMintEvent();
 
   const request = useCallback(
-    async (record) => {
+    async ({data, content}) => {
       if (ethersjsInstance === null || ipfsUploadRequest === null) return;
 
       console.log("Mint request received, starting upload...");
 
       const uploadResult = await ipfsUploadRequest({
-        // track_name.fingerprint
-        basename: createFingerprintFileName(record.title),
-        // binary stream
-        content: record.fingerprint,
+        basename: "content.fp",
+				 // Encoded acoustic fingerprint
+        content: content.encoded,
         metadata: {
-          title: record.title,
-          artist: record.artist,
-          labelId: record.labelId,
+          title: data.title,
+          artist: data.artist,
+          labelId: data.labelId,
+				 // Acoustic fingerprint hash
+          searchHash: content.hash,
           released: new Date().getFullYear(),
         },
       });
@@ -82,7 +79,7 @@ const useMintFlow = (account) => {
 
       const mintEventResult = await createMintEventRequest({
         proof: tx.hash,
-        recordId: record.id,
+        recordId: data.id,
         tokenId: erc721Token.id,
         assetURI: erc721Token.asset.uri,
         metadataURI: erc721Token.metadata.uri,
