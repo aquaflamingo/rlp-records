@@ -6,6 +6,7 @@ import Web3App from "./components/Web3/App";
 const App = () => {
   return (
     <div className="App">
+		 <h1 className="text-3xl font-bold underline">Hi</h1>
       <Web3Provider>
         <Web3Connect>
           <Web3App />
