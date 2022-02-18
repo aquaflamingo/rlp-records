@@ -11,18 +11,21 @@ const Navigation = ({ brand }) => {
 			<NavbarBrand> 
 				 <NavbarItem href="#">
 						{brand}
-				 <NavbarItem>
+				 </NavbarItem>
+		 </NavbarBrand>
+
 			<NavbarContainer>
 				 <NavbarItem href="#">
 						New Record
-				 <NavbarItem>
-		 </NavbarContainer>
+				 </NavbarItem>
+		  </NavbarContainer>
+
 			<NavbarContainer align="end">
 				 <NavbarItem> 
 						{acc}
 				 </NavbarItem> 
-		 </NavbarContainer>
-	</Navbar>
+			</NavbarContainer>
+		 </Navbar>
   );
 };
 

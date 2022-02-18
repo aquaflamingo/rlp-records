@@ -1,4 +1,4 @@
-import 'bulma/css/bulma.min.css';
+// import 'bulma/css/bulma.min.css';
 import React from "react";
 import Web3Provider from "./components/Web3/Provider";
 import Web3Connect from "./components/Web3/Connect";
