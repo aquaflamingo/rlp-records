@@ -1,5 +1,18 @@
 project=rlprecords
 
+install.scratch:
+	make -j 3 -C . install.python install.web install.blockchain
+
+install.python:
+	@cd api && python3 -m venv venv && . ./venv/bin/activate 
+
+install.web:
+	@cd lib/contracts && yarn link
+	@cd webclient && yarn link @rlprecords/contracts && yarn
+
+install.blockchain:
+	@cd blockchain && yarn
+
 up:
 	make -j 5 -C . web.start hh.node server.py.up ipfs.start hh.deploy
 ###############################################################
