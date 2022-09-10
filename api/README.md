@@ -21,4 +21,6 @@ You can then run the server via:
 python manage.py runserver
 ```
 
-Checkout the root project Makefile too.
+## Fixtures
+There re two default fixtures present in the `Fixtures` folder  for a record and record label you can load them via Makefile commands
+
