@@ -9,7 +9,7 @@ RLP Records is a smaller scope prototype of a more grandiose idea I thought up t
 
 In essence, RLP Records is a web application that allows artists to sign up and mint NFTs for their musical works with a twist. In specific, instead of minting a token that contain an IPFS URI which points to stored `.json` data on IPFS hopefully containing a URL pointer an image or resource the NFT represents ownership of, an "Audio Web Record" derives an audio fingerprint hash from the audio file and bundles this hash into the IPFS `.json` file entry. 
 
-```json
+```
 // MyAudioWebRecord.json
 {
 	fingerprint: "..."
@@ -31,7 +31,7 @@ Artist mints NFT and API records connection to the Record Label
 Developers use "The Audio Web" registry as an index of what label owns which music (as asserted by fingerprints) and whom they should pay royalties to after sale of music.
 ```
 
-![Design](./docs/design.md)
+[![Design](./docs/rlp-records-design.png)](./docs/design.md)
 
 ## Getting Started
 RLP Records concept is composed of three parts:
