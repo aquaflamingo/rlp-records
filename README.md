@@ -1,6 +1,6 @@
 # RLP Records 
 ## (aka. The Audio Web)
-Alright so here's a pretty silly idea: 
+Alright so here's a sort of grandiose idea: 
 
 > A decentralized audio registry system which uses preexisting acoustic fingerprinting algorithms to generate an acoustic fingerprint for a given digital audio file's content and then writes that fingerprint and associated identifying data to a file stored within a public immutable and distributed file system that is linked to a non-fungible token within a separate immutable digital ledger. 
 
