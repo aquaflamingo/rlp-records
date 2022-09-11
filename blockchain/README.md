@@ -41,6 +41,15 @@ Deploy via:
 npx hardhat deploy --network localhost --export lib/contracts/index.json
 ```
 
+### Local Development
+For local development you can create a file called `hardhatAccount.json` that is automatically loaded and used to deploy contracts. 
+
+```
+{
+ TODO
+}
+```
+
 #### Tasks
 See `hardhat.config.js`
 
