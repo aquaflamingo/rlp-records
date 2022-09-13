@@ -1,7 +1,7 @@
 project=rlprecords
 
 up:
-	make -j 5 -C . web.start hh.node server.py.up ipfs.start hh.deploy
+	make -j 5 -C . web.start blockchain.node server.py.up ipfs.start blockchain.deploy
 
 ###############################################################
 # CLIENT
@@ -12,13 +12,13 @@ web.start:
 ###############################################################
 # CHAIN
 ###############################################################
-hh.node:
+blockchain.node:
 	@cd blockchain && yarn start:node
 
-hh.compile:
+blockchain.compile:
 	@pushd blockchain; yarn compile; popd
 
-hh.deploy:
+blockchain.deploy:
 	@pushd blockchain; yarn deploy; popd
 
 ipfs.start:
@@ -30,7 +30,7 @@ ipfs.clean:
 	@echo "Done"
 
 ###############################################################
-# SERVER
+# Local development server
 ###############################################################
 server.py.up:
 	@cd api && . ./venv/bin/activate && python manage.py runserver
