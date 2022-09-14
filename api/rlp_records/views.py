@@ -96,13 +96,23 @@ class RecordViewSet(mixins.RetrieveModelMixin,
 
 # NOTE 
 #   READ ONLY
-class ERC721ViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+class ERC721ViewSet(
+        mixins.ListModelMixin, 
+        mixins.RetrieveModelMixin,
+        viewsets.GenericViewSet):
     queryset = ERC721.objects.all()
     serializer_class = ERC721Serializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['tokenid', 'record']
 
-class MemberViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+# NOTE 
+#   LIST, CREATE, GET
+class MemberViewSet(
+        mixins.ListModelMixin, 
+        mixins.RetrieveModelMixin,
+        mixins.CreateModelMixin,
+        viewsets.GenericViewSet):
+
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
     filter_backends = [DjangoFilterBackend]
@@ -112,7 +122,14 @@ class AudioFileViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets
     queryset = AudioFile.objects.all()
     serializer_class = AudioFileSerializer
 
-class RecordLabelViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+# NOTE:
+# LIST, CREATE, GET
+class RecordLabelViewSet(
+        mixins.ListModelMixin, 
+        mixins.RetrieveModelMixin,
+        mixins.CreateModelMixin,
+        viewsets.GenericViewSet):
+
     queryset = RecordLabel.objects.all()
     serializer_class = RecordLabelSerializer
 
