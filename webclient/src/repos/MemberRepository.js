@@ -27,6 +27,26 @@ class MemberRepository extends Base {
     }
   }
 
+  async createMember({ labelId, name, walletAddress }) {
+    try {
+      let response = await client.post(`${this.URI}`, {
+        name: name,
+        recordlabel_id: labelId,
+        wallet_address: walletAddress
+      });
+
+      const member = response.data;
+
+      return {
+        member
+      };
+    } catch (err) {
+      console.error(err);
+      debugger;
+      return null;
+    }
+  }
+
   async list({ labelId }) {
     try {
       const response = await client.get(`${this.URI}?recordlabel=${labelId}`);
