@@ -2,8 +2,9 @@ import React, { useRef, useState, useEffect } from "react";
 import { useCreateMember } from "../../hooks/useMembers";
 import { useRecordLabels } from "../../hooks/useRecordLabels";
 import useForm from "../../hooks/useForm";
+import { useETHAccounts } from "../../hooks/useEthers.js";
 
-const OnboardingKit = ({walletAddress}) => {
+const OnboardingKit = () => {
   // TODO:
   //
   // 1. Create user identity profile on click of button
@@ -14,14 +15,16 @@ const OnboardingKit = ({walletAddress}) => {
   return(
     <div>
       <h1>Onboarding</h1>
-      <OnboardingForm walletAddress={walletAddress}/>
+      <OnboardingForm />
     </div>
   )
 }
 
-const OnboardingForm = ({ walletAddress }) => {
+const OnboardingForm = () => {
   const [{ data, isLoading, error }, createMember] = useCreateMember();
 
+  // FIXME: Bug in the form causing the default empty value to be rendered on the form
+  const walletAddress = useETHAccounts()[0];
   const recordLabels = useRecordLabels()
 
   const onSubmitFormHandler = ({ values, errors }) => {

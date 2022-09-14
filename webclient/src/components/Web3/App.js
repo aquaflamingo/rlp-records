@@ -10,17 +10,16 @@ import { useMemberFromWalletAddress } from "../../hooks/useMembers";
 import { useETHAccounts } from "../../hooks/useEthers.js";
 
 const Web3App = () => {
-  const acc = useETHAccounts();
-  const user = useMemberFromWalletAddress({walletAddress: acc});
+  const account = useETHAccounts()[0];
+  const user = useMemberFromWalletAddress({walletAddress: account});
 
-  const isUser = !user 
+  const isUser = user 
 
   return (
     <div className="Web3App">
       <main>
         <Navigation brand={"RLP Records"} />
-        { isUser && <MainApp user={user}/>  }
-        { !isUser && <Onboarding walletAddress={acc} /> }
+        { isUser ? <MainApp user={user}/> : <Onboarding /> }
       </main>
     </div>
   );

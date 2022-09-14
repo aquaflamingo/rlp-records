@@ -9,6 +9,10 @@ class MemberRepository extends Base {
     this.URI = "/members/";
   }
   async getFromWallet({ walletAddress }) {
+    if (walletAddress == undefined || walletAddress == "") {
+      return null;
+    }
+
     try {
       const response = await client.get(`${this.URI}?wallet_address=${walletAddress}`);
       console.log("MemberRepository.get:", response);
