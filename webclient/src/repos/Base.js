@@ -1,3 +1,4 @@
+// TODO: Pull deserializer out to utility module
 class Base {
   constructor() {}
 
