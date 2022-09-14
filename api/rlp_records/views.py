@@ -116,7 +116,7 @@ class MemberViewSet(
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['recordlabel']
+    filterset_fields = ['recordlabel', 'wallet_address']
 
 class AudioFileViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     queryset = AudioFile.objects.all()
