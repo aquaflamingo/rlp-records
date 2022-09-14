@@ -3,8 +3,6 @@ import React, { useCallback, useState, useEffect } from "react";
 export const BasicRecordSlot = ({ record }) => {
   const [rec, setRecord] = useState(record);
 
-  console.log("What is rec")
-  console.log(rec.token)
   return (
     <div className="record">
       <h3>{rec.title}</h3>
