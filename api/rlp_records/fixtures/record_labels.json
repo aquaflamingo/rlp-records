@@ -12,22 +12,7 @@
     "fields": {
       "name": "Vitalik Vibes",
       "recordlabel_id": 1
-    }
-  },
-  {
-    "model": "rlp_records.member",
-    "pk": 2,
-    "fields": {
-      "name": "Wei Da Beats",
-      "recordlabel_id": 1
-    }
-  },
-  {
-    "model": "rlp_records.member",
-    "pk": 3,
-    "fields": {
-      "name": "Sats Over",
-      "recordlabel_id": 1
+      "wallet_address": "0x0000000000000000000000000000000000000000"
     }
   }
 ]
