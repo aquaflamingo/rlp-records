@@ -36,9 +36,10 @@ Developers use "The Audio Web" registry as an index of what label owns which mus
 ## Getting Started
 RLP Records concept is composed of three parts:
 
-1. React Frontend Client
-2. Ethereum Blockchain contracts
-3. Django Backend API
+1. [webclient](./webclient/README.md): React Frontend Client 
+2. [blockchain](./blockchain/README.md): ETH Hardhat Solidity Project
+3. [lib/contracts](./lib/contracts/README.md) Shared Contract Artifacts NPM Package
+4. [api](./api/README.md): Django Backend API
 
 Each of these projects are compartmentalized and can be developed individually with an accompanied `README.md` in each folder. 
 
