@@ -24,6 +24,14 @@ ipfs pin ls --type recursive | cut -d' ' -f1 | xargs -n1 ipfs pin rm
 ipfs repo gc
 ```
 
+#### CORS
+You will need to set your local IPFS installation to allow CORS requests
+
+```bash
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
+```
+
+
 ### Hardhat
 ```bash
 # Install deps
