@@ -11,11 +11,13 @@ const Web3App = () => {
 
   return (
     <div className="Web3App">
-      <Navigation brand={"RLP Records"} />
-      <Sidebar labelId={labelId} />
-      <RecordStack labelId={labelId} />
-      <RecordPress labelId={labelId} />
-      <RecordKit labelId={labelId} />
+      <main>
+        <Navigation brand={"RLP Records"} />
+        <Sidebar labelId={labelId} />
+        <RecordStack labelId={labelId} />
+        <RecordPress labelId={labelId} />
+        <RecordKit labelId={labelId} />
+      </main>
     </div>
   );
 };

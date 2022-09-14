@@ -7,21 +7,19 @@ const Navigation = ({ brand }) => {
 
   return (
     <nav className="">
-      <div className="container mx-auto">
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <a href="/">{brand}</a>
-          </li>
+      <a href="/">{brand}</a>
+      <ul className="navbar-nav">
+        <li className="nav-item">
+        </li>
 
-          <li className="nav-item">
-            <a href="#">New Record</a>
-          </li>
+        <li className="nav-item">
+          <a href="#">New Record</a>
+        </li>
 
-          <li className="nav-item">
-            <p>{acc}</p>
-          </li>
-        </ul>
-      </div>
+        <li className="nav-item">
+          <p>{acc}</p>
+        </li>
+      </ul>
     </nav>
   );
 };

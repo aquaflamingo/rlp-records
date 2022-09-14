@@ -10,8 +10,10 @@ export const useRecords = ({ labelId, state, tick }) => {
     repo
       ?.list({ labelId, state })
       .then((records) => {
-        console.log("Fetched ", records.length, " records");
-        setRecords(records);
+        if (records) {
+          console.log("Fetched ", records.length, " records");
+          setRecords(records);
+        }
       })
       .catch((err) => {
         console.error("Failed to fetch records", err);

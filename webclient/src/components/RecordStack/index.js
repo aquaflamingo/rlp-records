@@ -22,11 +22,6 @@ const RecordStack = ({ labelId }) => {
     <div className="row">
       <h2>Record Stack</h2>
       <button onClick={refresh}>Refresh</button>
-      <br />
-      <h3>Published</h3>
-      <p>Live records</p>
-      <RecordList items={published} />
-      <hr />
       <h3>Minted</h3>
       <p>
         Records that have been uploaded and have been minted but are not

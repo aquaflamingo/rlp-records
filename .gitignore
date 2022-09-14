@@ -25,3 +25,7 @@ vm
 .vagrant/
 .DS_Store
 docs/chromaprint_docs
+
+_devlogs/
+build
+.env
