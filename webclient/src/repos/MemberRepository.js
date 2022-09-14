@@ -10,7 +10,7 @@ class MemberRepository extends Base {
   }
   async getFromWallet({ walletAddress }) {
     try {
-      const response = await client.get(`${this.URI}?wallet_address=${labelId}`);
+      const response = await client.get(`${this.URI}?wallet_address=${walletAddress}`);
       console.log("MemberRepository.list:", response);
 
       var result;
