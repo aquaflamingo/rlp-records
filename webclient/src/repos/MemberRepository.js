@@ -11,15 +11,16 @@ class MemberRepository extends Base {
   async getFromWallet({ walletAddress }) {
     try {
       const response = await client.get(`${this.URI}?wallet_address=${walletAddress}`);
-      console.log("MemberRepository.list:", response);
+      console.log("MemberRepository.get:", response);
 
-      var result;
+      var result = [];
 
       if (response && response.data) {
         result = this.deserializeResponse(response.data, MembersDeserializer);
       }
 
-      return result;
+      // Return the first user in the response
+      return result[0];
     } catch (error) {
       console.error(error);
       return null;

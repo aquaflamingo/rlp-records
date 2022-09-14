@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useMemberRepository } from "../hooks/useRepository";
 
 // Squad is a record label records
 export const useUserFromWallet = ({walletAddress}) => {
@@ -10,8 +11,9 @@ export const useUserFromWallet = ({walletAddress}) => {
     repo
       ?.getFromWallet({ walletAddress })
       .then((m) => {
+
         if (m) {
-          console.log("Fetched member ", m.name);
+          console.log("Fetched user from wallet", m.name);
           setUser(m);
         }
       })
