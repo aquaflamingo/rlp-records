@@ -9,34 +9,48 @@ import { useRecordLabel } from "../../hooks/useRecordLabels";
 import { useMemberFromWalletAddress } from "../../hooks/useMembers";
 import { useETHAccounts } from "../../hooks/useEthers.js";
 
-const Web3App = () => {
+const ApplicatonManager = () => {
   const account = useETHAccounts()[0];
-  const user = useMemberFromWalletAddress({walletAddress: account});
+  const user = useMemberFromWalletAddress({walletAddress: account})
 
-  const isUser = user 
+  const [member, setMember] = useState(user)
+
+  const hasAccount = member 
+
+  const handleOnboardingSuccess = (d) => {
+    console.log("Reloading!!")
+    setMember(d)
+  }
+
+  return (
+    <div>
+      { hasAccount ? <MainApp user={user} /> : <Onboarding walletAddress={account} onSuccess={handleOnboardingSuccess}/>
+    }
+    </div>
+  )
+}
+
+const Web3App = () => {
 
   return (
     <div className="Web3App">
       <main>
-        <Navigation brand={"RLP Records"} />
-        { isUser ? <MainApp user={user}/> : <Onboarding /> }
+        <ApplicatonManager />
       </main>
     </div>
   );
 };
 
-const MainApp = () => {
-  // FIXME: how to query for record label without account
-  const labelId = 1;
-
+const MainApp = ({member}) => {
   return(
     <div>
-      <Sidebar labelId={labelId} />
-      <RecordStack labelId={labelId} />
-      <RecordPress labelId={labelId} />
-      <RecordKit labelId={labelId} />
+      <Navigation brand={"RLP Records"} member={member}/>
+      <Sidebar labelId={member.labelId} />
+      <RecordStack labelId={member.labelId} />
+      <RecordPress labelId={member.labelId} />
+      <RecordKit labelId={member.labelId} />
     </div>
-    )
+  )
 }
 
 export default Web3App;

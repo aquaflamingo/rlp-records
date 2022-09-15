@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { useETHAccounts } from "../hooks/useEthers";
 
-const Navigation = ({ brand }) => {
+const Navigation = ({ member }) => {
   const acc = useETHAccounts();
 
   return (
@@ -17,7 +17,7 @@ const Navigation = ({ brand }) => {
         </li>
 
         <li className="nav-item">
-          <p>{acc}</p>
+          <p>{member.name} {member.wallet_address}</p>
         </li>
       </ul>
     </nav>

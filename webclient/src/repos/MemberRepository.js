@@ -47,7 +47,7 @@ class MemberRepository extends Base {
     } catch (err) {
       console.error(err);
       debugger;
-      return null;
+      throw err
     }
   }
 

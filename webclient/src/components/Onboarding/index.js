@@ -3,35 +3,37 @@ import { useCreateMember } from "../../hooks/useMembers";
 import { useRecordLabels } from "../../hooks/useRecordLabels";
 import useForm from "../../hooks/useForm";
 import { useETHAccounts } from "../../hooks/useEthers.js";
+import {hasKeys} from "../../helpers/common.js"
 
-const OnboardingKit = () => {
-  // TODO:
-  //
-  // 1. Create user identity profile on click of button
-  // 2. Ask to join a new label
-  // 3. Ask for the name 
-  // 4. PUT for label and POST for create a member 
-  // 
+const OnboardingKit = ({walletAddress, onSuccess}) => {
   return(
     <div>
       <h1>Onboarding</h1>
-      <OnboardingForm />
+      { !!walletAddress  &&
+        <OnboardingForm walletAddress={walletAddress} onSuccess={onSuccess}/> }
     </div>
   )
 }
 
-const OnboardingForm = () => {
+const OnboardingForm = ({walletAddress, onSuccess}) => {
   const [{ data, isLoading, error }, createMember] = useCreateMember();
 
-  // FIXME: Bug in the form causing the default empty value to be rendered on the form
-  const walletAddress = useETHAccounts()[0];
   const recordLabels = useRecordLabels()
 
   const onSubmitFormHandler = ({ values, errors }) => {
+    if (hasKeys(errors)) onFailure(errors);
+
     console.log("OnboardingForm.onSubmitFormHandler: ", values, errors);
 
     // Set the wallet address value here to prevent incorrect entry on sign up
-    createMember(values);
+    const result = createMember(values);
+
+    result.then((res) => { 
+      onSuccess(res)
+    })
+    .catch((e)=> {
+      console.log(e)
+    })
   };
 
   const initialValues = {
@@ -63,31 +65,34 @@ const OnboardingForm = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <label>Your Name</label>
+          <p>This is the name of your member account</p>
           <input
             type="text"
             name="name"
             required
             onChange={handleChange}
             value={values.name}
-          />
+            />
 
           <label>Wallet Address</label>
+          <p>Your wallet address comes from the current account in your wallet</p>
           <input
             type="text"
             name="walletAddress"
             required
             disabled
             value={values.walletAddress}
-          />
+            />
         </div>
 
         <div>
           <label>Select Record Label</label>
+          <p>Pick a record label to join</p>
           <RecordLabelDropdown
             labels={recordLabels}
             value={values.labelId}
             onChange={handleChange}
-          />
+            />
         </div>
 
         <button type="submit">Join</button>

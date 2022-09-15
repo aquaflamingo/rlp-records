@@ -15,23 +15,33 @@ export const useCreateMember = () => {
   const repo = useMemberRepository();
 
   const request = ({ name, labelId, walletAddress}) => {
-    setResult((prev) => ({ ...prev, isLoading: true }));
+    return new Promise((s,e)=> {
+      setResult((prev) => ({ ...prev, isLoading: true }));
 
-    repo
-      .createMember({ labelId, name, walletAddress })
-      .then((res) => {
-        console.log("Member was created", res);
-        setResult({
-          data: { msg: "Member was created 👶" },
-          isLoading: false,
-          error: null,
+      repo
+        .createMember({ labelId, name, walletAddress })
+        .then((res) => {
+          console.log("Member was created", res);
+
+          let data = { msg: "Member was created 👶", success: true, payload: res }
+
+          setResult({
+            data: data,
+            isLoading: false,
+            error: null,
+          });
+
+          s(data)
+        })
+        .catch((error) => {
+          console.error("Failed to create Member:", error);
+          let data = {success: false}
+          // debugger;
+          setResult({ data: data, isLoading: false, error: `Failed to create member: ${error.response.data}`});
+
+          e(data)
         });
-      })
-      .catch((error) => {
-        console.error("Failed to create Member:", error);
-        debugger;
-        setResult({ data: {}, isLoading: false, error });
-      });
+    })
   };
 
   return [result, request];
