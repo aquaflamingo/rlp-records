@@ -16,10 +16,10 @@ class FingerprintError(Exception):
 #   - DESTROY
 #   - LIST
 class RecordViewSet(mixins.RetrieveModelMixin,
-        mixins.DestroyModelMixin,
-        mixins.ListModelMixin,
-        mixins.CreateModelMixin,
-        viewsets.GenericViewSet):
+                    mixins.DestroyModelMixin,
+                    mixins.ListModelMixin,
+                    mixins.CreateModelMixin,
+                    viewsets.GenericViewSet):
     queryset = Record.objects.all()
     serializer_class = RecordSerializer
     filter_backends = [DjangoFilterBackend]
@@ -54,23 +54,23 @@ class RecordViewSet(mixins.RetrieveModelMixin,
         return (fp_hash, fp)
 
     @action(
-            detail=True,
-            methods=["GET"]
-            )
+        detail=True,
+        methods=["GET"]
+    )
     def metadata(self, request, pk):
         af = AudioFile.objects.get(record_id=pk)
 
         return response.Response({
-                    "fp": { "encoded": af.fingerprint, "hash": af.fingerprinthash},
-                    "audioid": af.id
-                    })
+                                     "fp": { "encoded": af.fingerprint, "hash": af.fingerprinthash},
+                                     "audioid": af.id
+                                 })
 
     @action(
-            detail=True,
-            methods=['PUT'],
-            serializer_class=AudioFileSerializer,
-            parser_classes=[parsers.MultiPartParser],
-            )
+        detail=True,
+        methods=['PUT'],
+        serializer_class=AudioFileSerializer,
+        parser_classes=[parsers.MultiPartParser],
+    )
     def upload(self, request, pk):
         # FIXME: Use S3 or host NFS to store this lel
         tmpfile = request.data['file']
@@ -92,7 +92,7 @@ class RecordViewSet(mixins.RetrieveModelMixin,
             serializer.save()
             return response.Response({"fphash": fp_hash, "fingerprint": fingerprint})
         return response.Response(serializer.errors,
-                status.HTTP_400_BAD_REQUEST)
+                                 status.HTTP_400_BAD_REQUEST)
 
 # NOTE 
 #   READ ONLY
@@ -118,6 +118,58 @@ class MemberViewSet(
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['recordlabel', 'wallet_address']
 
+    def validate_create_request(self, req_data):
+        name = req_data.get('name')
+        if name == None or name == "":
+            return response.Response("Name cannot be blank", status.HTTP_400_BAD_REQUEST)
+
+        w = req_data.get('wallet_address')
+
+        if w == None or w == "":
+            return response.Response("Wallet cannot be blank", status.HTTP_400_BAD_REQUEST)
+
+        member_exists = Member.objects.filter(wallet_address=w).exists()
+
+        if member_exists:
+            return response.Response("Member already exists", status.HTTP_400_BAD_REQUEST)
+
+        labelid = req_data.get('recordlabel_id')
+        if labelid == None or labelid == "":
+            return response.Response("Label Id cannot be blank", status.HTTP_400_BAD_REQUEST)
+
+        exists = RecordLabel.objects.filter(pk=labelid).exists()
+
+        if not exists:
+            return response.Response("Chosen Record Label does not exist", status.HTTP_404_NOT_FOUND)
+
+        return None
+
+    def build_member(self, name, wallet_address, labelid):
+        return MemberSerializer(data={
+                                    'name': name,
+                                    'wallet_address': wallet_address,
+                                    'recordlabel': labelid
+                                })
+
+    def create(self, request):
+        error = self.validate_create_request(request.data)
+
+        if error:
+            return error
+
+        name = request.data['name']
+        wallet_address = request.data['wallet_address']
+        labelid = request.data['recordlabel_id']
+
+        member = self.build_member(name, wallet_address, labelid)
+
+        if member.is_valid():
+            member.save
+        else:
+            return response.Response(member.errors, status.HTTP_400_BAD_REQUEST)
+
+        return response.Response(member.data, status.HTTP_201_CREATED)
+
 class AudioFileViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     queryset = AudioFile.objects.all()
     serializer_class = AudioFileSerializer
@@ -134,9 +186,9 @@ class RecordLabelViewSet(
     serializer_class = RecordLabelSerializer
 
 class EventViewSet(mixins.CreateModelMixin, 
-        mixins.RetrieveModelMixin, 
-        mixins.ListModelMixin, 
-        viewsets.GenericViewSet):
+                   mixins.RetrieveModelMixin, 
+                   mixins.ListModelMixin, 
+                   viewsets.GenericViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     filter_backends = [DjangoFilterBackend]
@@ -145,20 +197,20 @@ class EventViewSet(mixins.CreateModelMixin,
 
     def build_erc721(self, record, token_id, metadata_uri):
         return ERC721Serializer(data={
-            'record': record.id,
-            'tokenid': token_id,
-            'metadata_uri' :metadata_uri
-            })
+                                    'record': record.id,
+                                    'tokenid': token_id,
+                                    'metadata_uri' :metadata_uri
+                                })
 
     def build_mint_event(self, proof, record, details):
         attributed_to = record.recordlabel
 
         return EventSerializer(data= {
-                    'proof': proof, 
-                    'event_type': Event.EventType.MINT, 
-                    'attributed_to': attributed_to.id, 
-                    'details': details
-                    })
+                                   'proof': proof, 
+                                   'event_type': Event.EventType.MINT, 
+                                   'attributed_to': attributed_to.id, 
+                                   'details': details
+                               })
 
     def validate_create_request(self, req_data):
         proof = req_data.get('proof')
