@@ -37,8 +37,8 @@ const OnboardingForm = ({walletAddress, onSuccess}) => {
   };
 
   const initialValues = {
-    name: "",
-    labelId: "",
+    name: "test",
+    labelId: 1,
     walletAddress: walletAddress
   };
 

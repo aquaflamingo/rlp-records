@@ -2,22 +2,20 @@ import React, { useState, useEffect } from "react";
 
 import { useETHAccounts } from "../hooks/useEthers";
 
-const Navigation = ({ member }) => {
-  const acc = useETHAccounts();
-
+const Navigation = ({ brand, member }) => {
   return (
-    <nav className="">
-      <a href="/">{brand}</a>
+    <nav>
       <ul className="navbar-nav">
         <li className="nav-item">
+          <a href="/">{brand}</a>
         </li>
 
         <li className="nav-item">
-          <a href="#">New Record</a>
+          {member.name}
         </li>
 
         <li className="nav-item">
-          <p>{member.name} {member.wallet_address}</p>
+          {member.walletAddress}
         </li>
       </ul>
     </nav>
