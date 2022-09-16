@@ -5,10 +5,16 @@ class Base {
   deserializeResponse(data, deserializer) {
     let result = [];
 
-    for (var m = 0; m < data.length; m++) {
-      result.push(deserializer(data[m]));
+    if (data.length) {
+      // if data is an array deserialize
+      for (var m = 0; m < data.length; m++) {
+        result.push(deserializer(data[m]));
+      }
+      return result;
+    } else {
+      // deserialize single
+      return deserializer(data)
     }
-    return result;
   }
 }
 
