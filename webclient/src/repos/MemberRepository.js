@@ -14,7 +14,9 @@ class MemberRepository extends Base {
     }
 
     try {
-      const response = await client.get(`${this.URI}?wallet_address=${walletAddress}`);
+      const response = await client.get(
+        `${this.URI}?wallet_address=${walletAddress}`
+      );
       console.log("MemberRepository.get:", response);
 
       var result = [];
@@ -36,7 +38,7 @@ class MemberRepository extends Base {
       let response = await client.post(`${this.URI}`, {
         name: name,
         recordlabel_id: labelId,
-        wallet_address: walletAddress
+        wallet_address: walletAddress,
       });
 
       var result;
@@ -49,7 +51,7 @@ class MemberRepository extends Base {
     } catch (err) {
       console.error(err);
       debugger;
-      throw err
+      throw err;
     }
   }
 

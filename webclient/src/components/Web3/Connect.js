@@ -23,17 +23,20 @@ const Web3Connect = ({ children }) => {
   return active ? (
     <div>{children}</div>
   ) : (
-      <section> 
-        <header>
-          <h1>RLP Records</h1>
-          <p>This page requires a wallet like Metamask, please install and connect to use</p>
+    <section>
+      <header>
+        <h1>RLP Records</h1>
+        <p>
+          This page requires a wallet like Metamask, please install and connect
+          to use
+        </p>
 
-          <button type="button" onClick={() => connectToWeb3()}>
-            Connect
-          </button>
-        </header>
-      </section>
-    );
+        <button type="button" onClick={() => connectToWeb3()}>
+          Connect
+        </button>
+      </header>
+    </section>
+  );
 };
 
 export default Web3Connect;

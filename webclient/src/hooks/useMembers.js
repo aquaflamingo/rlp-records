@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMemberRepository } from "../hooks/useRepository";
 
-// 
+//
 // Creates a new member record using the provided
 // data to the request call.
 //
@@ -14,8 +14,8 @@ export const useCreateMember = () => {
 
   const repo = useMemberRepository();
 
-  const request = ({ name, labelId, walletAddress}) => {
-    return new Promise((s,e)=> {
+  const request = ({ name, labelId, walletAddress }) => {
+    return new Promise((s, e) => {
       setResult((prev) => ({ ...prev, isLoading: true }));
 
       repo
@@ -23,7 +23,11 @@ export const useCreateMember = () => {
         .then((res) => {
           console.log("Member was created", res);
 
-          let data = { msg: "Member was created 👶", success: true, payload: res }
+          let data = {
+            msg: "Member was created 👶",
+            success: true,
+            payload: res,
+          };
 
           setResult({
             data: data,
@@ -31,27 +35,31 @@ export const useCreateMember = () => {
             error: null,
           });
 
-          s(data)
+          s(data);
         })
         .catch((error) => {
           console.error("Failed to create Member:", error);
-          let data = {success: false}
+          let data = { success: false };
           // debugger;
-          setResult({ data: data, isLoading: false, error: `Failed to create member: ${error.response.data}`});
+          setResult({
+            data: data,
+            isLoading: false,
+            error: `Failed to create member: ${error.response.data}`,
+          });
 
-          e(data)
+          e(data);
         });
-    })
+    });
   };
 
   return [result, request];
 };
 
-// 
+//
 // Retrieves an individual member record from
 // the wallet address provided as prop input.
 //
-export const useMemberFromWalletAddress = ({walletAddress}) => {
+export const useMemberFromWalletAddress = ({ walletAddress }) => {
   const [u, setUser] = useState(null);
 
   const repo = useMemberRepository();
@@ -60,7 +68,6 @@ export const useMemberFromWalletAddress = ({walletAddress}) => {
     repo
       ?.getFromWallet({ walletAddress })
       .then((m) => {
-
         if (m) {
           console.log("Fetched user from wallet", m.name);
           setUser(m);

@@ -10,13 +10,9 @@ const Navigation = ({ brand, member }) => {
           <a href="/">{brand}</a>
         </li>
 
-        <li className="nav-item">
-          {member.name}
-        </li>
+        <li className="nav-item">{member.name}</li>
 
-        <li className="nav-item">
-          {member.walletAddress}
-        </li>
+        <li className="nav-item">{member.walletAddress}</li>
       </ul>
     </nav>
   );

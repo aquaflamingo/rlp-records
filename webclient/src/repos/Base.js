@@ -13,7 +13,7 @@ class Base {
       return result;
     } else {
       // deserialize single
-      return deserializer(data)
+      return deserializer(data);
     }
   }
 }

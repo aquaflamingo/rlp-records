@@ -3,22 +3,23 @@ import { useCreateMember } from "../../hooks/useMembers";
 import { useRecordLabels } from "../../hooks/useRecordLabels";
 import useForm from "../../hooks/useForm";
 import { useETHAccounts } from "../../hooks/useEthers.js";
-import {hasKeys} from "../../helpers/common.js"
+import { hasKeys } from "../../helpers/common.js";
 
-const OnboardingKit = ({walletAddress, onSuccess}) => {
-  return(
+const OnboardingKit = ({ walletAddress, onSuccess }) => {
+  return (
     <div>
       <h1>Onboarding</h1>
-      { !!walletAddress  &&
-        <OnboardingForm walletAddress={walletAddress} onSuccess={onSuccess}/> }
+      {!!walletAddress && (
+        <OnboardingForm walletAddress={walletAddress} onSuccess={onSuccess} />
+      )}
     </div>
-  )
-}
+  );
+};
 
-const OnboardingForm = ({walletAddress, onSuccess}) => {
+const OnboardingForm = ({ walletAddress, onSuccess }) => {
   const [{ data, isLoading, error }, createMember] = useCreateMember();
 
-  const recordLabels = useRecordLabels()
+  const recordLabels = useRecordLabels();
 
   const onSubmitFormHandler = ({ values, errors }) => {
     if (hasKeys(errors)) onFailure(errors);
@@ -28,31 +29,26 @@ const OnboardingForm = ({walletAddress, onSuccess}) => {
     // Set the wallet address value here to prevent incorrect entry on sign up
     const result = createMember(values);
 
-    result.then((res) => { 
-      onSuccess(res)
-    })
-    .catch((e)=> {
-      console.log(e)
-    })
+    result
+      .then((res) => {
+        onSuccess(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const initialValues = {
     name: "test",
     labelId: 1,
-    walletAddress: walletAddress
+    walletAddress: walletAddress,
   };
 
-  const {
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-  } = useForm({
-    initialValues,
-    onSubmit: onSubmitFormHandler,
-  });
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
+    useForm({
+      initialValues,
+      onSubmit: onSubmitFormHandler,
+    });
 
   return (
     <div>
@@ -72,17 +68,19 @@ const OnboardingForm = ({walletAddress, onSuccess}) => {
             required
             onChange={handleChange}
             value={values.name}
-            />
+          />
 
           <label>Wallet Address</label>
-          <p>Your wallet address comes from the current account in your wallet</p>
+          <p>
+            Your wallet address comes from the current account in your wallet
+          </p>
           <input
             type="text"
             name="walletAddress"
             required
             disabled
             value={values.walletAddress}
-            />
+          />
         </div>
 
         <div>
@@ -92,7 +90,7 @@ const OnboardingForm = ({walletAddress, onSuccess}) => {
             labels={recordLabels}
             value={values.labelId}
             onChange={handleChange}
-            />
+          />
         </div>
 
         <button type="submit">Join</button>
@@ -103,7 +101,6 @@ const OnboardingForm = ({walletAddress, onSuccess}) => {
   // TODO: Terms of Service + Privacy Policy
 };
 
-
 // TODO: Make a generic drop down component:
 // params: data, values, onChange, fieldName
 const RecordLabelDropdown = ({ labels, value, onChange }) => {
@@ -111,8 +108,7 @@ const RecordLabelDropdown = ({ labels, value, onChange }) => {
   let options = [
     <option key="0" value="">
       {" "}
-      Select a record label
-      {" "}
+      Select a record label{" "}
     </option>,
   ];
 

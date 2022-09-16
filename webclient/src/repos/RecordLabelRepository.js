@@ -12,9 +12,7 @@ class RecordLabelRepository extends Base {
   // Fetches a list of all available record labelsa
   async list() {
     try {
-      const response = await client.get(
-        `${this.URI}`
-      );
+      const response = await client.get(`${this.URI}`);
 
       console.log("RecordLabelRepository.list:", response);
 
