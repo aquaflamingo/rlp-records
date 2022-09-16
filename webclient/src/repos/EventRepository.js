@@ -1,6 +1,6 @@
 import client from "./ApiClient";
 import Base from "./Base";
-import { EventsDeserializer } from "./models/Event.js";
+import { EventsDeserializer } from "./serializers/Event.js";
 
 // EventRepository is the data access interface  for labels
 class EventRepository extends Base {

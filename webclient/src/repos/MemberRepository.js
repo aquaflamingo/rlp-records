@@ -1,6 +1,6 @@
 import client from "./ApiClient";
 import Base from "./Base";
-import { MembersDeserializer } from "./models/Member.js";
+import { MembersDeserializer } from "./serializers/Member.js";
 
 // MemberRepository is the data access interface  for labels
 class MemberRepository extends Base {
@@ -39,11 +39,13 @@ class MemberRepository extends Base {
         wallet_address: walletAddress
       });
 
-      const member = response.data;
+      var result;
 
-      return {
-        member
-      };
+      if (response && response.data) {
+        result = this.deserializeResponse(response.data, MembersDeserializer);
+      }
+
+      return result;
     } catch (err) {
       console.error(err);
       debugger;

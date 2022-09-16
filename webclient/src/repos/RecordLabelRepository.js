@@ -1,6 +1,6 @@
 import client from "./ApiClient";
 import Base from "./Base";
-import { RecordLabelDeserializer } from "../models/RecordLabel";
+import { RecordLabelDeserializer } from "./serializers/RecordLabel";
 
 // RecordLabelRepository is the data access interface  for labels
 class RecordLabelRepository extends Base {
