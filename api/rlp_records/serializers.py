@@ -14,7 +14,7 @@ class ERC721Serializer(serializers.ModelSerializer):
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ('id', 'name', 'recordlabel')
+        fields = ('id', 'name', 'recordlabel', 'wallet_address')
         read_only_fields = [ 'id' ]
 
 

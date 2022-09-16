@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify 
+from django.core.validators import MinLengthValidator
 
 
 class RecordLabel(models.Model):
@@ -8,6 +9,9 @@ class RecordLabel(models.Model):
 class Member(models.Model):
     name = models.CharField(max_length=200)
     recordlabel = models.ForeignKey(RecordLabel, on_delete=models.CASCADE, null=True)
+    # TODO: Should create a wallet model to enable better management
+    # TODO: Fix ethereum address validation
+    wallet_address = models.CharField(max_length=42, validators=[MinLengthValidator(4)], unique=True)
 
 class Event(models.Model):
     class EventType(models.TextChoices):
