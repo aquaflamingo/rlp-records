@@ -6,7 +6,6 @@ from rest_framework.decorators import action
 import acoustid
 from acoustid import chromaprint
 import hashlib
-import IPython
 
 
 class FingerprintError(Exception):
@@ -165,13 +164,10 @@ class MemberViewSet(
         member = self.build_member(name, wallet_address, labelid)
 
         if member.is_valid():
-            # FIXME: temp
             member.save()
-            print("would saveuser")
         else:
             return response.Response(member.errors, status.HTTP_400_BAD_REQUEST)
 
-        # IPython.embed()
         return response.Response(member.data, status.HTTP_201_CREATED)
 
 class AudioFileViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
