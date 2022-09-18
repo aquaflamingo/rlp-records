@@ -26,7 +26,10 @@ const RecordPress = ({ labelId }) => {
   return (
     <div className="mint-record">
       <h2>🗜 Record Press</h2>
-      <p>Here you can press out a fresh new release to the world. Pressing a record will mint an NFT and upload your audio fingerprint to IPFS.</p>
+      <p>
+        Here you can press out a fresh new release to the world. Pressing a
+        record will mint an NFT and upload your audio fingerprint to IPFS.
+      </p>
 
       <button onClick={refresh}>Fetch</button>
 

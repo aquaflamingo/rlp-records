@@ -32,7 +32,10 @@ const RecordLabelMembers = ({ labelId }) => {
   return (
     <div className="">
       <h2>Members</h2>
-      <p>Members list provides an overview of the members that are apart of your record label { labelId }</p>
+      <p>
+        Members list provides an overview of the members that are apart of your
+        record label {labelId}
+      </p>
       <MemberList members={members} />
     </div>
   );
