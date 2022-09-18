@@ -26,7 +26,7 @@ const RecordStack = ({ labelId }) => {
         Records that have been uploaded and have been minted but are not
         published yet
       </p>
-      <RecordList items={minted} component={DetailedRecordSlot}/>
+      <RecordList items={minted} component={DetailedRecordSlot} />
       <hr />
     </div>
   );
