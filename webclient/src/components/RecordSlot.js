@@ -19,8 +19,6 @@ export const DetailedRecordSlot = ({ record }) => {
   // FIXME: Yes making iterative API calls for each record's meta data is bad, fix at some point
   const metadata = useRecordMetadata(record.id);
 
-  console.log("What is record", record);
-  console.log("What is md", metadata);
   return (
     <div className="record">
       <h3>{rec.title}</h3>
