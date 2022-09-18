@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 import acoustid
 from acoustid import chromaprint
 import hashlib
-
+import IPython
 
 class FingerprintError(Exception):
     pass
@@ -59,11 +59,31 @@ class RecordViewSet(mixins.RetrieveModelMixin,
     )
     def metadata(self, request, pk):
         af = AudioFile.objects.get(record_id=pk)
+        token_exists = ERC721.objects.filter(record=pk).exists()
 
-        return response.Response({
-                                     "fp": { "encoded": af.fingerprint, "hash": af.fingerprinthash},
-                                     "audioid": af.id
-                                 })
+        resp_dict = {
+            "fp": { 
+                "encoded": af.fingerprint, 
+                "searchhash": af.fingerprinthash,
+            },
+            "audio": {
+                "id": af.id
+            }
+        }
+
+        if token_exists:
+            token = ERC721.objects.get(record=pk)
+            IPython.embed()
+            event = Event.objects.get(attributed_to=token.id)
+
+            resp_dict["token"] = {
+                "id": token.id,
+                "proof": event.proof,
+                "metadata_uri": token.metadata_uri
+            }
+
+
+        return response.Response(resp_dict)
 
     @action(
         detail=True,
@@ -203,7 +223,7 @@ class EventViewSet(mixins.CreateModelMixin,
                                 })
 
     def build_mint_event(self, proof, record, details):
-        attributed_to = record.recordlabel
+        attributed_to = record
 
         return EventSerializer(data= {
                                    'proof': proof, 
@@ -267,6 +287,7 @@ class EventViewSet(mixins.CreateModelMixin,
         metadata_uri = details['metadataURI']
 
         mint_event = self.build_mint_event(proof, record, details)
+        IPython.embed()
         if mint_event.is_valid():
             mint_event.save()
         else:
