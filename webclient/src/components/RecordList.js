@@ -1,12 +1,18 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { BasicRecordSlot } from "./RecordSlot";
 
-const RecordList = ({ items }) => {
+const RecordList = ({ items, component }) => {
   const hasItems = items && items.length > 0;
   let slots = [];
 
   if (hasItems) {
-    slots = items.map((r, index) => <BasicRecordSlot key={index} record={r} />);
+    // Dynamically render component
+    slots = items.map((r, index) =>
+      React.createElement(component, {
+        key: index,
+        record: r,
+      })
+    );
   }
 
   return (
