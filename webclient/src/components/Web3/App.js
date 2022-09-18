@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navigation from "../Navigation";
-import Sidebar from "../Sidebar";
+import RecordLabelMembers from "../RecordLabelMembers";
 import RecordStack from "../RecordStack";
 import RecordKit from "../RecordKit/";
 import RecordPress from "../RecordPress/";
@@ -55,7 +55,7 @@ const MemberApp = ({ member }) => {
   return (
     <div>
       <Navigation brand={"RLP Records"} member={member} />
-      <Sidebar labelId={member.labelId} />
+      <RecordLabelMembers labelId={member.labelId} />
       <RecordStack labelId={member.labelId} />
       <RecordPress labelId={member.labelId} />
       <RecordKit labelId={member.labelId} />

@@ -19,7 +19,9 @@ const RecordStack = ({ labelId }) => {
 
   return (
     <div className="row">
-      <h2>Record Stack</h2>
+      <h2>📚 Record Stack</h2>
+      <p>The RecordStack is the place where you can see your record label existing records</p>
+
       <button onClick={refresh}>Refresh</button>
       <h3>Minted</h3>
       <p>
