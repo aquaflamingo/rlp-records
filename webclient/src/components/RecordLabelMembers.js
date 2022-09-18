@@ -9,7 +9,7 @@ const MemberSlot = ({ member }) => {
   );
 };
 
-const MembersList = ({ members }) => {
+const MemberList = ({ members }) => {
   const hasItems = members && members.length > 0;
   let slots = [];
 
@@ -26,15 +26,19 @@ const MembersList = ({ members }) => {
   );
 };
 
-const Sidebar = ({ labelId }) => {
+const RecordLabelMembers = ({ labelId }) => {
   const members = useMembers(labelId);
 
   return (
     <div className="">
       <h2>Members</h2>
-      <MembersList members={members} />
+      <p>
+        Members list provides an overview of the members that are apart of your
+        record label {labelId}
+      </p>
+      <MemberList members={members} />
     </div>
   );
 };
 
-export default Sidebar;
+export default RecordLabelMembers;
