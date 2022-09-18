@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import RecordList from "../RecordList";
+import { DetailedRecordSlot } from "../RecordSlot.js";
 import { useRecords } from "../../hooks/useRecords";
 
 const RecordStack = ({ labelId }) => {
@@ -9,14 +10,12 @@ const RecordStack = ({ labelId }) => {
     setVersion((s) => s + 1);
   }, []);
 
-  // Three API calls is not ideal
-  const published = useRecords({ labelId, state: "PUBLISHED", tick: version });
-  const minted = useRecords({ labelId, state: "MINTED", tick: version });
-  const drafted = useRecords({ labelId, state: "DRAFT", tick: version });
+  // Multiple API calls is not ideal
 
-  console.log("RecordStack: published", published);
+  const minted = useRecords({ labelId, state: "MINTED", tick: version });
+
   console.log("RecordStack: minted", minted);
-  console.log("RecordStack: drafted", drafted);
+  // console.log("RecordStack: drafted", drafted);
 
   return (
     <div className="row">
@@ -27,7 +26,7 @@ const RecordStack = ({ labelId }) => {
         Records that have been uploaded and have been minted but are not
         published yet
       </p>
-      <RecordList items={minted} />
+      <RecordList items={minted} component={DetailedRecordSlot}/>
       <hr />
     </div>
   );
