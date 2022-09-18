@@ -4,7 +4,6 @@ export const RecordsDeserializer = (data) => {
     artist: data.artist,
     title: data.title,
     state: data.state,
-    token: data.token,
     recordlabel: data.recordlabel,
   };
 };
