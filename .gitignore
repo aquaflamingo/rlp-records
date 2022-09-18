@@ -29,3 +29,4 @@ docs/chromaprint_docs
 _devlogs/
 build
 .env
+.devlogs

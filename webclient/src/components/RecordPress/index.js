@@ -20,7 +20,6 @@ const RecordPress = ({ labelId }) => {
 
   const handleFailure = ({ errors }) => {
     let err = Object.values(errors).join(", ");
-    // TODO modal
     alert(err);
   };
 

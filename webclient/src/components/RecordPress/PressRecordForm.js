@@ -89,7 +89,7 @@ const PressRecordForm = ({ labelId, draftedRecords, onSuccess }) => {
         {isLoading ? "Loading..." : ""}
         {data ? data.msg : ""}
         {error ? error : ""}
-        {md ? "Fingerprint is: " + md.fp.hash : ""}
+        {md ? "Fingerprint hash is: " + md.fp.hash : ""}
       </div>
 
       {hasRecords ? (
