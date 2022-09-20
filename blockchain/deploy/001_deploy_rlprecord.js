@@ -7,7 +7,7 @@ module.exports = async (hre) => {
 	 await deploy('RLPRecord', {
 			// Deployer is owner (for now)
 			from: deployer,
-			args: [],
+			args: ["RLPRecord", "RLP"],
 			log: true
 	 });
 };
