@@ -35,3 +35,7 @@ python manage.py runserver
 
 ## Fixtures
 There re two default fixtures present in the `Fixtures` folder  for a record and record label you can load them via Makefile commands
+
+```bash
+NAME=record_labels make db.py.loadfixtures
+```

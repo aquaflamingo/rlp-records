@@ -1,12 +1,5 @@
-# RLP Records 
-> Create and publish an own chain artifact for musical works
-
-Web3 app to mint and manage Ethereum ERC-721 tokens claiming ownership of an audio file's hashed audio fingerprint.
-
-## Design
-* [Design](./docs/design.md)
-
-## Build & Run
+# RLP Records Blockchain Contracts
+## Getting Started
 ### IPFS
 Start IPFS locally in offline mode
 ```bash
@@ -24,7 +17,7 @@ ipfs pin ls --type recursive | cut -d' ' -f1 | xargs -n1 ipfs pin rm
 ipfs repo gc
 ```
 
-#### CORS
+#### IPFS CORS
 You will need to set your local IPFS installation to allow CORS requests
 
 ```bash
@@ -47,6 +40,13 @@ Deploy via:
 ```bash
 # Deploy compiled contracts to the localhost hardhat RPC and write the contract results to webclient folder to access
 npx hardhat deploy --network localhost --export lib/contracts/index.json
+```
+
+Alternatively use the `Makefile`
+
+```bash
+make blockchain.node
+make blockchain.deploy
 ```
 
 #### Local Development
@@ -77,11 +77,11 @@ npx hardhat --network localhost accounts
 
 Get record information:
 ```bash
-npx hardhat recordInfo --network localhost --tokenId id 
+npx hardhat recordInfo --network localhost --tokenid $id 
 ```
 
 Get owned records:
 ```bash
-npx hardhat records --network localhost --account account
+npx hardhat records --network localhost --account $ethAccount
 ```
 
