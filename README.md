@@ -1,6 +1,5 @@
 # RLP Records 
-## (aka. The Audio Web)
-Alright so here's a sort of grandiose idea: 
+Alright so here's a fun idea: 
 
 > A decentralized audio registry system which uses preexisting acoustic fingerprinting algorithms to generate an acoustic fingerprint for a given digital audio file's content and then writes that fingerprint and associated identifying data to a file stored within a public immutable and distributed file system that is linked to a non-fungible token within a separate immutable digital ledger. 
 
@@ -33,6 +32,17 @@ Developers use "The Audio Web" registry as an index of what label owns which mus
 
 [![Design](./docs/rlp-records-design.png)](./docs/design.md)
 
+## How It Works
+This is a prototype for the idea, but you can see the flow of creating a record below.
+
+There are three areas of RLP Records: the RecordKit, RecordPress and RecordStack.
+
+The RecordKit is responsible for drafting Records to release
+The RecordPress is responsible for uploading and creating NFTs for Record drafts
+The RecordStack is where a user can see all their Records
+
+![](./docs/creating-records-in-rlp-records.png)
+
 ## Getting Started
 RLP Records concept is composed of three parts:
 
@@ -50,4 +60,4 @@ You will need to follow the setup instructions in each folder in order to get st
 - docker
 - node, npm, yarn
 - hardhat 
-- (optional) ipfs [for `--offline` development]
+- ipfs (specifically for `--offline` development)

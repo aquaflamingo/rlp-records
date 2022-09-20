@@ -31,7 +31,7 @@ const RecordPress = ({ labelId }) => {
         record will mint an NFT and upload your audio fingerprint to IPFS.
       </p>
 
-      <button onClick={refresh}>Fetch</button>
+      <button onClick={refresh} style={{backgroundColor: "#2FF58E"}} >Fetch</button>
 
       <PressRecordForm
         labelId={labelId}

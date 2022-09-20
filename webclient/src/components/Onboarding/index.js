@@ -93,7 +93,7 @@ const OnboardingForm = ({ walletAddress, onSuccess }) => {
           />
         </div>
 
-        <button type="submit">Join</button>
+        <button type="submit" style={{backgroundColor: "#2FF58E"}}>Join</button>
       </form>
     </div>
   );

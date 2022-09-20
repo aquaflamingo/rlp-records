@@ -103,7 +103,7 @@ const PressRecordForm = ({ labelId, draftedRecords, onSuccess }) => {
                 onChange={handleChange}
               />
 
-              <button disabled={!recordSelected} type="submit">
+              <button disabled={!recordSelected} type="submit" style={{backgroundColor: "#2FF58E"}} >
                 Press Record
               </button>
             </div>

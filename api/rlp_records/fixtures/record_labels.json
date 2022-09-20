@@ -14,14 +14,5 @@
       "recordlabel_id": 1,
       "wallet_address": "0x0000000000000000000000000000000000000000"
     }
-  },
-  {
-    "model": "rlp_records.member",
-    "pk": 2,
-    "fields": {
-      "name": "Metamask User",
-      "recordlabel_id": 1,
-      "wallet_address": "0x0670cE649Cae1775996E6174c2Ab2553abb4C37b"
-    }
   }
 ]

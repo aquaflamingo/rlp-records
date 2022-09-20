@@ -70,7 +70,7 @@ const UploadDraftForm = ({ labelId }) => {
           />
         </div>
 
-        <button type="submit">Upload</button>
+        <button type="submit" style={{backgroundColor: "#2FF58E"}} >Upload</button>
       </form>
     </div>
   );

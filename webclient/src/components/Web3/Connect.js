@@ -31,7 +31,7 @@ const Web3Connect = ({ children }) => {
           to use
         </p>
 
-        <button type="button" onClick={() => connectToWeb3()}>
+        <button type="button" onClick={() => connectToWeb3()} style={{backgroundColor: "#2FF58E"}} >
           Connect
         </button>
       </header>

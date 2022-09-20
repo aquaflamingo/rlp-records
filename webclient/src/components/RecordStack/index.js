@@ -25,7 +25,7 @@ const RecordStack = ({ labelId }) => {
         existing records
       </p>
 
-      <button onClick={refresh}>Refresh</button>
+      <button style={{backgroundColor: "#2FF58E"}} onClick={refresh}>Refresh</button>
       <h3>Minted</h3>
       <p>
         Records that have been uploaded and have been minted but are not
